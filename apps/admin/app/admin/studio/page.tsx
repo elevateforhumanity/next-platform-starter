@@ -1,7 +1,11 @@
 import { redirect } from 'next/navigation';
+import { requireRole } from '@/lib/auth/require-role';
 
-// Legacy alias - redirect to dev-studio courses tab
-// No auth check needed here since /admin/dev-studio has its own auth
-export default function StudioIndexPage() {
-  redirect('/admin/dev-studio?tab=courses');
+export const dynamic = 'force-dynamic';
+export const revalidate = 60;
+
+export default async function AdminLandingPage() {
+  // Canonical landing route is /admin/dashboard.
+  await requireRole(['admin', 'super_admin', 'staff', 'platform_operator']);
+  redirect('/admin/dashboard');
 }

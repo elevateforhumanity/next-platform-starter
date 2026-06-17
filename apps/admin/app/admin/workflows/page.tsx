@@ -4,5 +4,5 @@ import { PERMISSIONS } from '@/lib/rbac/role-matrix';
 
 export default async function WorkflowsPage() {
   await requireRole(PERMISSIONS.access_devstudio);
-  redirect('/admin/dev-studio/workflows');
+  redirect('/admin/studio/workflows');
 }

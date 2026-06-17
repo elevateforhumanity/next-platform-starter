@@ -29,11 +29,11 @@ import {
   Plug,
   Brain,
 } from 'lucide-react';
-import { getSkillsLoader, type Skill } from '@/lib/dev-studio/skills-loader';
+import { getSkillsLoader, type Skill } from '@/lib/studio/skills-loader';
 
 // Import OpenHands-style components
 const WebContainerSandbox = dynamic(
-  () => import('@/components/dev-studio/WebContainerSandbox'),
+  () => import('@/components/studio/WebContainerSandbox'),
   { ssr: false }
 );
 
@@ -64,22 +64,22 @@ interface CourseBuilderProps {
 type Workspace = 'studio' | 'command' | 'deploy' | 'files' | 'environments' | 'health' | 'secrets' | 'integrations';
 type StudioMode = 'ask' | 'run' | 'courses';
 
-const UnifiedEllieChat = dynamic(() => import('@/components/dev-studio/UnifiedEllieChat'), {
+const UnifiedEllieChat = dynamic(() => import('@/components/studio/UnifiedEllieChat'), {
   ssr: false,
 });
 const DevStudioEditorWorkspace = dynamic(
-  () => import('@/components/dev-studio/DevStudioEditorWorkspace'),
+  () => import('@/components/studio/DevStudioEditorWorkspace'),
   { ssr: false },
 );
-const DeployPanel = dynamic(() => import('@/components/dev-studio/DeployPanel'), { ssr: false });
-const DevContainerPanel = dynamic(() => import('@/components/dev-studio/DevContainerPanel'), {
+const DeployPanel = dynamic(() => import('@/components/studio/DeployPanel'), { ssr: false });
+const DevContainerPanel = dynamic(() => import('@/components/studio/DevContainerPanel'), {
   ssr: false,
 });
-const ServicesPanel = dynamic(() => import('@/components/dev-studio/ServicesPanel'), {
+const ServicesPanel = dynamic(() => import('@/components/studio/ServicesPanel'), {
   ssr: false,
 });
-const SecretsPanel = dynamic(() => import('@/components/dev-studio/SecretsPanel'), { ssr: false });
-const CommandCenterPanel = dynamic(() => import('@/components/dev-studio/CommandCenterPanel'), {
+const SecretsPanel = dynamic(() => import('@/components/studio/SecretsPanel'), { ssr: false });
+const CommandCenterPanel = dynamic(() => import('@/components/studio/CommandCenterPanel'), {
   ssr: false,
 });
 const BottomPane = dynamic(() => import('./panels/BottomPane'), { ssr: false });
@@ -88,7 +88,7 @@ const AICourseBuilderChat = dynamic<CourseBuilderProps>(
   { ssr: false },
 );
 const IntegrationsPanel = dynamic(
-  () => import('@/components/dev-studio/IntegrationsPanel'),
+  () => import('@/components/studio/IntegrationsPanel'),
   { ssr: false },
 );
 
@@ -337,14 +337,14 @@ export default function DevStudioUnifiedClient({
           </div>
           <div className="space-y-0.5">
             {[
-              { label: 'Agents', href: '/admin/dev-studio/agents' },
-              { label: 'Tasks', href: '/admin/dev-studio/tasks' },
-              { label: 'Memory', href: '/admin/dev-studio/memory' },
-              { label: 'Workflows', href: '/admin/dev-studio/workflows' },
-              { label: 'Builds', href: '/admin/dev-studio/builds' },
-              { label: 'Deployments', href: '/admin/dev-studio/deployments' },
-              { label: 'Logs', href: '/admin/dev-studio/logs' },
-              { label: 'Settings', href: '/admin/dev-studio/settings' },
+              { label: 'Agents', href: '/admin/studio/agents' },
+              { label: 'Tasks', href: '/admin/studio/tasks' },
+              { label: 'Memory', href: '/admin/studio/memory' },
+              { label: 'Workflows', href: '/admin/studio/workflows' },
+              { label: 'Builds', href: '/admin/studio/builds' },
+              { label: 'Deployments', href: '/admin/studio/deployments' },
+              { label: 'Logs', href: '/admin/studio/logs' },
+              { label: 'Settings', href: '/admin/studio/settings' },
             ].map((link) => (
               <a
                 key={link.href}

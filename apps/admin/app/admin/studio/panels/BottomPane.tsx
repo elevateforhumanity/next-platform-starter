@@ -4,10 +4,10 @@ import dynamic from 'next/dynamic';
 import { MessageSquare, Sparkles, Bot, PanelBottomClose, Play, Terminal, Activity } from 'lucide-react';
 import { useState } from 'react';
 
-const UnifiedEllieChat = dynamic(() => import('@/components/dev-studio/UnifiedEllieChat'), {
+const UnifiedEllieChat = dynamic(() => import('@/components/studio/UnifiedEllieChat'), {
   ssr: false,
 });
-const CommandCenterPanel = dynamic(() => import('@/components/dev-studio/CommandCenterPanel'), {
+const CommandCenterPanel = dynamic(() => import('@/components/studio/CommandCenterPanel'), {
   ssr: false,
 });
 

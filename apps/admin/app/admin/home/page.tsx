@@ -194,7 +194,7 @@ export default async function AdminHomePage() {
             { label: 'Notifications', href: '/admin/notifications', icon: <Bell className="w-5 h-5" /> },
             { label: 'Documents', href: '/admin/documents', icon: <FileText className="w-5 h-5" /> },
             { label: 'Billing', href: '/admin/billing', icon: <CreditCard className="w-5 h-5" /> },
-            { label: 'Dev Studio', href: '/admin/dev-studio', icon: <Activity className="w-5 h-5" /> },
+            { label: 'Dev Studio', href: '/admin/studio', icon: <Activity className="w-5 h-5" /> },
           ].map((item) => (
             <Link
               key={item.href}
