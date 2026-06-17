@@ -321,7 +321,7 @@
     "test:coverage": "vitest run --coverage",
     "test:e2e": "pnpm run test:e2e:browser",
     "test:e2e:browser": "playwright test --config=playwright.config.ts",
-    "test:e2e:ci": "playwright test --config=playwright.config.ts",
+    "test:e2e:ci": "playwright test --config=playwright.ci.config.ts",
     "test:integration:db": "tsx tests/e2e/enrollment-flow.test.ts",
     "test:database": "tsx scripts/test-database.ts",
     "test:smoke": "node scripts/check-required-env-smoke.mjs && playwright test tests/e2e/live-smoke.spec.ts --config=playwright.config.ts",

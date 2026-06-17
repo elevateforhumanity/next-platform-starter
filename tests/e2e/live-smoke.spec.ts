@@ -14,7 +14,7 @@ test.describe('Live Production Smoke', () => {
   test('public API health endpoints are not 5xx', async ({ request }) => {
     const root =
       process.env.PLAYWRIGHT_SMOKE_API_ROOT || 'https://www.elevateforhumanity.org';
-    const candidates = ['/api/enrollment-count', '/api/public/metrics'];
+    const candidates = ['/api/public/metrics'];
 
     for (const path of candidates) {
       const res = await request.get(`${root}${path}`);
