@@ -7,7 +7,8 @@ import { ApprenticeSubNav } from '@/components/portal/ApprenticeSubNav';
 import { resolveApprenticeNavConfig } from '@/lib/portal/apprentice-nav-config';
 import { resolveApprenticeProgramSlug } from '@/lib/portal/resolve-apprentice-program';
 import { canAccessApprenticeTools } from '@/lib/portal/apprentice-access';
-import { LMSNavigation } from '@/components/lms/LMSNavigation';
+import { PlatformShell } from '@/components/platform/PlatformShell';
+import { generateBreadcrumbs } from '@/lib/navigation/navigation-config';
 
 export const metadata: Metadata = {
   robots: { index: false, follow: false },
@@ -67,27 +68,34 @@ export default async function Layout({ children }: { children: React.ReactNode }
   const programSlug = await resolveApprenticeProgramSlug(supabase, user.id);
   const nav = resolveApprenticeNavConfig(programSlug);
 
+  // Generate breadcrumbs for apprentice portal
+  const breadcrumbs = generateBreadcrumbs(pathname).map(crumb => {
+    if (crumb.label === 'Apprentice') {
+      return { label: 'Apprentice Portal', href: crumb.href };
+    }
+    return crumb;
+  });
+
   return (
-    <div className="min-h-screen bg-slate-50">
-      {/* Unified Navigation Header - Same as LMS */}
-      <LMSNavigation user={user} profile={profile} />
-      
-      {/* Breadcrumbs */}
-      <div className="bg-white border-b border-slate-200 px-4 py-2">
-        <nav className="flex items-center gap-2 text-sm max-w-7xl mx-auto">
-          <a href="/" className="text-slate-500 hover:text-slate-700">Home</a>
-          <span className="text-slate-300">/</span>
-          <span className="text-slate-900 font-medium">Apprentice Portal</span>
-        </nav>
-      </div>
-      
-      {/* Tab Navigation */}
+    <PlatformShell
+      user={{
+        id: user.id,
+        email: user.email || '',
+        full_name: profile?.full_name || undefined,
+        first_name: profile?.first_name || undefined,
+        last_name: profile?.last_name || undefined,
+        avatar_url: profile?.avatar_url || undefined,
+      }}
+      role="apprentice"
+      breadcrumbs={breadcrumbs}
+    >
+      {/* Apprentice-specific tab navigation */}
       {nav && <ApprenticeSubNav programSlug={nav.programSlug} config={nav.config} />}
       
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 py-6">
+      <div className="mt-4">
         {children}
-      </main>
-    </div>
+      </div>
+    </PlatformShell>
   );
 }
