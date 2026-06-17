@@ -19,7 +19,7 @@ describe('resolveHeroPosterSrc', () => {
 
   it('falls back to program hero image when no banner', () => {
     const src = resolveHeroPosterSrc('barber-apprenticeship', {
-      heroImage: '/images/pages/barber-hero-main.jpg',
+      heroImage: '/images/pages/barber-hero-main.webp',
     });
     expect(src).toContain('barber');
   });

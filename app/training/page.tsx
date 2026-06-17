@@ -51,7 +51,7 @@ const PROGRAM_AREAS = [
     title: 'Barbering & Cosmetology',
     desc: 'DOL-registered apprenticeships in barbering, cosmetology, and nail technology. Earn while you learn.',
     href: '/programs/barber-apprenticeship',
-    image: '/images/pages/barber-hero-main.jpg',
+    image: '/images/pages/barber-hero-main.webp',
     credential: 'Indiana Barber / Cosmetology License',
     duration: '20–52 weeks',
   },

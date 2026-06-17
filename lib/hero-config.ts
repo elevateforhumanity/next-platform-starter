@@ -64,7 +64,7 @@ export const HERO_IMAGES = {
 
   // Beauty/Apprenticeship family
   apprenticeship: {
-    barber: '/images/pages/barber-hero-main.jpg',
+    barber: '/images/pages/barber-hero-main.webp',
     cosmetology: '/images/pages/cosmetology-apprenticeship-hero.webp',
     esthetician: '/images/beauty/esthetician.webp',
     nailTech: '/images/pages/nail-tech-hero.webp',
@@ -177,7 +177,7 @@ export const PAGE_HEROES: Record<string, PageHeroConfig> = {
     subtitle:
       'Become a licensed barber through our USDOL-registered apprenticeship. Earn while you learn.',
     videoSrc: VIDEO_HEROES.barberApprenticeship,
-    videoPoster: '/images/pages/barber-hero-main.jpg',
+    videoPoster: '/images/pages/barber-hero-main.webp',
     variant: 'video',
     height: 'medium',
     badge: 'USDOL Registered',

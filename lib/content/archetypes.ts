@@ -81,7 +81,7 @@ export function getDashboardContent(role: string): PageContent {
       title: 'Employer Partnership Portal',
       description:
         'Post job opportunities, review qualified candidates, coordinate work-based learning placements, and track apprentice progress.',
-      imageSrc: '/images/pages/barber-hero-main.jpg',
+      imageSrc: '/images/pages/barber-hero-main.webp',
       imageAlt: 'Employer reviewing candidate profiles',
       actions: [
         {

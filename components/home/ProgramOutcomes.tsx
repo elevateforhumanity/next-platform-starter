@@ -44,7 +44,7 @@ const PROGRAMS = [
   },
   {
     title: 'Welding',
-    image: '/images/pages/barber-hero-main.jpg',
+    image: '/images/pages/barber-hero-main.webp',
     duration: '14 weeks',
     salary: '$40K–$58K',
     placement: '83%',

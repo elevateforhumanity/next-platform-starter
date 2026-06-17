@@ -46,7 +46,7 @@ const PROGRAM_HERO_MEDIA: Record<
     video: '/videos/barber-hero-final.mp4',
     videoMobile: '/videos/barber-hero.mp4',
     audio: '/audio/heroes/barber.mp3',
-    poster: '/images/pages/barber-hero-main.jpg',
+    poster: '/images/pages/barber-hero-main.webp',
     microLabel: 'Barber Apprenticeship',
     script: `Barbering is one of the fastest paths to a licensed, self-employed career in Indiana. The Elevate Barber Apprenticeship is a 52-week DOL Registered Apprenticeship — you work in a licensed shop, earn a wage from day one, and graduate with your Indiana Barber License. No classroom-only training. No unpaid hours. Most apprentices are fully funded through WIOA or the Indiana Workforce Ready Grant. Apply today.`,
   },

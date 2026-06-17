@@ -172,7 +172,7 @@ const apprenticeshipCreds = [
     issuer: 'Indiana Professional Licensing Agency',
     field: 'Cosmetology',
     desc: 'State barber license earned through DOL Registered Apprenticeship. Requires 2,000 total hours (1,500 OJT + 500 RTI) under employer supervision, competency verification, and state board exam. RAPIDS: 2025-IN-132301.',
-    img: '/images/pages/barber-hero-main.jpg',
+    img: '/images/pages/barber-hero-main.webp',
   },
 ];
 

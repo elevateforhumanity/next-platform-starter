@@ -73,7 +73,7 @@ const SECTORS = [
   {
     label: 'Barbers',
     credential: 'Indiana IPLA License',
-    img: '/images/pages/barber-hero-main.jpg',
+    img: '/images/pages/barber-hero-main.webp',
   },
   { label: 'Welders', credential: 'NCCER Core', img: '/images/pages/welding.webp' },
 ];

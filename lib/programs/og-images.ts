@@ -42,8 +42,8 @@ export const PROGRAM_OG_IMAGES: Record<string, string> = {
   'cpr-first-aid':                  '/images/pages/programs-medical-apply-hero.webp',
 
   // ── Beauty / Apprenticeships ──────────────────────────────────────────────
-  'barber-apprenticeship':          '/images/pages/barber-hero-main.jpg',
-  'barber':                         '/images/pages/barber-hero-main.jpg',
+  'barber-apprenticeship':          '/images/pages/barber-hero-main.webp',
+  'barber':                         '/images/pages/barber-hero-main.webp',
   'cosmetology-apprenticeship':     '/images/pages/cosmetology-hero.webp',
   'esthetician':                    '/images/programs/efh-esthetician-client-services-card.jpg',
   'esthetician-apprenticeship':     '/images/programs/efh-esthetician-client-services-card.jpg',

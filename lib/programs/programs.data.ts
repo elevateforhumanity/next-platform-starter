@@ -65,7 +65,7 @@ export const PROGRAMS: Program[] = [
     tagline: 'Earn while you learn in a real shop.',
     shortDescription:
       'Indiana registered apprenticeship pathway to licensure with hands-on training and mentorship.',
-    heroImage: '/images/pages/barber-hero-main.jpg',
+    heroImage: '/images/pages/barber-hero-main.webp',
     cardImage: '/images/pages/barber-apprenticeship.webp',
     duration: 'Up to 5 months (timeline varies by hours transferred)',
     cost: 'Funding may cover full cost',

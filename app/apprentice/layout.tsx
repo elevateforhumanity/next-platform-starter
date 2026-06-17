@@ -7,6 +7,7 @@ import { ApprenticeSubNav } from '@/components/portal/ApprenticeSubNav';
 import { resolveApprenticeNavConfig } from '@/lib/portal/apprentice-nav-config';
 import { resolveApprenticeProgramSlug } from '@/lib/portal/resolve-apprentice-program';
 import { canAccessApprenticeTools } from '@/lib/portal/apprentice-access';
+import { LMSNavigation } from '@/components/lms/LMSNavigation';
 
 export const metadata: Metadata = {
   robots: { index: false, follow: false },
@@ -33,7 +34,7 @@ export default async function Layout({ children }: { children: React.ReactNode }
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('role')
+    .select('*')
     .eq('id', user.id)
     .maybeSingle();
 
@@ -68,8 +69,25 @@ export default async function Layout({ children }: { children: React.ReactNode }
 
   return (
     <div className="min-h-screen bg-slate-50">
+      {/* Unified Navigation Header - Same as LMS */}
+      <LMSNavigation user={user} profile={profile} />
+      
+      {/* Breadcrumbs */}
+      <div className="bg-white border-b border-slate-200 px-4 py-2">
+        <nav className="flex items-center gap-2 text-sm max-w-7xl mx-auto">
+          <a href="/" className="text-slate-500 hover:text-slate-700">Home</a>
+          <span className="text-slate-300">/</span>
+          <span className="text-slate-900 font-medium">Apprentice Portal</span>
+        </nav>
+      </div>
+      
+      {/* Tab Navigation */}
       {nav && <ApprenticeSubNav programSlug={nav.programSlug} config={nav.config} />}
-      {children}
+      
+      {/* Main Content */}
+      <main className="max-w-7xl mx-auto px-4 py-6">
+        {children}
+      </main>
     </div>
   );
 }

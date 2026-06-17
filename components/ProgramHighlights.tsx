@@ -41,7 +41,7 @@ const defaultHighlights: Highlight[] = [
   {
     title: 'Support Services',
     description: 'Childcare, transportation, and career counseling to keep you on track.',
-    image: '/images/pages/barber-hero-main.jpg',
+    image: '/images/pages/barber-hero-main.webp',
   },
 ];
 
