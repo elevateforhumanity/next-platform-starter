@@ -940,7 +940,6 @@ const nextConfig = {
         destination: '/programs/barber-apprenticeship/request-info',
         permanent: true,
       },
-      { source: '/courses', destination: '/programs', permanent: true },
       { source: '/programs/drug-collector', destination: '/programs/drug-alcohol-specimen-collector', permanent: true },
       { source: '/programs/building-services-technician/apply', destination: '/apply?program=building-services-technician', permanent: true },
       { source: '/programs/cna/apply', destination: '/apply?program=cna', permanent: true },

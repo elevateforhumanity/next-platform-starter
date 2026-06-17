@@ -167,7 +167,7 @@ function parseJSON(raw: string): unknown {
       raw: cleaned.slice(0, 200) + (cleaned.length > 200 ? '...' : ''),
       error: error instanceof Error ? error.message : String(error)
     });
-    throw new Error(`Failed to parse AI response as JSON: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    throw new Error(`Failed to parse AI response as JSON: ${error instanceof Error ? error.message : 'Unknown error'}`), { cause: error };
   }
 }
 

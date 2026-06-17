@@ -26,7 +26,7 @@ function safeParseJSON(raw: string, context: string): Record<string, unknown> {
       raw: raw.slice(0, 200) + (raw.length > 200 ? '...' : ''),
       error: error instanceof Error ? error.message : String(error)
     });
-    throw new Error(`Failed to parse AI response as JSON: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    throw new Error(`Failed to parse AI response as JSON: ${error instanceof Error ? error.message : 'Unknown error'}`), { cause: error };
   }
 }
 

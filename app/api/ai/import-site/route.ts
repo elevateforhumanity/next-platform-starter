@@ -296,7 +296,7 @@ Return ONLY valid JSON.`;
         raw: jsonStr.slice(0, 200),
         error: parseError instanceof Error ? parseError.message : String(parseError)
       });
-      throw parseError;
+      throw new Error(`Failed to parse AI response as JSON`), { cause: parseError };
     }
   } catch (error) {
     // Return default config based on scraped data
