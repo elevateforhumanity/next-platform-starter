@@ -39,7 +39,7 @@ ENV CI=true
 ENV DISABLE_WEBPACK_FILESYSTEM_CACHE=1
 
 # Install dependencies
-RUN pnpm install --frozen-lockfile --ignore-scripts
+RUN pnpm install --frozen-lockfile
 
 # Build Admin Next.js
 ARG NEXT_PUBLIC_SUPABASE_URL
