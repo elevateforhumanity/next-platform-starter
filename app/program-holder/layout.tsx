@@ -2,7 +2,8 @@ import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
-import { ProgramHolderShellGate } from './ProgramHolderShellGate';
+import { PlatformShell } from '@/components/platform/PlatformShell';
+import { generateBreadcrumbs } from '@/lib/navigation/navigation-config';
 
 export const dynamic = 'force-dynamic';
 
@@ -26,7 +27,7 @@ export default async function ProgramHolderLayout({ children }: { children: Reac
 
   const { data: profile } = await db
     .from('profiles')
-    .select('role, program_holder_id, full_name, organization')
+    .select('role, program_holder_id, full_name, first_name, last_name, avatar_url, email, organization')
     .eq('id', user.id)
     .maybeSingle();
 
@@ -54,15 +55,26 @@ export default async function ProgramHolderLayout({ children }: { children: Reac
     hasSchoolApplications = Boolean(holder?.enable_school_applications);
   }
 
+  // Get pathname for breadcrumbs
+  const { headers: headersList } = await import('next/headers');
+  const headers = await headersList();
+  const pathname = headers.get('x-pathname') || '/program-holder';
+  const breadcrumbs = generateBreadcrumbs(pathname);
+
   return (
-    <ProgramHolderShellGate
-      role={profile.role ?? 'program_holder'}
-      userName={profile.full_name ?? undefined}
-      userEmail={user.email ?? undefined}
-      orgName={orgName}
-      hasSchoolApplications={hasSchoolApplications}
+    <PlatformShell
+      user={{
+        id: user.id,
+        email: user.email || profile.email || '',
+        full_name: profile.full_name || undefined,
+        first_name: profile.first_name || undefined,
+        last_name: profile.last_name || undefined,
+        avatar_url: profile.avatar_url || undefined,
+      }}
+      role="partner"
+      breadcrumbs={breadcrumbs}
     >
       {children}
-    </ProgramHolderShellGate>
+    </PlatformShell>
   );
 }
