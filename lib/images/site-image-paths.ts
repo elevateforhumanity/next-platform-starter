@@ -19,6 +19,8 @@ const SITE_IMAGE_ALIASES: Record<string, string> = {
   '/images/pages/admin-compliance-hero.jpg': '/images/pages/admin-compliance-hero.webp',
   '/images/demos/lms-overview-thumb.jpg': '/images/demos/lms-overview-thumb.webp',
   '/images/pages/barber-gallery-3.jpg': '/images/pages/barber-gallery-3.webp',
+  '/images/pages/career-counseling-page-1.jpg': '/images/pages/career-counseling-page-1.webp',
+  '/images/pages/urban-build-crew-page-1.jpg': '/images/pages/urban-build-crew-page-1.webp',
 };
 
 /** JPG paths retired after WebP migration — map to existing .webp siblings. */

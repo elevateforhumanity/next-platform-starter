@@ -10,8 +10,16 @@ import videoApiRouter from './video-api';
 const app = express();
 const PORT = process.env.VIDEO_API_PORT || 3001;
 
-// Middleware
-app.use(compression());
+// Middleware - exclude streaming/SSE responses from compression
+app.use(compression({
+  filter: (req, res) => {
+    // Don't compress streaming responses or SSE
+    if (res.getHeader('Content-Type')?.toString().includes('text/event-stream')) {
+      return false;
+    }
+    return compression.filter(req, res);
+  }
+}));
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
