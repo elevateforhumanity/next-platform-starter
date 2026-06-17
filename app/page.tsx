@@ -16,7 +16,7 @@ export const revalidate = 300;
 export const metadata: Metadata = {
   title: `${PLATFORM_DEFAULTS.orgName} | Workforce Training, Apprenticeships & Funding — Indianapolis`,
   description:
-    'DOL-registered apprenticeship sponsor and WIOA-approved training provider. Funded training in healthcare, skilled trades, CDL, technology, and more — often at no cost. Apply today.',
+    'DOL-registered apprenticeship sponsor and WIOA-approved training provider. Training in healthcare, skilled trades, CDL, technology, and more — many programs can be FREE if you qualify. Apply today.',
   keywords: [
     'workforce training Indianapolis',
     'WIOA training Indiana',
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: `${PLATFORM_DEFAULTS.orgName} | Workforce Training, Apprenticeships & Funding`,
     description:
-      'DOL-registered apprenticeship sponsor. Funded training in healthcare, skilled trades, CDL, and technology — often at no cost through WIOA or state funding.',
+      'DOL-registered apprenticeship sponsor. Training in healthcare, skilled trades, CDL, and technology — many programs can be FREE if you qualify through WIOA or state funding.',
     url: PLATFORM_DEFAULTS.siteUrl,
     siteName: PLATFORM_DEFAULTS.orgName,
     images: [

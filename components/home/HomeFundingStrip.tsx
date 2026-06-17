@@ -11,6 +11,7 @@ const FUNDING_PATHS = [
   { label: 'Workforce Ready Grant', desc: 'Indiana state', href: '/funding/wrg' },
   { label: 'State funding hub', desc: 'WRG, JRI, WIOA', href: '/funding' },
   { label: 'Earn While You Learn', desc: 'Apprenticeship', href: '/apprenticeships' },
+  { label: 'Self-Pay Options', desc: 'If no funding', href: '/funding' },
 ];
 
 export function HomeFundingStrip() {
@@ -26,7 +27,7 @@ export function HomeFundingStrip() {
               Can training be paid for?
             </h2>
             <p className="text-brand-blue-100 text-sm mt-0.5">
-              Most eligible learners qualify for $0 tuition through workforce funding.
+              Many programs are <strong>FREE if you qualify</strong> — or use self-pay options.
             </p>
           </div>
           <div className="flex flex-wrap gap-2 shrink-0">
@@ -44,7 +45,7 @@ export function HomeFundingStrip() {
             </Link>
           </div>
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-2">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2">
           {FUNDING_PATHS.map((path) => (
             <Link
               key={path.label}

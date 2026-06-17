@@ -65,8 +65,7 @@ export default async function StudentsPage() {
               Real certifications. Job placement included.
             </p>
             <p className="text-sm text-white/70 mb-8">
-              Free training available for eligible participants. Some licensure programs are
-              self-pay or employer-paid.
+              Many programs can be <strong>FREE if you qualify</strong> through grant funding (WIOA, WRG, JRI). Self-pay options available.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -101,21 +100,20 @@ export default async function StudentsPage() {
               </div>
               <h3 className="text-2xl font-bold mb-4">Funding Available</h3>
               <p className="text-black mb-4">
-                Many programs are free through WIOA, WRG, and JRI funding. Some licensure programs
-                offer self-pay or employer-paid options.
+                Programs may be <strong>FREE if you qualify</strong> through WIOA, WRG, and JRI funding. Self-pay options available for programs not covered.
               </p>
               <ul className="space-y-2">
                 <li className="flex items-start gap-2">
                   <Circle className="w-5 h-5 text-brand-green-600 flex-shrink-0 mt-0.5" />
-                  <span className="text-sm text-black">Free training</span>
+                  <span className="text-sm text-black">Tuition assistance available</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <Circle className="w-5 h-5 text-brand-green-600 flex-shrink-0 mt-0.5" />
-                  <span className="text-sm text-black">Free materials</span>
+                  <span className="text-sm text-black">Free materials for funded programs</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <Circle className="w-5 h-5 text-brand-green-600 flex-shrink-0 mt-0.5" />
-                  <span className="text-sm text-black">Free certification</span>
+                  <span className="text-sm text-black">Certification included</span>
                 </li>
               </ul>
             </div>
