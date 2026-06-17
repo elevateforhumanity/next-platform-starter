@@ -14,6 +14,11 @@ const SITE_IMAGE_ALIASES: Record<string, string> = {
   '/images/pages/how-it-works-hero.jpg': '/images/pages/how-it-works-hero.webp',
   '/images/alberta-davis.jpg': '/images/alberta-davis.webp',
   '/images/facilities-new/facility-2.jpg': '/images/facilities-new/facility-1.webp',
+  // Broken JPG references → existing WebP versions
+  '/images/programs-hq/cdl-trucking.jpg': '/images/programs-hq/cdl-trucking.webp',
+  '/images/pages/admin-compliance-hero.jpg': '/images/pages/admin-compliance-hero.webp',
+  '/images/demos/lms-overview-thumb.jpg': '/images/demos/lms-overview-thumb.webp',
+  '/images/pages/barber-gallery-3.jpg': '/images/pages/barber-gallery-3.webp',
 };
 
 /** JPG paths retired after WebP migration — map to existing .webp siblings. */

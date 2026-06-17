@@ -30,7 +30,7 @@ export function EducationHeader() {
             </span>
           </Link>
           <nav className="hidden lg:flex items-center gap-1">
-            {NAV.map((n) => (
+            {NAV.filter(Boolean).map((n) => n.href && (
               <Link
                 key={n.label}
                 href={n.href}
@@ -63,7 +63,7 @@ export function EducationHeader() {
         </div>
         {mobileOpen && (
           <div className="lg:hidden border-t py-3 space-y-1">
-            {NAV.map((n) => (
+            {NAV.filter(Boolean).map((n) => n.href && (
               <Link
                 key={n.label}
                 href={n.href}

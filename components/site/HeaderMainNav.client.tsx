@@ -57,6 +57,7 @@ function DropdownLinks({
       );
     }
     if (sub.isSectionLink) {
+      if (!sub.href) return null;
       return (
         <Link
           key={sub.name + sub.href}
@@ -70,6 +71,7 @@ function DropdownLinks({
         </Link>
       );
     }
+    if (!sub.href) return null;
     const programSlug = item.id === 'programs' ? getProgramSlugFromHref(sub.href) : null;
     const applyHref = programSlug ? programApplyLinks[programSlug] : undefined;
     return (

@@ -2,7 +2,11 @@
  * Send LTI Technical Document to Elevate Team
  */
 
-const SENDGRID_API_KEY = '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';
+const SENDGRID_API_KEY = process.env.SENDGRID_API_KEY;
+if (!SENDGRID_API_KEY) {
+  console.error('SENDGRID_API_KEY environment variable is not set');
+  process.exit(1);
+}
 
 const htmlContent = `<!DOCTYPE html>
 <html>

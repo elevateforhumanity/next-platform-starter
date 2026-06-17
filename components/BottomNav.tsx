@@ -22,7 +22,7 @@ export function BottomNav() {
       className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 z-40"
     >
       <div className="flex items-center justify-around">
-        {navItems.map((item) => {
+        {navItems.filter(item => item.href).map((item) => {
           const Icon = item.icon;
           const isActive = pathname === item.href;
 
