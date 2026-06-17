@@ -9,9 +9,9 @@ async function _POST(request: NextRequest, { params }: { params: Promise<{ quizI
   if (rateLimited) return rateLimited;
 
   const auth = await requireApiRole(['student', 'admin', 'super_admin']);
-  if (auth.error) return auth.error;
+  if (auth instanceof NextResponse) return auth;
 
-  const { user, db } = auth;
+  const { user, db, profile } = auth;
   const { quizId } = await params;
 
   // Check if quiz exists and resolve course_id for enrollment check.
@@ -36,7 +36,7 @@ async function _POST(request: NextRequest, { params }: { params: Promise<{ quizI
   //
   // If no ownership can be resolved, fail closed.
 
-  const isAdmin = auth.role === 'admin' || auth.role === 'super_admin';
+  const isAdmin = profile?.role === 'admin' || profile?.role === 'super_admin';
   let enrolled = isAdmin; // admins bypass enrollment check
 
   if (!enrolled) {
