@@ -289,7 +289,15 @@ Return ONLY valid JSON.`;
 
     const responseText = completion.content || '';
     const jsonStr = responseText.replace(/```json\n?|\n?```/g, '').trim();
-    return JSON.parse(jsonStr);
+    try {
+      return JSON.parse(jsonStr);
+    } catch (parseError) {
+      logger.error('[import-site] JSON parse error', {
+        raw: jsonStr.slice(0, 200),
+        error: parseError instanceof Error ? parseError.message : String(parseError)
+      });
+      throw parseError;
+    }
   } catch (error) {
     // Return default config based on scraped data
     return {

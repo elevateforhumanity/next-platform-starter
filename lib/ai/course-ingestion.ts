@@ -18,6 +18,7 @@ import { getOpenAIClient } from '@/lib/ai/openai-client';
 import { compileAllLessons } from '@/lib/ai/lesson-compiler';
 import type { CompiledLesson } from '@/lib/ai/lesson-compiler';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import { logger } from '@/lib/logger';
 
 export type SourceType = 'prompt' | 'syllabus' | 'script' | 'transcript' | 'document';
 
@@ -195,7 +196,15 @@ function parseJSON(raw: string): any {
     .replace(/^```\s*/i, '')
     .replace(/\s*```$/i, '')
     .trim();
-  return JSON.parse(cleaned);
+  try {
+    return JSON.parse(cleaned);
+  } catch (error) {
+    logger.error('[course-ingestion] JSON parse error', {
+      raw: cleaned.slice(0, 200) + (cleaned.length > 200 ? '...' : ''),
+      error: error instanceof Error ? error.message : String(error)
+    });
+    throw new Error(`Failed to parse AI response as JSON: ${error instanceof Error ? error.message : 'Unknown error'}`);
+  }
 }
 
 function chunkText(text: string, maxChars = 12000): string[] {

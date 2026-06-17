@@ -13,6 +13,7 @@
 
 import { createClient } from '@supabase/supabase-js';
 import { ModelRouter, callModel, type TaskType } from './model-router';
+import { logger } from '@/lib/logger';
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -172,13 +173,20 @@ ${cosData ? `CareerOneStop Data: ${JSON.stringify(cosData, null, 2)}` : ''}`;
       { temperature: 0.7, maxTokens: 8192 }
     );
 
-    // Extract JSON from response
+    // Extract JSON from response with safe parsing
     const jsonMatch = response.match(/\{[\s\S]*\}/);
     if (jsonMatch) {
-      return JSON.parse(jsonMatch[0]);
+      try {
+        return JSON.parse(jsonMatch[0]);
+      } catch (parseError) {
+        logger.error('[course-generation-worker] JSON parse error in generateCourseOutline', {
+          raw: jsonMatch[0].slice(0, 200),
+          error: parseError instanceof Error ? parseError.message : String(parseError)
+        });
+      }
     }
   } catch (error) {
-    console.error('Error generating outline:', error);
+    logger.error('[course-generation-worker] Error generating outline', error);
     throw error;
   }
 
@@ -242,10 +250,17 @@ Delivery Mode: ${job.delivery_mode || 'online'}`;
 
     const jsonMatch = response.match(/\{[\s\S]*\}/);
     if (jsonMatch) {
-      return JSON.parse(jsonMatch[0]);
+      try {
+        return JSON.parse(jsonMatch[0]);
+      } catch (parseError) {
+        logger.error('[course-generation-worker] JSON parse error in generateLessonContent', {
+          raw: jsonMatch[0].slice(0, 200),
+          error: parseError instanceof Error ? parseError.message : String(parseError)
+        });
+      }
     }
   } catch (error) {
-    console.error('Error generating lesson:', error);
+    logger.error('[course-generation-worker] Error generating lesson', error);
     throw error;
   }
 

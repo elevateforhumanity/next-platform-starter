@@ -130,7 +130,23 @@ export async function generateLessonScript(input: LessonInput): Promise<LessonSc
       .replace(/^```json?\s*/i, '')
       .replace(/\s*```$/i, '')
       .trim();
-    parsed = JSON.parse(cleaned) as { narration: string; slides: LessonSlide[] };
+    
+    // Safe JSON parsing with error logging
+    try {
+      parsed = JSON.parse(cleaned) as { narration: string; slides: LessonSlide[] };
+    } catch (parseError) {
+      logger.error('[lesson-script-generator] JSON parse error', {
+        raw: cleaned.slice(0, 200) + (cleaned.length > 200 ? '...' : ''),
+        error: parseError instanceof Error ? parseError.message : String(parseError)
+      });
+      parsed = null;
+    }
+    
+    if (!parsed) {
+      logger.warn(`  ⚠ Attempt ${attempt + 1}: JSON parse failed — retrying`);
+      continue;
+    }
+    
     wordCount = parsed.narration.split(/\s+/).length;
 
     if (wordCount >= MIN_WORDS && wordCount <= MAX_WORDS) break;
@@ -139,7 +155,7 @@ export async function generateLessonScript(input: LessonInput): Promise<LessonSc
     );
   }
 
-  if (!parsed) throw new Error('Failed to generate lesson script');
+  if (!parsed) throw new Error('Failed to generate lesson script after all retries');
 
   // nova voice speaks at ~144 WPM based on pilot calibration with chunked TTS
   const estimatedDuration = Math.round((wordCount / 144) * 60);
