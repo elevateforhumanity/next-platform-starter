@@ -287,12 +287,12 @@ export default async function ProgressPage() {
                           <div className="w-16 h-16 bg-white rounded-xl flex items-center justify-center flex-shrink-0 relative overflow-hidden">
                             {enrollment.courses?.thumbnail_url ? (
                               <Image
-                                alt="Progress indicator"
-                                src={enrollment.courses.thumbnail_url}
                                 alt={enrollment.courses.title || 'Course thumbnail'}
+                                src={enrollment.courses.thumbnail_url}
                                 fill
                                 className="object-cover rounded-xl"
-                                sizes="64px" placeholder="empty"
+                                sizes="64px"
+                                placeholder="empty"
                               />
                             ) : (
                               <BookOpen className="w-8 h-8 text-slate-400" />

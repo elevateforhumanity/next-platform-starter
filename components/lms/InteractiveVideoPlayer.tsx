@@ -448,7 +448,6 @@ export default function InteractiveVideoPlayer({
             controls
             preload="metadata"
             playsInline
-            controls
             onTimeUpdate={handleTimeUpdate}
             onLoadedMetadata={handleLoadedMetadata}
             onError={() => setLoadError(true)}

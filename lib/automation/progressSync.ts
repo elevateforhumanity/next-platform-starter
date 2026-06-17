@@ -1,6 +1,7 @@
 // lib/automation/progressSync.ts
 import { cookies } from 'next/headers';
 import { createServerClient } from '@supabase/ssr';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { getPartnerClient, PartnerType } from '../partners';
 
 function getSupabaseClient() {

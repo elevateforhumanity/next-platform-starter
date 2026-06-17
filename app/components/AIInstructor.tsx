@@ -104,10 +104,9 @@ export default function AIInstructor({
             }`}
           >
             <Image
-              alt="AI instructor avatar"
+              alt={instructorName || 'AI instructor avatar'}
               loading="lazy"
               src={avatarUrl}
-              alt={instructorName}
               fill
               className="object-cover"
               quality={90}

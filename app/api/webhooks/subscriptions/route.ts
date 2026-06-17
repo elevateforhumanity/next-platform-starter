@@ -47,12 +47,16 @@ async function _POST(request: NextRequest) {
         const subscription = event.data.object as Stripe.Subscription;
         logger.info('Subscription created', { subscriptionId: subscription.id, customerId: subscription.customer, status: subscription.status });
         if (adminDb) {
+          // Get period from first subscription item (Stripe SDK v19+)
+          const firstItem = subscription.items?.data?.[0];
+          const periodStart = firstItem?.current_period_start;
+          const periodEnd = firstItem?.current_period_end;
           await adminDb.from('subscriptions').upsert({
             stripe_subscription_id: subscription.id,
             customer_id: subscription.customer as string,
             status: subscription.status,
-            current_period_start: new Date(subscription.current_period_start * 1000).toISOString(),
-            current_period_end: new Date(subscription.current_period_end * 1000).toISOString(),
+            current_period_start: periodStart ? new Date(periodStart * 1000).toISOString() : null,
+            current_period_end: periodEnd ? new Date(periodEnd * 1000).toISOString() : null,
             cancel_at_period_end: subscription.cancel_at_period_end,
             canceled_at: subscription.canceled_at ? new Date(subscription.canceled_at * 1000).toISOString() : null,
             created_at: new Date(subscription.created * 1000).toISOString(),
@@ -65,10 +69,13 @@ async function _POST(request: NextRequest) {
         const subscription = event.data.object as Stripe.Subscription;
         logger.info('Subscription updated', { subscriptionId: subscription.id, status: subscription.status });
         if (adminDb) {
+          const firstItem = subscription.items?.data?.[0];
+          const periodStart = firstItem?.current_period_start;
+          const periodEnd = firstItem?.current_period_end;
           await adminDb.from('subscriptions').update({
             status: subscription.status,
-            current_period_start: new Date(subscription.current_period_start * 1000).toISOString(),
-            current_period_end: new Date(subscription.current_period_end * 1000).toISOString(),
+            current_period_start: periodStart ? new Date(periodStart * 1000).toISOString() : null,
+            current_period_end: periodEnd ? new Date(periodEnd * 1000).toISOString() : null,
             cancel_at_period_end: subscription.cancel_at_period_end,
             canceled_at: subscription.canceled_at ? new Date(subscription.canceled_at * 1000).toISOString() : null,
             metadata: subscription.metadata,
@@ -86,11 +93,13 @@ async function _POST(request: NextRequest) {
       }
       case 'invoice.payment_succeeded': {
         const invoice = event.data.object as Stripe.Invoice;
-        logger.info('Invoice payment succeeded', { invoiceId: invoice.id, subscriptionId: invoice.subscription });
-        if (adminDb && invoice.subscription) {
-          await adminDb.from('subscription_invoices').insert({
+        // Handle subscription as object or string (Stripe SDK v19+)
+        const subscriptionId = typeof invoice.subscription === 'object' ? invoice.subscription?.id : invoice.subscription;
+        logger.info('Invoice payment succeeded', { invoiceId: invoice.id, subscriptionId });
+        if (adminDb && subscriptionId) {
+          const { error: insertError } = await adminDb.from('subscription_invoices').insert({
             stripe_invoice_id: invoice.id,
-            subscription_id: invoice.subscription as string,
+            subscription_id: subscriptionId as string,
             customer_id: invoice.customer as string,
             amount_paid: invoice.amount_paid,
             status: 'paid',
@@ -98,24 +107,27 @@ async function _POST(request: NextRequest) {
             period_end: invoice.period_end ? new Date(invoice.period_end * 1000).toISOString() : null,
             paid_at: new Date().toISOString(),
             invoice_url: invoice.hosted_invoice_url,
-          }).catch(() => {});
+          });
+          if (insertError) logger.error('Failed to insert subscription invoice', { error: insertError });
         }
         break;
       }
       case 'invoice.payment_failed': {
         const invoice = event.data.object as Stripe.Invoice;
-        logger.warn('Invoice payment failed', { invoiceId: invoice.id, subscriptionId: invoice.subscription });
-        if (adminDb && invoice.subscription) {
-          await adminDb.from('subscription_invoices').insert({
+        const subscriptionId = typeof invoice.subscription === 'object' ? invoice.subscription?.id : invoice.subscription;
+        logger.warn('Invoice payment failed', { invoiceId: invoice.id, subscriptionId });
+        if (adminDb && subscriptionId) {
+          const { error: insertError } = await adminDb.from('subscription_invoices').insert({
             stripe_invoice_id: invoice.id,
-            subscription_id: invoice.subscription as string,
+            subscription_id: subscriptionId as string,
             customer_id: invoice.customer as string,
             amount_paid: 0,
             amount_due: invoice.amount_due,
             status: 'failed',
-            failure_message: invoice.last_payment_error?.message,
+            failure_message: (invoice as any).last_payment_error?.message,
             attempt_count: invoice.attempt_count,
-          }).catch(() => {});
+          });
+          if (insertError) logger.error('Failed to insert failed invoice', { error: insertError });
         }
         break;
       }

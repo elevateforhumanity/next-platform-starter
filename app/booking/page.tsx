@@ -209,9 +209,9 @@ export default async function BookingPage() {
                         src={member.avatar_url}
                         alt={member.name}
                         fill
-                        sizes="100vw"
+                        sizes="80px"
                         className="object-cover"
-                        sizes="80px" placeholder="empty"
+                        placeholder="empty"
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center">

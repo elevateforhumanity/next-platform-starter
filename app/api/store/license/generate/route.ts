@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server';
 import { generateLicenseKey, hashLicenseKey } from '@/lib/store/license';
+import { requireAdminClient } from '@/lib/supabase/admin';
 
 import { logger } from '@/lib/logger';
 import { safeInternalError } from '@/lib/api/safe-error';

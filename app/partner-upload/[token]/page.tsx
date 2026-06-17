@@ -1,4 +1,7 @@
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import { requireAdminClient } from '@/lib/supabase/admin';
+import { notFound } from 'next/navigation';
+
 export const dynamic = 'force-dynamic';
 
 export default async function PartnerUploadPage({ params }: { params: { token: string } }) {
