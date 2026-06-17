@@ -216,14 +216,7 @@ const PROGRAM_ICONS: Record<string, React.ReactNode> = {
   nail: <Flower2 className="w-6 h-6" />,
 };
 
-const HOST_SHOPS = [
-  { id: 1, name: "Kutz & Styles Barbershop", type: 'barber', city: 'Atlanta', state: 'GA', phone: '(404) 555-0123', rating: 4.8, reviews: 127, specialties: ['Classic Cuts', 'Beard Styling', 'Hot Shaves'], image: PEXELS_IMAGES.barber, verified: true },
-  { id: 2, name: 'Glamour Studios', type: 'cosmetology', city: 'Los Angeles', state: 'CA', phone: '(213) 555-0456', rating: 4.9, reviews: 203, specialties: ['Hair Coloring', 'Styling', 'Extensions'], image: PEXELS_IMAGES.cosmetology, verified: true },
-  { id: 3, name: 'Serenity Spa & Wellness', type: 'esthetician', city: 'Miami', state: 'FL', phone: '(305) 555-0789', rating: 4.7, reviews: 89, specialties: ['Facials', 'Chemical Peels', 'Skincare'], image: PEXELS_IMAGES.esthetician, verified: true },
-  { id: 4, name: 'Luxe Nails & Spa', type: 'nail', city: 'New York', state: 'NY', phone: '(212) 555-0321', rating: 4.6, reviews: 156, specialties: ['Manicures', 'Gel Nails', 'Nail Art'], image: PEXELS_IMAGES.nail, verified: true },
-  { id: 5, name: "The Fade Factory", type: 'barber', city: 'Chicago', state: 'IL', phone: '(312) 555-0654', rating: 4.8, reviews: 98, specialties: ['Fades', 'Designs', 'Kids Cuts'], image: PEXELS_IMAGES.salon, verified: true },
-  { id: 6, name: 'Bella Hair & Beauty', type: 'cosmetology', city: 'Dallas', state: 'TX', phone: '(214) 555-0987', rating: 4.5, reviews: 72, specialties: ['Color', 'Balayage', 'Bridal'], image: PEXELS_IMAGES.cosmetology, verified: true },
-];
+// HOST_SHOPS loaded dynamically from database
 
 const TESTIMONIALS = [
   { id: 1, name: 'Destiny Williams', role: 'Licensed Barber', image: 'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=200', quote: 'I went from BROKE to BANKABLE in just 12 months! This program gave me a career that pays my bills AND feeds my soul. Now I own my own shop!', rating: 5, location: 'Atlanta, GA', earnings: '$65K+ / year' },
@@ -251,7 +244,7 @@ const STATS = [
   { value: '4.9★', label: 'Student Rating', icon: <Star className="w-5 h-5" /> },
 ];
 
-export default function BeautyHub() {
+export default function ApprenticeshipHub() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [filterType, setFilterType] = useState('all');

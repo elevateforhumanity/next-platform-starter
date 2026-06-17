@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import BeautyHub from '@/components/beauty/BeautyHub';
+import ApprenticeshipHub from '@/components/beauty/ApprenticeshipHub';
 
 export const metadata: Metadata = {
   title: 'Barber & Beauty Apprenticeship Programs | DOL Registered | Earn While You Learn | Nationwide',
@@ -50,6 +50,6 @@ export const metadata: Metadata = {
   },
 };
 
-export default function BeautyApprenticeshipsPage() {
-  return <BeautyApprenticeshipHub />;
+export default function BarberAndBeautyApprenticeshipsPage() {
+  return <ApprenticeshipHub />;
 }

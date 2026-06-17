@@ -127,7 +127,7 @@ export default function BeautyCheckoutPage() {
       <header className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <Link href="/beauty-hub" className="text-2xl font-black text-gray-900">
+            <Link href="/barber-and-beauty-apprenticeships" className="text-2xl font-black text-gray-900">
               ELEVATE<span className="text-amber-500">.</span>
             </Link>
             <div className="flex items-center gap-4">

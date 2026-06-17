@@ -5,8 +5,8 @@ import { CheckCircle, Truck, Phone, Clock, FileText, Users } from 'lucide-react'
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const metadata: Metadata = {
-  title: "Application Received | CDL Training",
-  description: "Your CDL Training application has been received. Here's what happens next.",
+  title: "CDL Training Open Enrollment | Classes Start July 5th",
+  description: "CDL Class A & B training now enrolling. Classes start July 5th in Indianapolis. Funding available through WIOA.",
 };
 
 export default function CDLEnrollmentSuccessPage() {
