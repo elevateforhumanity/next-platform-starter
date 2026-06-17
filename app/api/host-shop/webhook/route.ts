@@ -15,6 +15,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
 import { constructWebhookEvent } from '@/lib/stripe/construct-webhook-event';
+import { getStripe } from '@/lib/stripe/client';
 import type Stripe from 'stripe';
 
 export const runtime = 'nodejs';
@@ -24,16 +25,22 @@ export const HOST_SHOP_FEE_AMOUNT_CENTS = 5000; // \$50
 export const HOST_SHOP_FEE_PRICE_ID = 'price_1TiF5rH4a2yrVOt55GqwSgJW';
 
 async function _POST(request: NextRequest) {
-  const payload = Buffer.from(await request.arrayBuffer());
+  const payload = Buffer.from(await request.arrayBuffer()).toString();
   const sig = request.headers.get('stripe-signature');
 
   if (!sig) {
     return NextResponse.json({ error: 'Missing signature' }, { status: 400 });
   }
 
+  const stripe = getStripe();
+  if (!stripe) {
+    logger.error('Host shop webhook: Stripe not configured');
+    return NextResponse.json({ error: 'Stripe not configured' }, { status: 503 });
+  }
+
   let event: Stripe.Event;
   try {
-    event = constructWebhookEvent(payload, sig);
+    event = constructWebhookEvent(stripe, payload, sig);
   } catch (err: unknown) {
     const msg = err instanceof Error ? err.message : String(err);
     logger.error('Host shop webhook: signature verification failed', undefined, { error: msg });

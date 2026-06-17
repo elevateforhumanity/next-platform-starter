@@ -15,6 +15,7 @@ import { createClient } from '@/lib/supabase/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
 import { constructWebhookEvent } from '@/lib/stripe/construct-webhook-event';
+import { getStripe } from '@/lib/stripe/client';
 import type Stripe from 'stripe';
 
 export const runtime = 'nodejs';
@@ -25,16 +26,22 @@ export const APPLICATION_FEE_PRICE_ID = 'price_1TiEDyH4a2yrVOt5pYBCQc2D';
 export const APPLICATION_FEE_AMOUNT_CENTS = 1500; // $15
 
 async function _POST(request: NextRequest) {
-  const payload = Buffer.from(await request.arrayBuffer());
+  const payload = Buffer.from(await request.arrayBuffer()).toString();
   const sig = request.headers.get('stripe-signature');
 
   if (!sig) {
     return NextResponse.json({ error: 'Missing signature' }, { status: 400 });
   }
 
+  const stripe = getStripe();
+  if (!stripe) {
+    logger.error('Application fee webhook: Stripe not configured');
+    return NextResponse.json({ error: 'Stripe not configured' }, { status: 503 });
+  }
+
   let event: Stripe.Event;
   try {
-    event = constructWebhookEvent(payload, sig);
+    event = constructWebhookEvent(stripe, payload, sig);
   } catch (err: unknown) {
     const msg = err instanceof Error ? err.message : String(err);
     logger.error('Application fee webhook: signature verification failed', undefined, { error: msg });

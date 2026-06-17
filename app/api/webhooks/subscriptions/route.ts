@@ -16,7 +16,7 @@ export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
 
 async function _POST(request: NextRequest) {
-  const payload = Buffer.from(await request.arrayBuffer());
+  const payload = Buffer.from(await request.arrayBuffer()).toString();
   const sig = request.headers.get('stripe-signature');
 
   if (!sig) {
@@ -31,7 +31,7 @@ async function _POST(request: NextRequest) {
 
   let event: Stripe.Event;
   try {
-    event = constructWebhookEvent(payload, sig);
+    event = constructWebhookEvent(stripe, payload, sig);
   } catch (err: unknown) {
     const msg = err instanceof Error ? err.message : String(err);
     logger.error('Subscriptions webhook: signature verification failed', undefined, { error: msg });
