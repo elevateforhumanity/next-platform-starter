@@ -32,8 +32,8 @@ export const CATEGORY_HEROES: Record<ProgramCategory, string> = {
  */
 export const PROGRAM_HEROES: Record<string, string> = {
   // Beauty & Barber
-  'barber-apprenticeship': '/hero-images/barber-hero.jpg',
-  barber: '/hero-images/barber-hero.jpg',
+  'barber-apprenticeship': '/hero-images/barber-hero.webp',
+  barber: '/hero-images/barber-hero.webp',
   'cosmetology-apprenticeship': '/hero-images/barber-beauty-cat-new.jpg',
   'esthetician-apprenticeship': '/hero-images/barber-beauty-cat-new.jpg',
   'nail-technician-apprenticeship': '/hero-images/barber-beauty-cat-new.jpg',

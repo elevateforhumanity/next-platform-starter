@@ -128,13 +128,13 @@ export const HERO_MEDIA: Record<string, HeroMediaEntry> = {
   },
   'programs/barber-apprenticeship': {
     video: '/videos/barber-hero.mp4',
-    poster: '/images/pages/barber-hero.jpg',
+    poster: '/images/pages/barber-hero.webp',
     alt: 'Barber apprenticeship — Indiana state-licensed program',
     size: 'program',
   },
   'programs/cosmetology-apprenticeship': {
     video: '/videos/beauty-cosmetology.mp4',
-    poster: '/images/pages/cosmetology-hero.jpg',
+    poster: '/images/pages/cosmetology-hero.webp',
     alt: 'Cosmetology apprenticeship — salon skills and licensure',
     size: 'program',
   },

@@ -87,7 +87,7 @@ export const homeHeroImages: HeroImage[] = [
 export const homeSecondaryStripImages: ProgramHighlightImage[] = [
   {
     id: 'strip-barber-beauty',
-    src: '/images/programs/efh-barber-hero.jpg',
+    src: '/images/programs/efh-barber-hero.webp',
     alt: 'Barber and beauty apprentices practicing',
     programId: 'barber',
     label: 'Barber & Beauty Apprenticeships',

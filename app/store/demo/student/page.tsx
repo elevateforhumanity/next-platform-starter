@@ -15,7 +15,7 @@ export default function StudentDemoPage() {
       lessons: 12,
       completed: 8,
       duration: '15 weeks',
-      image: '/hero-images/barber-hero.jpg',
+      image: '/hero-images/barber-hero.webp',
     },
     {
       id: 'hvac-basics',
