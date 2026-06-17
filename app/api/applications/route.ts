@@ -86,6 +86,13 @@ function normalizeProgramPayload(body: Record<string, unknown>) {
 
 async function verifyTurnstile(token: string, ip: string): Promise<boolean> {
   const secret = process.env.TURNSTILE_SECRET_KEY;
+  
+  // TEST MODE: Bypass verification when TEST_MODE=true or DEMO_MODE=true
+  if (process.env.TEST_MODE === 'true' || process.env.DEMO_MODE === 'true') {
+    console.log('[TEST MODE] Bypassing Turnstile verification');
+    return true;
+  }
+  
   // No secret configured — skip verification (dev / unconfigured environments)
   if (!secret) return true;
   // No token sent — fail only when secret is configured
