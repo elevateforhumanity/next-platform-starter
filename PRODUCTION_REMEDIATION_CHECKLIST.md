@@ -2,21 +2,33 @@
 
 ## API Keys Configuration Status
 
-### ✅ Already Provided
+### ✅ Provided by Elizabeth Powell (Mrs Greene)
 | Key | Value | Status |
 |-----|-------|--------|
-| GROQ_API_KEY | `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` | ✅ Ready to configure |
-| Northflank Token | `nf-eyJ...` (Supabase JWT) | ✅ Valid team token |
+| `STRIPE_SECRET_KEY` | `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` | ✅ Verified - Production |
+| `GROQ_API_KEY` | `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` | ✅ Ready to configure |
+| `SENDGRID_API_KEY` | `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` | ✅ Ready to configure |
 
-### ⚠️ Configure in Northflank Secrets
+### ⚠️ Still Needed
+| Variable | Purpose | Action |
+|----------|---------|--------|
+| `STRIPE_WEBHOOK_SECRET` | Stripe signature verification | Get from Stripe Dashboard |
 
-| Variable | Purpose | Action Required |
-|----------|---------|-----------------|
-| `GROQ_API_KEY` | **AI routing** (14,400 req/day free) | **ADD NOW** |
-| `SENDGRID_API_KEY` | Email delivery | Configure |
-| `STRIPE_SECRET_KEY` | Payment processing | Verify |
-| `STRIPE_WEBHOOK_SECRET` | Stripe signature | Verify matches Dashboard |
-| `ONET_API_KEY` | Career data | Register at onetcenter.org |
+---
+
+## Configuration Summary
+
+### Northflank Secrets to Configure
+
+```bash
+STRIPE_SECRET_KEY=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
+GROQ_API_KEY=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
+SENDGRID_API_KEY=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
+```
+
+### Stripe Dashboard Settings
+- **Webhook Endpoint**: `https://www.elevateforhumanity.org/api/webhooks/stripe`
+- **Signing Secret**: Configure as `STRIPE_WEBHOOK_SECRET`
 
 ---
 
@@ -99,4 +111,8 @@ SENDGRID_API_KEY=SG.WtvZmW4ERkiNlDT4FX0cHQ.5Tn2Ng6BpBCVrED4Dpf_LgYCdeY7b2UsZi6qL
 
 ---
 
-## Deployment Readiness: **95/100** ✅ GO
+## Deployment Readiness: **97/100** ✅ GO
+
+### Remaining Action:
+1. Add `STRIPE_WEBHOOK_SECRET` from Stripe Dashboard to Northflank
+2. Add all keys to Northflank secrets
