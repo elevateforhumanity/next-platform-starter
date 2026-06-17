@@ -91,6 +91,7 @@ function onAuditSuccess() {
 export type AuditEvent = {
   tenantId?: string | null;
   userId?: string | null;
+  actor_id?: string | null; // Alias for userId - used in database schema
   action: string;
   resourceType?: string | null;
   resourceId?: string | null;
@@ -162,7 +163,8 @@ function sanitizeMetadata(metadata: Record<string, any>): Record<string, any> {
 export async function logAuditEvent(event: AuditEvent): Promise<void> {
   const payload = {
     tenant_id: event.tenantId,
-    user_id: event.userId,
+    user_id: event.userId || event.actor_id,
+    actor_id: event.actor_id || event.userId,
     action: event.action,
     resource_type: event.resourceType,
     resource_id: event.resourceId,

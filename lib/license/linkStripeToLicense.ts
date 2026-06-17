@@ -186,7 +186,10 @@ export async function handleInvoicePaid(
   invoice: Stripe.Invoice,
 ): Promise<LinkResult> {
   const customerId = invoice.customer as string;
-  const subscriptionId = invoice.subscription as string | null;
+  // Stripe SDK v19+ returns subscription as object or string
+  const subscriptionId = typeof invoice.subscription === 'object'
+    ? (invoice.subscription as { id?: string })?.id
+    : invoice.subscription;
 
   if (!subscriptionId) {
     return { success: false, error: 'No subscription on invoice' };
@@ -319,7 +322,10 @@ export async function handlePaymentFailed(
   event: Stripe.Event,
   invoice: Stripe.Invoice,
 ): Promise<LinkResult> {
-  const subscriptionId = invoice.subscription as string | null;
+  // Stripe SDK v19+ returns subscription as object or string
+  const subscriptionId = typeof invoice.subscription === 'object'
+    ? (invoice.subscription as { id?: string })?.id
+    : invoice.subscription;
   if (!subscriptionId) {
     return { success: false, error: 'No subscription on invoice' };
   }

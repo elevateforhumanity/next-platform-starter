@@ -333,7 +333,10 @@ Amount paid: $${(amountPaidCents / 100).toFixed(2)}</p>
 
       case 'invoice.paid': {
         const invoice = event.data.object as Stripe.Invoice;
-        const subscriptionId = invoice.subscription as string;
+        // Stripe SDK v19+ returns subscription as object or string
+        const subscriptionId = typeof invoice.subscription === 'object'
+          ? (invoice.subscription as { id?: string })?.id
+          : invoice.subscription;
         if (!subscriptionId) break;
         const subscription = await stripe.subscriptions.retrieve(subscriptionId);
         if (subscription.metadata?.program !== 'cosmetology-apprenticeship') break;

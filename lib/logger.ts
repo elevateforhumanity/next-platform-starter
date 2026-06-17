@@ -169,9 +169,12 @@ export const log = {
   debug: (message: string, context?: Record<string, any>) => logger.debug(message, context),
   info: (message: string, context?: Record<string, any>) => logger.info(message, context),
   warn: (message: string, context?: Record<string, any>) => logger.warn(message, context),
-  error: (message: string, context?: Record<string, any> | Error, extra?: Record<string, any>) => {
+  error: (message: string, context?: Record<string, any> | Error | string, extra?: Record<string, any>) => {
     if (context instanceof Error) {
       logger.error(message, context, extra);
+    } else if (typeof context === 'string') {
+      // String context is treated as a message annotation
+      logger.error(message, { message: context }, extra);
     } else {
       logger.error(message, context);
     }

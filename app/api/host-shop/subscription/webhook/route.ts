@@ -95,27 +95,35 @@ async function _POST(request: NextRequest) {
 
       case 'invoice.payment_succeeded': {
         const invoice = event.data.object as Stripe.Invoice;
+        // Stripe SDK v19+ returns subscription as object or string
+        const subscriptionId = typeof invoice.subscription === 'object' 
+          ? (invoice.subscription as { id?: string })?.id 
+          : invoice.subscription;
         
         logger.info('Subscription payment succeeded', {
           invoiceId: invoice.id,
-          subscriptionId: invoice.subscription,
+          subscriptionId,
         });
         break;
       }
 
       case 'invoice.payment_failed': {
         const invoice = event.data.object as Stripe.Invoice;
+        // Stripe SDK v19+ returns subscription as object or string
+        const subscriptionId = typeof invoice.subscription === 'object' 
+          ? (invoice.subscription as { id?: string })?.id 
+          : invoice.subscription;
         
         logger.warn('Subscription payment failed', {
           invoiceId: invoice.id,
-          subscriptionId: invoice.subscription,
+          subscriptionId,
         });
 
-        if (adminDb && invoice.subscription) {
+        if (adminDb && subscriptionId) {
           await adminDb
             .from('host_shop_partnerships')
             .update({ subscription_status: 'past_due' })
-            .eq('stripe_subscription_id', invoice.subscription);
+            .eq('stripe_subscription_id', subscriptionId);
         }
         break;
       }
