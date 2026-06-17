@@ -74,7 +74,7 @@ export async function processPendingJobs(): Promise<{
 
 /**
  * Nightly gap scan - runs at 2:00 AM
- * This is called by a cron trigger (Vercel Cron, Railway, etc.)
+ * This is called by a cron trigger (Northflank, Railway, etc.)
  */
 export async function runNightlyGapScan(): Promise<{
   success: boolean;

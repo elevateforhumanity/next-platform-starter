@@ -262,8 +262,6 @@ async function sendDMCATakedown(data: { domain: string; url: string; timestamp: 
 
   // Known hosting provider abuse emails by domain pattern
   const abuseContacts: Record<string, string> = {
-    'vercel.app': 'dmca@vercel.com',
-    'vercel.com': 'dmca@vercel.com',
     'netlify.app': 'abuse@netlify.com',
     'netlify.com': 'abuse@netlify.com',
     'github.io': 'dmca@github.com',
