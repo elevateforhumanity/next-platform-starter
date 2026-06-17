@@ -1,7 +1,8 @@
 import { createClient } from '@/lib/supabase/server';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { redirect } from 'next/navigation';
-import { EmployerNav } from './EmployerNav';
+import { PlatformShell } from '@/components/platform/PlatformShell';
+import { generateBreadcrumbs } from '@/lib/navigation/navigation-config';
 
 export const dynamic = 'force-dynamic';
 
@@ -11,41 +12,12 @@ export const metadata = {
   description: 'Employer dashboard, hiring, and apprenticeship management.',
 };
 
-/**
- * Employer layout gate.
- *
- * Checks onboarding status before granting portal access.
- * Employers must complete all onboarding steps (MOU, insurance, verification)
- * before accessing dashboard, hours, placements, etc.
- *
- * Allowed without full onboarding: /employer (landing), /employer/verification,
- * /employer/documents/upload (needed during onboarding).
- */
-
 // Routes accessible during onboarding (before full activation)
 const ONBOARDING_ALLOWED = [
   '/employer/verification',
   '/employer/documents',
   '/employer/documents/upload',
   '/employer/settings',
-];
-
-// Sub-routes that require an authenticated employer account
-const PORTAL_ROUTES = [
-  '/employer/dashboard',
-  '/employer/candidates',
-  '/employer/jobs',
-  '/employer/placements',
-  '/employer/hours',
-  '/employer/reports',
-  '/employer/analytics',
-  '/employer/apprenticeships',
-  '/employer/opportunities',
-  '/employer/settings',
-  '/employer/compliance',
-  '/employer/post-job',
-  '/employer/verification',
-  '/employer/documents',
 ];
 
 export default async function EmployerLayout({ children }: { children: React.ReactNode }) {
@@ -66,7 +38,7 @@ export default async function EmployerLayout({ children }: { children: React.Rea
 
   const { data: profile } = await db
     .from('profiles')
-    .select('role, verified')
+    .select('role, verified, full_name, first_name, last_name, avatar_url, email')
     .eq('id', user.id)
     .maybeSingle();
 
@@ -87,22 +59,32 @@ export default async function EmployerLayout({ children }: { children: React.Rea
   const isActive = onboarding?.status === 'active';
   const isApprovedOnboarding = onboarding?.status === 'approved';
 
-  const shell = (content: React.ReactNode) => (
-    <div className="min-h-screen bg-white">
-      <EmployerNav />
-      <main>{content}</main>
-    </div>
+  // If employer is not fully active, show content without PlatformShell
+  if (!isActive && !isApprovedOnboarding) {
+    if (!onboarding) return <>{children}</>;
+    redirect('/onboarding/employer');
+  }
+
+  // Get pathname for breadcrumbs
+  const { headers: headersList } = await import('next/headers');
+  const headers = await headersList();
+  const pathname = headers.get('x-pathname') || '/employer';
+  const breadcrumbs = generateBreadcrumbs(pathname);
+
+  return (
+    <PlatformShell
+      user={{
+        id: user.id,
+        email: user.email || profile.email || '',
+        full_name: profile.full_name || undefined,
+        first_name: profile.first_name || undefined,
+        last_name: profile.last_name || undefined,
+        avatar_url: profile.avatar_url || undefined,
+      }}
+      role="employer"
+      breadcrumbs={breadcrumbs}
+    >
+      {children}
+    </PlatformShell>
   );
-
-  // If employer is fully active, allow everything
-  if (isActive) return shell(children);
-
-  // If approved but still onboarding
-  if (isApprovedOnboarding) return shell(children);
-
-  // No onboarding row = application pending admin review
-  if (!onboarding) return <>{children}</>;
-
-  // Has an onboarding row but not active/approved → redirect to onboarding
-  redirect('/onboarding/employer');
 }

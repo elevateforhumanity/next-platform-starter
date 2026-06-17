@@ -4,6 +4,8 @@ import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { IdleTimeoutGuard } from '@/components/auth/IdleTimeoutGuard';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import { PlatformShell } from '@/components/platform/PlatformShell';
+import { generateBreadcrumbs } from '@/lib/navigation/navigation-config';
 
 export const dynamic = 'force-dynamic';
 
@@ -17,12 +19,6 @@ export const metadata: Metadata = {
 
 const ALLOWED_ROLES = ['case_manager', 'admin', 'super_admin', 'staff'];
 
-const NAV_ITEMS = [
-  { href: '/case-manager/dashboard', label: 'Dashboard' },
-  { href: '/case-manager/participants', label: 'Participants' },
-  { href: '/case-manager/placements', label: 'Placements' },
-];
-
 export default async function CaseManagerLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient();
   const {
@@ -35,7 +31,7 @@ export default async function CaseManagerLayout({ children }: { children: React.
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('role')
+    .select('role, full_name, first_name, last_name, avatar_url, email')
     .eq('id', user.id)
     .maybeSingle();
 
@@ -43,35 +39,27 @@ export default async function CaseManagerLayout({ children }: { children: React.
     redirect('/unauthorized');
   }
 
+  // Get pathname for breadcrumbs
+  const { headers: headersList } = await import('next/headers');
+  const headers = await headersList();
+  const pathname = headers.get('x-pathname') || '/case-manager';
+  const breadcrumbs = generateBreadcrumbs(pathname);
+
   return (
-    <>
+    <PlatformShell
+      user={{
+        id: user.id,
+        email: user.email || profile.email || '',
+        full_name: profile.full_name || undefined,
+        first_name: profile.first_name || undefined,
+        last_name: profile.last_name || undefined,
+        avatar_url: profile.avatar_url || undefined,
+      }}
+      role="case_manager"
+      breadcrumbs={breadcrumbs}
+    >
       <IdleTimeoutGuard />
-      <nav className="bg-white border-b border-slate-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-14">
-            <div className="flex items-center gap-6">
-              <span className="text-lg font-bold text-brand-blue-700">Case Manager Portal</span>
-              <div className="hidden md:flex items-center gap-4">
-                {NAV_ITEMS.map((item) => (
-                  <a
-                    key={item.href}
-                    href={item.href}
-                    className="text-sm text-slate-700 hover:text-brand-blue-700 transition-colors"
-                  >
-                    {item.label}
-                  </a>
-                ))}
-              </div>
-            </div>
-            <div className="flex items-center">
-              <a href="/api/auth/signout" className="text-sm text-slate-700 hover:text-slate-900">
-                Sign out
-              </a>
-            </div>
-          </div>
-        </div>
-      </nav>
-      <div id="main-content">{children}</div>
-    </>
+      {children}
+    </PlatformShell>
   );
 }

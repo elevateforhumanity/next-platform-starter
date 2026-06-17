@@ -3,7 +3,8 @@ import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { IdleTimeoutGuard } from '@/components/auth/IdleTimeoutGuard';
-import MentorPortalShell from './MentorPortalShell';
+import { PlatformShell } from '@/components/platform/PlatformShell';
+import { generateBreadcrumbs } from '@/lib/navigation/navigation-config';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 export const dynamic = 'force-dynamic';
@@ -27,7 +28,7 @@ export default async function MentorLayout({ children }: { children: React.React
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('role, full_name, email')
+    .select('role, full_name, first_name, last_name, avatar_url, email')
     .eq('id', user.id)
     .single();
 
@@ -35,12 +36,27 @@ export default async function MentorLayout({ children }: { children: React.React
     redirect('/unauthorized');
   }
 
+  // Get pathname for breadcrumbs
+  const { headers: headersList } = await import('next/headers');
+  const headers = await headersList();
+  const pathname = headers.get('x-pathname') || '/mentor';
+  const breadcrumbs = generateBreadcrumbs(pathname);
+
   return (
-    <>
+    <PlatformShell
+      user={{
+        id: user.id,
+        email: user.email || profile.email || '',
+        full_name: profile.full_name || undefined,
+        first_name: profile.first_name || undefined,
+        last_name: profile.last_name || undefined,
+        avatar_url: profile.avatar_url || undefined,
+      }}
+      role="staff" // Mentor uses staff nav for now
+      breadcrumbs={breadcrumbs}
+    >
       <IdleTimeoutGuard />
-      <MentorPortalShell userName={profile.full_name} userEmail={profile.email ?? user.email}>
-        {children}
-      </MentorPortalShell>
-    </>
+      {children}
+    </PlatformShell>
   );
 }
