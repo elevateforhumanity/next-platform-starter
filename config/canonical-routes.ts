@@ -167,7 +167,7 @@ export const CANONICAL_ROUTES: CanonicalRoute[] = [
   // ============================================================
   // ADMIN
   // ============================================================
-  { route: '/admin',                                  system: 'admin',          classification: 'canonical',    notes: 'Proxied to admin.elevateforhumanity.org by proxy.ts' },
+  { route: '/admin',                                  system: 'admin',          classification: 'canonical',    notes: 'Proxied to  by proxy.ts' },
 
   // ============================================================
   // ENROLLMENT / APPLY

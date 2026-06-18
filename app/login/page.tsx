@@ -28,7 +28,7 @@ function normalizePostLoginRedirect(target: string, role: string | null | undefi
   try {
     if (target.startsWith('https://')) {
       const url = new URL(target);
-      const isAdminHost = url.hostname === 'admin.elevateforhumanity.org';
+      const isAdminHost = url.hostname === '';
       if (isAdminHost) return isAdminRole ? url.toString() : null;
       return target;
     }
@@ -549,7 +549,7 @@ function LoginForm() {
                     {item.label}
                   </Link>
                 ))}
-                {/* Admin portal lives on admin.elevateforhumanity.org — never on the LMS */}
+                {/* Admin portal lives on  — never on the LMS */}
                 <a
                   href="/login"
                   className="text-center px-4 py-3 bg-slate-900 text-white rounded-lg hover:bg-slate-700 transition-all text-sm font-semibold min-h-[44px] inline-flex items-center justify-center col-span-2"

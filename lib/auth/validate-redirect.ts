@@ -12,7 +12,7 @@ const CANONICAL_DOMAIN = process.env.NEXT_PUBLIC_CANONICAL_DOMAIN || 'www.elevat
 const TRUSTED_HOSTS = [
   CANONICAL_DOMAIN,
   'elevateforhumanity.org',
-  'admin.elevateforhumanity.org',
+  '',
 ];
 
 /** Pathname + query (and hash) for post-login return URLs. */

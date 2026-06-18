@@ -29,7 +29,7 @@ export default function DevStudioPwaHint() {
             {isIos ? (
               <>
                 Safari → Share → <strong>Add to Home Screen</strong>. Opens like an app at{' '}
-                <code className="rounded bg-white px-1">admin.elevateforhumanity.org</code>.
+                <code className="rounded bg-white px-1"></code>.
               </>
             ) : (
               <>

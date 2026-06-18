@@ -355,7 +355,7 @@ export const NAV_ITEMS: NavItem[] = [
       { name: 'Employer', href: '/login?redirect=/employer/dashboard' },
       {
         name: 'Instructor',
-        href: '/login?redirect=https%3A%2F%2Fadmin.elevateforhumanity.org%2Fadmin%2Finstructor%2Fdashboard',
+        href: '/login?redirect=https%3A%2F%2F%2Fadmin%2Finstructor%2Fdashboard',
       },
       { name: 'Partner / Program Holder', href: '/login?redirect=/program-holder/dashboard' },
       { name: 'Admin Dashboard', href: '/admin/dashboard' },
@@ -363,7 +363,7 @@ export const NAV_ITEMS: NavItem[] = [
       { name: 'Mentor', href: '/login?redirect=/mentor/dashboard' },
       {
         name: 'Staff',
-        href: '/login?redirect=https%3A%2F%2Fadmin.elevateforhumanity.org%2Fadmin%2Fstaff-portal%2Fdashboard',
+        href: '/login?redirect=https%3A%2F%2F%2Fadmin%2Fstaff-portal%2Fdashboard',
       },
       { name: 'Program catalog', href: '/programs/catalog' },
     ],

@@ -20,7 +20,7 @@ function trimUrl(url: string | undefined | null): string {
 
 function hostnameIsAdmin(host: string): boolean {
   const h = host.toLowerCase();
-  return h === 'admin.elevateforhumanity.org' || h.startsWith('admin.');
+  return h === '' || h.startsWith('admin.');
 }
 
 /** Canonical public (www / LMS) origin for marketing pages. */

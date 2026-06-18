@@ -172,7 +172,6 @@ const nextConfig = {
       allowedOrigins: [
         'www.elevateforhumanity.org',
         'elevateforhumanity.org',
-        'admin.elevateforhumanity.org',
         'app.elevateforhumanity.org',
         '*.app.elevateforhumanity.org',
       ],

@@ -25,7 +25,7 @@ export default async function EnvManagerPage() {
         />
         <p className="mt-2 text-xs text-slate-500">
           Use{' '}
-          <code className="rounded bg-slate-100 px-1">admin.elevateforhumanity.org</code> for this page.
+          <code className="rounded bg-slate-100 px-1"></code> for this page.
           If you opened a <code className="rounded bg-slate-100 px-1">www.</code> link, you will be sent here
           automatically — that one-time redirect is normal.
         </p>

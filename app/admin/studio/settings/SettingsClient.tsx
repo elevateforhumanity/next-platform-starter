@@ -215,7 +215,7 @@ export default function SettingsClient() {
             <div className="rounded-xl bg-white border border-slate-200 p-4">
               <p className="text-xs text-slate-500 mb-1">Admin Service</p>
               <p className="font-mono text-sm font-bold text-blue-700">elevate-admin</p>
-              <p className="text-xs text-slate-400 mt-1">admin.elevateforhumanity.org</p>
+              <p className="text-xs text-slate-400 mt-1"></p>
             </div>
             <div className="rounded-xl bg-white border border-slate-200 p-4">
               <p className="text-xs text-slate-500 mb-1">LMS Service</p>
