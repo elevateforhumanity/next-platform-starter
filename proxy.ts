@@ -297,15 +297,6 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next({ request: { headers: requestHeaders } });
   }
 
-  let adminBase = (process.env.NEXT_PUBLIC_ADMIN_URL || DEFAULT_ADMIN_URL).replace(/\/+$/, '');
-  // canonicalAdminHost removed — admin subdomain deprecated
-  try {
-    canonicalAdminHost = new URL(adminBase).host;
-  } catch (error) {
-    console.error('[proxy] Invalid NEXT_PUBLIC_ADMIN_URL. Falling back to default admin host.', error);
-    adminBase = DEFAULT_ADMIN_URL;
-  }
-
   const isLocalHost =
     hostWithoutPort === 'localhost' ||
     hostWithoutPort === '127.0.0.1' ||
