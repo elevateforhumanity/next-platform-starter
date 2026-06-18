@@ -5,7 +5,7 @@
  */
 import { type NextRequest } from 'next/server';
 import { apiRequireAdmin } from '@/lib/admin/guards';
-import { GET as adminGET } from '@/apps/admin/app/api/admin/site-health/route';
+import { GET as adminGET } from '@/app/app/api/admin/site-health/route';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';

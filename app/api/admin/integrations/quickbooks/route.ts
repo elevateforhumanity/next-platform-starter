@@ -8,7 +8,7 @@ import { apiRequireAdmin } from '@/lib/admin/guards';
 import {
   GET as adminGET,
   POST as adminPOST,
-} from '@/apps/admin/app/api/admin/integrations/quickbooks/route';
+} from '@/app/app/api/admin/integrations/quickbooks/route';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';

@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { Clapperboard, ExternalLink } from 'lucide-react';
 
 const VideoGeneratorClient = dynamic(
-  () => import('@/apps/admin/app/admin/video-generator/VideoGeneratorClient'),
+  () => import('@/app/admin/video-generator/VideoGeneratorClient'),
   {
     ssr: false,
     loading: () => (

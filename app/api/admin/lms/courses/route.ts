@@ -6,7 +6,7 @@
  */
 import { type NextRequest } from 'next/server';
 import { apiRequireAdmin } from '@/lib/admin/guards';
-import { POST as adminPOST } from '@/apps/admin/app/api/admin/lms/courses/route';
+import { POST as adminPOST } from '@/app/app/api/admin/lms/courses/route';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 
 export const runtime = 'nodejs';

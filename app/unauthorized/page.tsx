@@ -1,53 +1,127 @@
-import { Metadata } from 'next';
-import { createClient } from '@/lib/supabase/server';
-import Link from 'next/link';
-import { ShieldAlert, Home } from 'lucide-react';
+'use client';
+import { useEffect, useMemo, useState } from 'react';
+import { createClient } from '@supabase/supabase-js';
+import { getRoleDestination } from '@/lib/auth/role-destinations';
 
-export const revalidate = 3600;
-export const metadata: Metadata = {
-  title: 'Unauthorized Access',
-  alternates: {
-    canonical: 'https://www.elevateforhumanity.org/unauthorized',
-  },
-};
+const WWW_ORIGIN =
+  process.env.NEXT_PUBLIC_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+const ADMIN_ORIGIN =
+  process.env.NEXT_PUBLIC_ADMIN_URL || 'https://admin.elevateforhumanity.org';
+const ADMIN_PORTAL_ROLES = new Set(['admin', 'super_admin', 'staff', 'org_admin', 'platform_operator']);
 
-export default async function UnauthorizedPage() {
-  const supabase = await createClient();
+export default function UnauthorizedPage() {
+  const [email, setEmail] = useState<string | null>(null);
+  const [role, setRole] = useState<string | null>(null);
 
-  // Log unauthorized access attempt
-  await supabase
-    .from('audit_logs')
-    .insert({ action: 'unauthorized_access', event_type: 'security' })
-    .select();
+  useEffect(() => {
+    const sb = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    );
+    sb.auth.getUser().then(async ({ data }) => {
+      setEmail(data.user?.email ?? null);
+      if (!data.user) return;
+      const { data: profile } = await sb
+        .from('profiles')
+        .select('role')
+        .eq('id', data.user.id)
+        .maybeSingle();
+      const { data: roleRows } = await sb
+        .from('user_roles')
+        .select('roles(name)')
+        .eq('user_id', data.user.id);
+      const secondaryRoles = (roleRows ?? [])
+        .map((row) => (row as { roles?: { name?: unknown } | null }).roles?.name)
+        .filter((value): value is string => typeof value === 'string');
+      const effectiveRoles = [profile?.role, ...secondaryRoles].filter(
+        (value): value is string => typeof value === 'string',
+      );
+      setRole(effectiveRoles.find((value) => ADMIN_PORTAL_ROLES.has(value)) ?? profile?.role ?? null);
+    });
+  }, []);
+
+  const isAdminPortalRole = ADMIN_PORTAL_ROLES.has(role ?? '');
+  const adminDashboardHref = `${ADMIN_ORIGIN.replace(/\/$/, '')}/admin/dashboard`;
+  const portalPath = role ? getRoleDestination(role) : null;
+  const portalHref = portalPath?.startsWith('http')
+    ? portalPath
+    : portalPath
+      ? `${WWW_ORIGIN.replace(/\/$/, '')}${portalPath}`
+      : `${WWW_ORIGIN}/portals`;
+
+  useEffect(() => {
+    if (isAdminPortalRole) {
+      const timer = window.setTimeout(() => {
+        window.location.href = adminDashboardHref;
+      }, 800);
+      return () => window.clearTimeout(timer);
+    }
+    return undefined;
+  }, [adminDashboardHref, isAdminPortalRole]);
+
+  const message = useMemo(() => {
+    if (isAdminPortalRole) {
+      return 'Your admin role is valid. Redirecting you back to the admin dashboard now.';
+    }
+    if (role && !ADMIN_PORTAL_ROLES.has(role)) {
+      return 'Host shops, apprentices, partners, and learners sign in on their assigned portal — not admin.';
+    }
+    return 'Contact your administrator if you believe this is an error.';
+  }, [isAdminPortalRole, role]);
+
+  async function handleSignOut() {
+    const sb = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    );
+    await sb.auth.signOut();
+    window.location.href = '/login';
+  }
+
   return (
-    <div className="min-h-screen bg-white flex items-center justify-center px-4">
-      <div className="max-w-2xl w-full bg-white border border-slate-200 rounded-lg p-8 sm:p-12 text-center">
-        <div className="inline-flex items-center justify-center w-16 h-16 bg-brand-red-100 rounded-full mb-6">
-          <ShieldAlert className="w-10 h-10 text-brand-red-600" />
+    <div className="min-h-screen bg-slate-950 flex items-center justify-center px-4">
+      <div className="text-center max-w-sm">
+        <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-red-900 mb-4">
+          <svg className="w-6 h-6 text-red-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
+          </svg>
         </div>
-
-        <h1 className="text-3xl sm:text-4xl font-bold text-black mb-4">Access Denied</h1>
-
-        <p className="text-lg text-black mb-8">
-          You don't have permission to access this page. This area is restricted to specific user
-          roles.
+        <h1 className="text-xl font-bold text-white mb-2">Access Denied</h1>
+        <p className="text-slate-400 text-sm mb-4">
+          {message}
         </p>
-
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Link
-            href="/"
-            className="inline-flex items-center justify-center min-h-[48px] px-6 py-3 bg-slate-900 text-white font-bold rounded-lg hover:bg-slate-800 transition-colors"
+        {email && (
+          <p className="text-slate-500 text-xs mb-4">
+            Signed in as <span className="text-slate-300">{email}</span>
+            {role ? (
+              <>
+                {' '}
+                (<span className="text-slate-400">{role}</span>)
+              </>
+            ) : null}
+          </p>
+        )}
+        {isAdminPortalRole ? (
+          <a
+            href={adminDashboardHref}
+            className="block w-full mb-3 px-4 py-2 bg-brand-blue-600 hover:bg-brand-blue-700 text-white text-sm font-medium rounded-lg transition-colors text-center"
           >
-            <Home className="w-5 h-5 mr-2" />
-            Return Home
-          </Link>
-          <Link
-            href="/learner/dashboard"
-            className="inline-flex items-center justify-center min-h-[48px] px-6 py-3 bg-white border-2 border-slate-300 text-black font-semibold rounded-lg hover:border-slate-400 transition-colors"
+            Return to admin dashboard
+          </a>
+        ) : portalHref && role && !['admin', 'super_admin', 'staff', 'org_admin', 'platform_operator', 'instructor'].includes(role) ? (
+          <a
+            href={portalHref}
+            className="block w-full mb-3 px-4 py-2 bg-brand-blue-600 hover:bg-brand-blue-700 text-white text-sm font-medium rounded-lg transition-colors text-center"
           >
-            Go to Dashboard
-          </Link>
-        </div>
+            Go to your portal
+          </a>
+        ) : null}
+        <button
+          onClick={handleSignOut}
+          className="w-full px-4 py-2 bg-red-900 hover:bg-red-800 text-red-200 text-sm font-medium rounded-lg transition-colors"
+        >
+          Sign out and use a different account
+        </button>
       </div>
     </div>
   );

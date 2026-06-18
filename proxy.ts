@@ -321,7 +321,7 @@ export async function middleware(request: NextRequest) {
 
   if (
     (pathname === '/admin' || pathname.startsWith('/admin/')) &&
-    hostWithoutPort !== canonicalAdminHost &&
+    hostWithoutPort !== canonicalAdminHost && process.env.ALLOW_MAIN_SITE_ADMIN !== 'true' &&
     !(process.env.NODE_ENV === 'development' && isLocalHost)
   ) {
     // Keep the canonical admin landing page explicit so host-only /admin requests

@@ -6,7 +6,7 @@ import {
   POST as adminPOST,
   PUT as adminPUT,
   DELETE as adminDELETE,
-} from '@/apps/admin/app/api/admin/promo-codes/route';
+} from '@/app/app/api/admin/promo-codes/route';
 
 export const dynamic = 'force-dynamic';
 
