@@ -358,7 +358,7 @@ export const NAV_ITEMS: NavItem[] = [
         href: '/login?redirect=https%3A%2F%2Fadmin.elevateforhumanity.org%2Fadmin%2Finstructor%2Fdashboard',
       },
       { name: 'Partner / Program Holder', href: '/login?redirect=/program-holder/dashboard' },
-      { name: 'Admin Dashboard', href: 'https://admin.elevateforhumanity.org/admin/dashboard' },
+      { name: 'Admin Dashboard', href: '/admin/dashboard' },
       { name: 'Case manager', href: '/login?redirect=/case-manager/dashboard' },
       { name: 'Mentor', href: '/login?redirect=/mentor/dashboard' },
       {

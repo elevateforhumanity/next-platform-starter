@@ -6,7 +6,7 @@
 
 const BASE_URLS = [
   'https://www.elevateforhumanity.org',
-  'https://admin.elevateforhumanity.org',
+  '',
 ];
 
 const PUBLIC_ROUTES = [

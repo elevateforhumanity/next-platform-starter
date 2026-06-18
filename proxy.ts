@@ -10,7 +10,7 @@ import {
 
 // ── Module-level constants ────────────────────────────────────────────────────
 
-const DEFAULT_ADMIN_URL = 'https://admin.elevateforhumanity.org';
+const DEFAULT_ADMIN_URL = '';
 // Legacy admin path redirects moved to next.config.mjs (LEGACY ADMIN PATH CONSOLIDATION section).
 // next.config.mjs handles these as static 308 redirects at the routing layer.
 

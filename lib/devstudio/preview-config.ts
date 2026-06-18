@@ -52,7 +52,7 @@ export function resolvePublicSiteUrl(): string {
 
 /** Canonical admin app origin. */
 export function resolveAdminSiteUrl(): string {
-  return trimUrl(process.env.NEXT_PUBLIC_ADMIN_URL) || 'https://admin.elevateforhumanity.org';
+  return trimUrl(process.env.NEXT_PUBLIC_ADMIN_URL) || '';
 }
 
 /** Default iframe URL when Dev Studio opens (overridable via env / platform_settings). */

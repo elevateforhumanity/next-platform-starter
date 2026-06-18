@@ -54,7 +54,7 @@ export function getDegradedAdminDashboardData(): AdminDashboardData {
       },
       {
         label: 'Admin',
-        url: process.env.NEXT_PUBLIC_ADMIN_URL || 'https://admin.elevateforhumanity.org',
+        url: process.env.NEXT_PUBLIC_ADMIN_URL || '',
       },
       {
         label: 'LMS',

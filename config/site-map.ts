@@ -265,10 +265,10 @@ export const siteMapSections: SiteMapSection[] = [
     id: 'instructor',
     title: 'Instructor',
     items: [
-      { label: 'Instructor Dashboard', href: 'https://admin.elevateforhumanity.org/admin/instructor/dashboard' },
-      { label: 'Instructor Analytics', href: 'https://admin.elevateforhumanity.org/admin/instructor/analytics' },
-      { label: 'Educator Hub', href: 'https://admin.elevateforhumanity.org/admin/instructor/educator-hub' },
-      { label: 'Receptionist', href: 'https://admin.elevateforhumanity.org/admin/instructor/receptionist' },
+      { label: 'Instructor Dashboard', href: '/admin/instructor/dashboard' },
+      { label: 'Instructor Analytics', href: '/admin/instructor/analytics' },
+      { label: 'Educator Hub', href: '/admin/instructor/educator-hub' },
+      { label: 'Receptionist', href: '/admin/instructor/receptionist' },
     ],
   },
   {

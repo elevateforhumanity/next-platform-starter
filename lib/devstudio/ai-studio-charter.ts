@@ -22,7 +22,7 @@ export const AI_STUDIO_DEVINT_CONTAINER = {
     ],
     environments: {
       production: PLATFORM_DEFAULTS.siteUrl,
-      admin: 'https://admin.elevateforhumanity.org',
+      admin: '',
       local: process.env.NEXT_PUBLIC_SITE_URL || '',
     },
   },

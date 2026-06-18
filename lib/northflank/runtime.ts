@@ -35,7 +35,7 @@ export function getNorthflankServices(): NorthflankServiceSummary[] {
       key: 'admin',
       id: process.env.NORTHFLANK_ADMIN_SERVICE_ID || 'elevate-admin',
       label: 'Admin Dashboard',
-      url: process.env.NEXT_PUBLIC_ADMIN_URL || 'https://admin.elevateforhumanity.org',
+      url: process.env.NEXT_PUBLIC_ADMIN_URL || '',
       healthPath: '/api/ping',
       color: 'purple',
     },

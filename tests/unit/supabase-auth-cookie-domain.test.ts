@@ -24,7 +24,7 @@ describe('resolveSupabaseAuthCookieDomain', () => {
   it('scopes domain in production', () => {
     process.env.NODE_ENV = 'production';
     process.env.NEXT_PUBLIC_SITE_URL = 'https://www.elevateforhumanity.org';
-    process.env.NEXT_PUBLIC_ADMIN_URL = 'https://admin.elevateforhumanity.org';
+    process.env.NEXT_PUBLIC_ADMIN_URL = '';
     delete process.env.NEXTAUTH_URL;
     expect(resolveSupabaseAuthCookieDomain()).toBe('.elevateforhumanity.org');
   });

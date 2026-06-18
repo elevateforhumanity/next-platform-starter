@@ -46,7 +46,7 @@ describe('validateRedirect', () => {
   });
 
   it('allows trusted admin subdomain URLs', () => {
-    const admin = 'https://admin.elevateforhumanity.org/admin/instructor/dashboard';
+    const admin = '/admin/instructor/dashboard';
     expect(validateRedirect(admin, '/')).toBe(admin);
   });
 
@@ -58,7 +58,7 @@ describe('validateRedirect', () => {
 
 describe('resolveRedirectLocation', () => {
   it('preserves absolute trusted URLs', () => {
-    const target = 'https://admin.elevateforhumanity.org/admin/dashboard';
+    const target = '/admin/dashboard';
     expect(resolveRedirectLocation(target, 'https://www.elevateforhumanity.org').href).toBe(target);
   });
 

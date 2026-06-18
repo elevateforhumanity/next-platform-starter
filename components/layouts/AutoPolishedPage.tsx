@@ -363,8 +363,8 @@ function getAutoConfig(section: string, label: string, route: string): AutoConfi
         audience: 'Instructors, facilitators, and coaches',
         shortTagline: 'Give educators the tools they deserve, not just a login.',
         description: `The "${baseLabel}" page supports instructors and facilitators managing classes, communication, and grading on the platform.`,
-        primaryCta: { href: 'https://admin.elevateforhumanity.org/admin/instructor/dashboard', label: 'Open instructor dashboard' },
-        secondaryCta: { href: 'https://admin.elevateforhumanity.org/admin/instructor/analytics', label: 'View teaching analytics' },
+        primaryCta: { href: '/admin/instructor/dashboard', label: 'Open instructor dashboard' },
+        secondaryCta: { href: '/admin/instructor/analytics', label: 'View teaching analytics' },
         bullets: [
           'Keep track of sections, assignments, and attendance in one place',
           'See which students may need additional support early',

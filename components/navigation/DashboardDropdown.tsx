@@ -104,7 +104,7 @@ const DEFAULT_DASHBOARDS: Dashboard[] = [
   {
     id: '3',
     name: 'Instructor Portal',
-    href: 'https://admin.elevateforhumanity.org/admin/instructor/dashboard',
+    href: '/admin/instructor/dashboard',
     icon: 'BookOpen',
     description: 'Students, submissions, courses',
     color: 'text-indigo-600',
@@ -198,7 +198,7 @@ const DEFAULT_DASHBOARDS: Dashboard[] = [
   {
     id: '13',
     name: 'Admin',
-    href: 'https://admin.elevateforhumanity.org/admin/dashboard',
+    href: '/admin/dashboard',
     icon: 'Shield',
     description: 'Full site management',
     color: 'text-brand-red-600',

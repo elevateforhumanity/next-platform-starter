@@ -23,7 +23,7 @@ describe('applyRateLimit strict local behavior', () => {
     delete process.env.UPSTASH_REDIS_REST_URL;
     delete process.env.UPSTASH_REDIS_REST_TOKEN;
 
-    const result = await applyRateLimit(new Request('https://admin.elevateforhumanity.org/api/devstudio/chat'), 'strict');
+    const result = await applyRateLimit(new Request('/api/devstudio/chat'), 'strict');
 
     expect(result?.status).toBe(503);
     await expect(result?.json()).resolves.toEqual({ error: 'Rate limiting temporarily unavailable' });

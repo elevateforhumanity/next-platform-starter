@@ -77,7 +77,7 @@ const html = `
   </div>
   <p><strong>This link expires in 24 hours.</strong> If it expires, visit <a href="${SITE_URL}/auth/forgot-password" style="color:#dc2626">${SITE_URL}/auth/forgot-password</a>.</p>
   <h3 style="color:#1e293b;margin-top:32px">Your admin dashboard:</h3>
-  <p><a href="https://admin.elevateforhumanity.org/admin/dashboard" style="color:#dc2626">https://admin.elevateforhumanity.org/admin/dashboard</a></p>
+  <p><a href="/admin/dashboard" style="color:#dc2626">/admin/dashboard</a></p>
   <p>As Super Admin you have full access to all users, programs, enrollments, and platform settings.</p>
   <p style="margin-top:32px">Warm regards,<br/><strong>Elevate for Humanity Platform Team</strong></p>
 </div>`;

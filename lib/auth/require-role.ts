@@ -78,7 +78,7 @@ export async function requireRole(allowedRoles: string[]): Promise<AuthResult> {
     // SERVICE_ROLE=admin is set in the admin container environment.
     const loginPath =
       process.env.SERVICE_ROLE === 'admin'
-        ? `${process.env.NEXT_PUBLIC_ADMIN_URL || 'https://admin.elevateforhumanity.org'}/login?redirect=${encodeURIComponent(returnPath)}`
+        ? `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org'}/login?redirect=${encodeURIComponent(returnPath)}`
         : `/login?redirect=${encodeURIComponent(returnPath)}`;
     redirect(loginPath);
   }

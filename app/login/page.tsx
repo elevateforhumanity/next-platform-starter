@@ -19,7 +19,7 @@ import { mapAuthError } from '@/lib/auth/map-auth-error';
 
 
 const ADMIN_LOGIN_ROLES = new Set(['super_admin', 'admin', 'staff', 'org_admin', 'platform_operator']);
-const ADMIN_ORIGIN = (process.env.NEXT_PUBLIC_ADMIN_URL || 'https://admin.elevateforhumanity.org').replace(/\/$/, '');
+const ADMIN_ORIGIN = (process.env.NEXT_PUBLIC_ADMIN_URL || '').replace(/\/$/, '');
 
 function normalizePostLoginRedirect(target: string, role: string | null | undefined): string | null {
   if (!target) return null;
@@ -530,7 +530,7 @@ function LoginForm() {
                   { label: 'Apprentice Portal', dest: '/portal/apprentice', highlight: true },
                   { label: 'Student Portal', dest: '/learner/dashboard' },
                   { label: 'Program Holder', dest: '/program-holder/dashboard' },
-                  { label: 'Instructor', dest: 'https://admin.elevateforhumanity.org/admin/instructor/dashboard' },
+                  { label: 'Instructor', dest: '/admin/instructor/dashboard' },
                   { label: 'Employer', dest: '/employer/dashboard' },
                   { label: 'Partner Portal', dest: '/partner/dashboard' },
                   { label: 'Staff Portal', dest: '/admin/staff-portal/dashboard' },
@@ -551,7 +551,7 @@ function LoginForm() {
                 ))}
                 {/* Admin portal lives on admin.elevateforhumanity.org — never on the LMS */}
                 <a
-                  href="https://admin.elevateforhumanity.org/login"
+                  href="/login"
                   className="text-center px-4 py-3 bg-slate-900 text-white rounded-lg hover:bg-slate-700 transition-all text-sm font-semibold min-h-[44px] inline-flex items-center justify-center col-span-2"
                 >
                   Admin Portal →

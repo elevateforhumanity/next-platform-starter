@@ -114,7 +114,7 @@ interface Env {
 const ALLOWED_ORIGINS = [
   'https://elevateforhumanity.org',
   'https://www.elevateforhumanity.org',
-  'https://admin.elevateforhumanity.org',
+  '',
   'https://studio.elevateforhumanity.org',
 ];
 

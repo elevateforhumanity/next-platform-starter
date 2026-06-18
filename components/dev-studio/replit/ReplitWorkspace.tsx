@@ -46,11 +46,11 @@ export default function ReplitWorkspace() {
   ]);
   const [activeTabId, setActiveTabId] = useState<string>('1');
   const [previewTargets] = useState<PreviewTarget[]>([
-    { label: 'Admin', url: 'https://admin.elevateforhumanity.org' },
+    { label: 'Admin', url: '' },
     { label: 'LMS', url: 'https://lms.elevateforhumanity.org' },
     { label: 'Main', url: 'https://elevateforhumanity.org' },
   ]);
-  const [activePreview, setActivePreview] = useState<string>('https://admin.elevateforhumanity.org');
+  const [activePreview, setActivePreview] = useState<string>('');
   const [showPreview, setShowPreview] = useState<boolean>(true);
   const [previewFullscreen, setPreviewFullscreen] = useState<boolean>(false);
   const [expandedFolders, setExpandedFolders] = useState<Set<string>>(new Set(['/apps', '/apps/admin', '/components']));

@@ -219,7 +219,7 @@ export const siteMapSections: SiteMapSection[] = [
     id: "instructor",
     title: "Instructor",
     items: [
-      { label: "Dashboard", href: "https://admin.elevateforhumanity.org/admin/instructor/dashboard" },
+      { label: "Dashboard", href: "/admin/instructor/dashboard" },
       { label: "Instructor Credentials", href: "/instructor-credentials" }
     ],
   },
