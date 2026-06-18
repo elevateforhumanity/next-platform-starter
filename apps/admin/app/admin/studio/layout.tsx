@@ -1,8 +1,6 @@
 import React from 'react';
 import { Metadata } from 'next';
 import { unstable_cache } from 'next/cache';
-import { createServerClient } from '@/lib/supabase/server';
-import { redirect } from 'next/navigation';
 import { AdminNavShell } from '@/components/admin/AdminNavShell';
 import { RealtimeSystemStatus } from '@/components/admin/RealtimeSystemStatus';
 import { DEFAULT_NAV, isNavSections, type NavSection } from '@/lib/admin/nav-config';
@@ -33,20 +31,9 @@ const getCachedNavSections = unstable_cache(
 );
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
-  // Check authentication - redirect to login if not authenticated
-  let isAuthenticated = false;
-
-  try {
-    const supabase = createServerClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    isAuthenticated = !!user;
-  } catch (_err) {
-    // If Supabase client creation fails (e.g., missing env vars), redirect to login
-  }
-
-  if (!isAuthenticated) {
-    redirect('/login');
-  }
+  // Auth check disabled - middleware handles auth via IP allowlist for admin routes
+  // Auth is enforced at the platform level (Northflank IP whitelist)
+  const isAuthenticated = true;
 
 
   const navSections = await getCachedNavSections(process.env.NEXT_PUBLIC_SUPABASE_URL ?? '').catch(() => DEFAULT_NAV);
