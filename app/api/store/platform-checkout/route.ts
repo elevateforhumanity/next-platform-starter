@@ -20,6 +20,7 @@ import {
   resolveLaunchPlanId,
   type LaunchPlanDefinition,
 } from '@/lib/store/launch-plans';
+import { validateCoupon, recordCouponRedemption } from '@/lib/store/coupons';
 
 async function _POST(request: NextRequest) {
   try {
@@ -38,6 +39,7 @@ async function _POST(request: NextRequest) {
     const rawPlanId = String(body.planId ?? '');
     const interval = (body.interval || 'monthly') as BillingInterval;
     const addonSlugs: string[] = Array.isArray(body.addonSlugs) ? body.addonSlugs : [];
+    const couponCode: string | undefined = body.couponCode;
 
     const launchPlanId = resolveLaunchPlanId(rawPlanId);
     const launchPlan: LaunchPlanDefinition | null = launchPlanId
@@ -52,7 +54,7 @@ async function _POST(request: NextRequest) {
     }
 
     const checkoutPlanId = launchPlan ? launchPlan.id : legacyPlanId;
-    const unitAmount = launchPlan
+    let unitAmount = launchPlan
       ? launchPlanPriceCents(launchPlan, interval)
       : priceCents(legacyPlan!, interval);
     if (interval !== 'monthly' && interval !== 'annual') {
@@ -62,6 +64,41 @@ async function _POST(request: NextRequest) {
     for (const slug of addonSlugs) {
       if (!getAddOn(slug)) {
         return NextResponse.json({ error: `Unknown add-on: ${slug}` }, { status: 400 });
+      }
+    }
+
+    // Calculate total for coupon validation
+    let totalCents = unitAmount;
+    for (const slug of addonSlugs) {
+      totalCents += addonPriceCents(getAddOn(slug)!);
+    }
+
+    // Validate coupon if provided
+    let couponDiscountCents = 0;
+    let stripeCouponId: string | undefined;
+    
+    if (couponCode) {
+      const couponResult = await validateCoupon(couponCode, user.id, totalCents);
+      if (couponResult.valid && couponResult.coupon) {
+        couponDiscountCents = couponResult.discount_amount_cents || 0;
+        
+        // Create Stripe coupon for the discount
+        const stripe = getStripe();
+        if (stripe && couponResult.coupon.discount_type === 'percentage') {
+          try {
+            const createdCoupon = await stripe.coupons.create({
+              duration: 'once',
+              percent_off: couponResult.coupon.discount_value,
+              currency: 'usd',
+              metadata: { platform_coupon_id: couponResult.coupon.id },
+            });
+            stripeCouponId = createdCoupon.id;
+          } catch (e) {
+            logger.warn('Failed to create Stripe coupon', e);
+          }
+        }
+      } else if (couponResult.error) {
+        return NextResponse.json({ error: couponResult.error }, { status: 400 });
       }
     }
 
@@ -122,7 +159,7 @@ async function _POST(request: NextRequest) {
 
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
 
-    const session = await stripe.checkout.sessions.create({
+    const sessionParams: Parameters<typeof stripe.checkout.sessions.create>[0] = {
       customer: customerId,
       payment_method_types: ['card'],
       line_items: lineItems,
@@ -139,15 +176,37 @@ async function _POST(request: NextRequest) {
         license_tier: launchPlan
           ? `${launchPlan.id}_${interval}`
           : licenseTierForPlan(legacyPlanId, interval),
+        coupon_code: couponCode || '',
+        coupon_discount_cents: String(couponDiscountCents),
       },
       subscription_data: {
         metadata: {
           checkout_type: 'platform_saas',
           plan_id: checkoutPlanId,
           tenant_id: profile?.tenant_id || '',
+          coupon_code: couponCode || '',
         },
       },
-    });
+    };
+
+    // Apply Stripe coupon if we have one
+    if (stripeCouponId) {
+      sessionParams.discounts = [{ coupon: stripeCouponId }];
+    }
+
+    const session = await stripe.checkout.sessions.create(sessionParams);
+
+    // Record coupon redemption (async, don't wait)
+    if (couponCode && couponDiscountCents > 0) {
+      recordCouponRedemption(
+        couponCode,
+        user.id,
+        session.id,
+        totalCents,
+        couponDiscountCents,
+        stripeCouponId
+      ).catch((e) => logger.error('Failed to record coupon redemption', e));
+    }
 
     return NextResponse.json({ checkoutUrl: session.url, sessionId: session.id });
   } catch (error) {
