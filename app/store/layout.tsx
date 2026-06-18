@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import StoreClientWrapper from './StoreClientWrapper';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import { GuidedDemoChat } from '@/components/store/GuidedDemoChat';
 
 export const metadata: Metadata = {
   title: 'Store — License the Elevate Workforce Platform',
@@ -51,6 +52,7 @@ export default function StoreLayout({
   return (
     <StoreClientWrapper>
       {children}
+      <GuidedDemoChat />
     </StoreClientWrapper>
   );
 }

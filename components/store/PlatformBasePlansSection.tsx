@@ -152,31 +152,24 @@ export function PlatformBasePlansSection({
                   {loadingPlan === plan.id ? (
                     <Loader2 className="w-5 h-5 animate-spin" />
                   ) : (
-                    <ShoppingCart className="w-4 h-4" />
-                  )}
-                  Subscribe
-                </button>
-                <div className={`mt-3 p-3 rounded-lg ${popular ? 'bg-white/10' : 'bg-slate-100'}`}>
-                  <div className={`flex items-center gap-2 text-xs ${popular ? 'text-white' : 'text-slate-600'}`}>
                     <CreditCard className="w-4 h-4" />
-                    <span>{BNPL_CHECKOUT_LABEL}</span>
-                  </div>
-                </div>
+                  )}
+                  {loadingPlan === plan.id ? 'Loading...' : plan.name === 'Solo' ? 'Start Free Trial' : `Subscribe — $${price}${priceLabel}`}
+                </button>
                 <Link
                   href="/store/trial"
-                  className={`block w-full text-center py-2.5 mt-2 rounded-lg text-sm font-semibold border ${
+                  className={`block w-full text-center py-2.5 rounded-lg text-sm font-semibold border ${
                     popular
                       ? 'border-white/40 text-white hover:bg-white/10'
-                      : 'border-slate-300 text-slate-700 hover:bg-white'
+                      : 'border-slate-300 text-slate-700 hover:bg-slate-50'
                   }`}
                 >
-                  Or start 14-day org trial
+                  14-day free trial — no card required
                 </Link>
               </div>
             );
           })}
         </div>
-
         {/* Enterprise Plan */}
         <div className="mt-12 p-8 bg-gradient-to-r from-slate-900 to-slate-800 rounded-2xl">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
