@@ -66,7 +66,7 @@ async function _POST(request: NextRequest) {
   const signature = request.headers.get('stripe-signature');
 
   if (!signature) {
-    return NextResponse.json({ error: 'Missing signature' }, { status: 400 });
+    return NextResponse.json({ received: true, warning: 'no_signature' }, { status: 200 });
   }
 
   const stripe = getStripe();
@@ -83,7 +83,7 @@ async function _POST(request: NextRequest) {
     event = constructStripeEventWithAnySecret(stripe, body, signature, webhookSecrets);
   } catch (err) {
     logger.error("[cosmetology/webhook] Signature verification failed: " + String(err));
-    return NextResponse.json({ error: 'Invalid signature' }, { status: 400 });
+    return NextResponse.json({ received: true, warning: 'invalid_signature' }, { status: 200 });
   }
 
   const supabase = await getAdminClient();
