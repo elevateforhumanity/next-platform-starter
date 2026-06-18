@@ -1,5 +1,4 @@
 import dynamic from 'next/dynamic';
-import { requireRole } from '@/lib/auth/require-role';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 import type { Metadata } from 'next';
 
@@ -26,6 +25,6 @@ const DevStudioUnifiedClient = dynamic(
 );
 
 export default async function StudioPage() {
-  await requireRole(['admin', 'super_admin', 'staff', 'platform_operator']);
+  // Auth disabled - Northflank IP whitelist handles admin auth
   return <DevStudioUnifiedClient />;
 }
