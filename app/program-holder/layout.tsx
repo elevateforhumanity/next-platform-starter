@@ -37,7 +37,6 @@ export default async function ProgramHolderLayout({ children }: { children: Reac
 
   const isAdmin = ['admin', 'super_admin', 'staff', 'org_admin'].includes(profile.role ?? '');
 
-  let orgName = profile.organization ?? undefined;
   let hasSchoolApplications = false;
 
   if (!isAdmin && profile.program_holder_id) {
