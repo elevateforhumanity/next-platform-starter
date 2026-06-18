@@ -293,9 +293,8 @@ const nextConfig = {
         destination: 'https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/barber-hero.mp4',
         permanent: false, // 307 so we can swap the asset later without cache lock-in
       },
-      // ============================================
-      // LEGACY PREVIEW/COURSE PATHS — redirect to canonical program pages
-      // ============================================
+      // Course path redirects
+
       { source: '/preview/business-program', destination: '/programs/business', permanent: true },
       { source: '/preview/esthetician-orientation', destination: '/programs/esthetician-apprenticeship/orientation', permanent: true },
       { source: '/preview/curriculum', destination: '/programs/hvac-technician/curriculum', permanent: true },
@@ -308,10 +307,8 @@ const nextConfig = {
       { source: '/partners/nail-host-shop', destination: '/programs/nail-technician-apprenticeship/host-shops', permanent: true },
       { source: '/schools/mesmerized-by-beauty', destination: '/programs', permanent: true },
 
-      // ============================================
-      // LEGACY ADMIN PATH CONSOLIDATION (moved from proxy.ts)
-      // Case-insensitive matching handled by Next.js redirect engine.
-      // ============================================
+      // Admin path redirects
+
       { source: '/admin/applicants', destination: '/admin/applications', permanent: true },
       { source: '/admin/leads', destination: '/admin/crm/leads', permanent: true },
       { source: '/admin/leads/new', destination: '/admin/crm/leads/new', permanent: true },
@@ -414,8 +411,7 @@ const nextConfig = {
 
       // LMS
       { source: '/lms/catalog', destination: '/lms/courses', permanent: true },
-      // Studio consolidation — old standalone pages redirect to studio
-      // /admin/copilot, /admin/course-builder, /admin/video-manager moved to LEGACY ADMIN PATH CONSOLIDATION block above (permanent: true)
+
       { source: '/admin/curriculum',        destination: '/admin/studio', permanent: true },
       { source: '/admin/media-studio',      destination: '/admin/studio', permanent: true },
       { source: '/admin/video-generator',   destination: '/admin/studio', permanent: true },
@@ -529,9 +525,8 @@ const nextConfig = {
         permanent: true,
       },
 
-      // ============================================
-      // LEGACY / FRAMEWORK REDIRECTS
-      // ============================================
+      // Framework redirects
+
 
       // Normalize "Institute" style routes into the infrastructure model
       { source: '/institute', destination: '/', permanent: true },

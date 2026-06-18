@@ -33,7 +33,7 @@ import { getSkillsLoader, type Skill } from '@/lib/studio/skills-loader';
 
 // Import OpenHands-style components
 const WebContainerSandbox = dynamic(
-  () => import('@/components/studio/WebContainerSandbox'),
+  () => import('@/components/dev-studio/WebContainerSandbox'),
   { ssr: false }
 );
 
