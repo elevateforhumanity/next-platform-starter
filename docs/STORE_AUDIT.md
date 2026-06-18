@@ -264,10 +264,23 @@ for (const slug of addonSlugs) {
 
 | Issue | Severity | Description |
 |-------|---------|-------------|
-| Coupon codes | ⚠️ Medium | Limited coupon support in checkout |
+| Coupon codes | ⚠️ Medium | Backend exists, UI component missing |
 | Tax calculation | ⚠️ Medium | Tax not explicitly calculated |
 | Receipt emails | ⚠️ Low | Receipt handling unclear |
-| Promo codes | ❌ Missing | No promotion code UI |
+| Promo codes | ❌ Missing | No promotion code UI in checkout |
+
+### 10.1 Coupon Engine Status (CORRECTED)
+
+**Previous Finding:** ❌ Not Implemented  
+**Corrected Finding:** ⚠️ PARTIAL
+
+| Component | Status | Evidence |
+|-----------|--------|----------|
+| Database Table | ✅ EXISTS | `supabase/migrations/20250617140000_coupon_engine.sql` |
+| API Route | ✅ EXISTS | `app/api/store/coupons/validate/route.ts` |
+| Validation Logic | ✅ EXISTS | `lib/store/coupons.ts` |
+| Checkout UI | ❌ MISSING | Not built |
+| Admin UI | ❌ MISSING | Not built |
 
 ---
 

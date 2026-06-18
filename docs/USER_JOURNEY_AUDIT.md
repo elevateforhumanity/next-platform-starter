@@ -1,7 +1,26 @@
 # USER JOURNEY AUDIT
-**Date:** June 17, 2026  
+**Date:** June 18, 2026  
 **Platform:** Elevate Workforce Operating System  
-**Status:** AUDITED
+**Status:** COMPREHENSIVE VALIDATION - CRITICAL ISSUES FOUND
+
+---
+
+## EXECUTIVE SUMMARY
+
+This audit maps every user role's complete journey through the platform, verifying end-to-end workflows from acquisition through completion.
+
+⚠️ **CRITICAL FINDING:** Authentication null user crash affects 4 of 8 user roles (50%)
+
+| User Role | Journey Status | Critical Issues |
+|-----------|---------------|----------------|
+| Student | ⚠️ PARTIAL | Digital Binder docs unclear |
+| Employer | ⚠️ PARTIAL | Dashboard integration incomplete |
+| Partner | ⚠️ PARTIAL | Portal access unclear |
+| Instructor | 🔴 BROKEN | Auth null user crash |
+| Admin | 🔴 BROKEN | Auth null user crash |
+| Apprentice | ⚠️ PARTIAL | Enrollment tracking incomplete |
+| Staff | 🔴 BROKEN | Auth null user |
+| Super Admin | 🔴 BROKEN | Auth null user crash |
 
 ---
 
@@ -400,16 +419,195 @@ Student accesses course
 
 ---
 
-## 14. VERIFICATION CHECKLIST
+## 14. AUTHENTICATION FAILURE IMPACT
 
+### 14.1 Root Cause
+
+**File:** `apps/admin/app/admin/layout.tsx`
+
+```typescript
+/**
+ * Admin group layout - applies authentication to all /admin/* pages.
+ * Auth is handled by Northflank IP whitelist at the infrastructure level.
+ */
+export default async function AdminGroupLayout({ children }) {
+  // Auth disabled - Northflank IP whitelist handles admin auth
+  return <>{children}</>;
+}
+```
+
+**Problem:** Auth is disabled. Pages crash on `user.id` when user is null.
+
+### 14.2 Affected Pages
+
+| Page | File | Status |
+|------|------|--------|
+| Instructor Gradebook | `admin/instructor/gradebook/page.tsx` | 🔴 CRASH |
+| Course Gradebook | `admin/gradebook/[courseId]/page.tsx` | 🔴 LIKELY |
+| Review Queue | `admin/review-queue/page.tsx` | 🔴 LIKELY |
+| Student Detail | `admin/students/[id]/page.tsx` | 🔴 LIKELY |
+| Inbox | `admin/inbox/page.tsx` | 🔴 LIKELY |
+
+### 14.3 Fix Required
+
+```typescript
+// In admin layout or individual pages
+const { data: { user } } = await supabase.auth.getUser();
+if (!user) {
+  redirect('/login');
+}
+// Now safe to use user.id
+```
+
+---
+
+## 15. CROSS-ROLE VALIDATION MATRIX
+
+### 15.1 Store → Dashboard Integration
+
+| Role | Can Purchase? | Dashboard Updates? | Features Work? | Notes |
+|------|--------------|-------------------|----------------|-------|
+| Student | ✅ | ✅ | ✅ | Core flow works |
+| Employer | ⚠️ PARTIAL | ⚠️ PARTIAL | ⚠️ PARTIAL | Store product unclear |
+| Partner | ⚠️ PARTIAL | ⚠️ PARTIAL | ⚠️ PARTIAL | Portal integration |
+| Instructor | N/A | 🔴 BROKEN | 🔴 BROKEN | Auth crash |
+| Admin | N/A | 🔴 BROKEN | 🔴 BROKEN | Auth crash |
+| Apprentice | ✅ | ✅ | ✅ | Works via student |
+| Staff | N/A | 🔴 BROKEN | 🔴 BROKEN | Auth crash |
+| Super Admin | N/A | 🔴 BROKEN | 🔴 BROKEN | Auth crash |
+
+### 15.2 Authentication Flow by Role
+
+| Role | Auth Required | Auth Works? | Session Valid? | Role Check? |
+|------|--------------|-------------|----------------|-------------|
+| Student | ✅ | ✅ | ✅ | ✅ |
+| Employer | ✅ | ⚠️ | ⚠️ | ⚠️ |
+| Partner | ✅ | ⚠️ | ⚠️ | ⚠️ |
+| Instructor | ✅ | 🔴 | 🔴 | 🔴 |
+| Admin | ✅ | 🔴 | 🔴 | 🔴 |
+| Super Admin | ✅ | 🔴 | 🔴 | 🔴 |
+| Staff | ✅ | 🔴 | 🔴 | 🔴 |
+
+---
+
+## 16. DIGITAL BINDER VALIDATION
+
+### 16.1 What EXISTS
+
+**Table:** `supabase/migrations/20260710000003_digital_binders_compliance_violations.sql`
+
+```sql
+CREATE TABLE IF NOT EXISTS public.digital_binders (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id uuid NOT NULL REFERENCES auth.users (id),
+  enrollment_id uuid REFERENCES public.program_enrollments (id),
+  title text NOT NULL DEFAULT 'Student Digital Binder',
+  status text NOT NULL DEFAULT 'active',
+  created_at timestamptz NOT NULL DEFAULT now(),
+  updated_at timestamptz NOT NULL DEFAULT now()
+);
+```
+
+**Function:** `lib/enrollment/ensure-digital-binder.ts`
+
+```typescript
+export async function ensureDigitalBinder({
+  db,
+  userId,
+  enrollmentId,
+}: EnsureBinderParams): Promise<{ binderId: string | null; created: boolean }>
+```
+
+### 16.2 What is UNCLEAR
+
+| Component | Status | Finding |
+|-----------|--------|---------|
+| Document Storage Backend | ❌ UNCLEAR | S3? R2? Supabase Storage? |
+| Document Upload API | ❌ UNCLEAR | No dedicated route found |
+| Document Retrieval API | ❌ UNCLEAR | No dedicated route found |
+
+---
+
+## 17. WEBSITE BUILDER VALIDATION
+
+### 17.1 What EXISTS
+
+| Component | Status |
+|------------|--------|
+| Website Builder App | ✅ EXISTS (`app/apps/website-builder/`) |
+| Website Editor | ✅ EXISTS |
+| Trial Flow | ✅ EXISTS |
+
+### 17.2 What is MISSING
+
+| Integration | Status |
+|------------|--------|
+| Store Product | ❌ MISSING |
+| Store → Provision Flow | ❌ MISSING |
+| Dashboard Integration | ❌ MISSING |
+
+---
+
+## 18. COUPON ENGINE VALIDATION
+
+### 18.1 What EXISTS
+
+| Component | Status |
+|-----------|--------|
+| Database Tables | ✅ EXISTS |
+| API Routes | ✅ EXISTS |
+| Validation Logic | ✅ EXISTS |
+| Stripe Integration | ✅ EXISTS |
+
+### 18.2 What is MISSING
+
+| Component | Status |
+|-----------|--------|
+| Admin Coupon UI | ❌ MISSING |
+| Checkout Coupon Input | ❌ MISSING |
+| Pre-seeded Codes | ❌ MISSING |
+
+---
+
+## 19. RECOMMENDED ACTIONS
+
+### 19.1 Immediate (Blockers)
+
+| Action | Owner | Timeline |
+|--------|-------|----------|
+| Fix admin layout auth | Dev | 1 day |
+| Fix middleware session check | Dev | 1 day |
+| Add null checks to all pages | Dev | 2 days |
+
+### 19.2 Short-term (Integrations)
+
+| Action | Owner | Timeline |
+|--------|-------|----------|
+| Complete employer store integration | Dev | 3 days |
+| Build coupon checkout UI | Dev | 2 days |
+| Add Website Builder store product | Dev | 2 days |
+
+---
+
+## 20. VERIFICATION CHECKLIST
+
+### Core Journeys
 - [x] Student can complete full journey
-- [x] Employer can track apprentices
-- [x] Admin can manage enrollments
-- [x] Instructor can grade students
+- [x] Employer can track apprentices  
 - [x] Portal routing works
 - [x] Data flows connected
-- [ ] Dev Studio accessible
-- [ ] Mobile experience complete
+
+### Critical Issues
+- [ ] Admin auth fix deployed
+- [ ] Instructor auth fix deployed
+- [ ] Staff auth fix deployed
+- [ ] Digital Binder storage documented
+
+### Integrations
+- [ ] Employer store integration complete
+- [ ] Coupon checkout UI built
+- [ ] Website Builder store product added
+- [ ] Grant Builder store product added
 
 ---
 
@@ -417,5 +615,19 @@ Student accesses course
 
 ```
 Auditor: OpenHands Agent
-Date: June 17, 2026
+Date: June 18, 2026
+Validation Status: COMPLETE
+
+Critical Finding:
+Auth null user crash affects 4 of 8 user roles (50%)
+This is a platform-wide critical issue.
+
+Previous Audit Corrections:
+1. Coupon Engine: "Not Implemented" → "Partially Implemented"
+2. Digital Binder: "Unclear" → "Table Exists, Storage Unclear"
+3. Website Builder: "Not Integrated" → "App Exists, Integration Missing"
+4. Auth: NEW FINDING → "Null User Crash Confirmed"
+
+Recommendation:
+Fix auth before any other work.
 ```
