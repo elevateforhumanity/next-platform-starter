@@ -38,9 +38,7 @@ export default function IncentivesPage() {
         const data = await response.json();
         setIncentives(data.incentives || []);
       }
-    } catch (err) {
-      // Error: $1
-    } finally {
+    } catch (err) { console.error("Failed to fetch incentives:", err); } finally {
       setLoading(false);
     }
   };

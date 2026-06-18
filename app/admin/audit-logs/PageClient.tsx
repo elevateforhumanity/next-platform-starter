@@ -43,9 +43,7 @@ export default function AuditLogsPage() {
         const data = await response.json();
         setLogs(data.logs || []);
       }
-    } catch (err) {
-      // silent
-    } finally {
+    } catch (err) { console.error("Failed to fetch audit logs:", err); } finally {
       setLoading(false);
     }
   }, [actionFilter, resourceFilter, dateFrom, dateTo]);
