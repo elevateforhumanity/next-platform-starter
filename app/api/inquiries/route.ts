@@ -39,7 +39,7 @@ async function _POST(req: Request) {
       first_name: firstName,
       last_name: lastName,
       email: body.email.toLowerCase(),
-      phone: body.phone || null,
+      phone: body.phone || '',
       city: body.city || 'Not provided',
       zip: body.zip || '00000',
       program_interest: programId,
