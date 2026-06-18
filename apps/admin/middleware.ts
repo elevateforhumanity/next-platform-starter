@@ -84,20 +84,11 @@ export async function middleware(req: NextRequest) {
   requestHeaders.set('x-pathname', pathname);
 
   // Edge middleware: env-only IP allowlist (no DB - avoids Supabase in middleware bundle).
+  // IP whitelist bypasses session requirement (Northflank platform handles auth).
   const ipBlocked = checkAdminIP(req);
-  if (ipBlocked) return ipBlocked;
+  if (ipBlocked) return ipBlocked; // Block non-whitelisted IPs
 
-  const allCookies = req.cookies.getAll();
-  const hasSession = allCookies.some(
-    (c) => c.name === SESSION_COOKIE || c.name.startsWith(`${SESSION_COOKIE}.`),
-  );
-
-  if (!hasSession) {
-    const returnPath = buildReturnPath(pathname, search);
-    const loginUrl = buildLoginUrl(req.url, returnPath);
-    return NextResponse.redirect(loginUrl);
-  }
-
+  // For whitelisted IPs (e.g., Northflank), allow access without session cookie
   return NextResponse.next({ request: { headers: requestHeaders } });
 }
 
