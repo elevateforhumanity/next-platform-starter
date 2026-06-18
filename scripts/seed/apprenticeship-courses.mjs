@@ -1,7 +1,7 @@
 /**
  * Seed Apprenticeship Courses
  * Creates comprehensive courses for all apprenticeship programs
- * - Milady Standards for beauty programs
+ * - Indiana State Board Aligned Standards for beauty programs
  * - State Board exam prep
  * - DOL progress tracking
  */
@@ -17,11 +17,11 @@ if (!supabaseUrl || !supabaseServiceKey) {
 
 const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-// Comprehensive Barber Course - Milady Standards
+// Comprehensive Barber Course - Indiana State Board Aligned Standards
 const BARBER_COURSE = {
   title: 'Barber Apprenticeship - Complete Course',
-  subtitle: 'DOL Registered Barber Apprenticeship with Milady Standards & Indiana State Board Prep',
-  description: 'Comprehensive 2,000-hour barber apprenticeship covering all Milady standards, Indiana state board exam preparation, and hands-on OJT training. Compliant with DOL registered apprenticeship requirements.',
+  subtitle: 'DOL Registered Barber Apprenticeship with Indiana State Board Aligned Standards & Indiana State Board Prep',
+  description: 'Comprehensive 2,000-hour barber apprenticeship covering all Indiana State Board Aligned standards, Indiana state board exam preparation, and hands-on OJT training. Compliant with DOL registered apprenticeship requirements.',
   category: 'Barber Apprenticeship',
   duration_hours: 2000,
   passing_score: 80,
@@ -34,7 +34,7 @@ const BARBER_COURSE = {
       { title: 'Sanitation, Disinfection & Infection Control', duration: 180 },
       { title: 'Tool Identification and Maintenance', duration: 90 },
     ]},
-    { title: 'Module 2: Hair Cutting Fundamentals (Milady Standards)', sort_order: 2, lessons: [
+    { title: 'Module 2: Hair Cutting Fundamentals (Indiana State Board Aligned Standards)', sort_order: 2, lessons: [
       { title: 'Hair Analysis and Consultation', duration: 60 },
       { title: 'Sanitary Haircutting Procedures', duration: 45 },
       { title: 'Clipper Techniques: Fades & Tapers', duration: 180 },
@@ -44,7 +44,7 @@ const BARBER_COURSE = {
       { title: 'Flat Tops and Specialty Cuts', duration: 120 },
       { title: 'Hair Design and Creative Styling', duration: 120 },
     ]},
-    { title: 'Module 3: Shaving & Facial Hair (Milady Standards)', sort_order: 3, lessons: [
+    { title: 'Module 3: Shaving & Facial Hair (Indiana State Board Aligned Standards)', sort_order: 3, lessons: [
       { title: 'Straight Razor Shaving Fundamentals', duration: 180 },
       { title: 'Beard Shaping and Design', duration: 120 },
       { title: 'Hot Towel Treatment and Facial Care', duration: 90 },
@@ -86,11 +86,11 @@ const BARBER_COURSE = {
   ]
 };
 
-// Comprehensive Cosmetology Course - Milady Standards
+// Comprehensive Cosmetology Course - Indiana State Board Aligned Standards
 const COSMETOLOGY_COURSE = {
   title: 'Cosmetology Apprenticeship - Complete Course',
-  subtitle: 'Indiana Cosmetology License Apprenticeship with Milady Standards & State Board Prep',
-  description: '2,000-hour cosmetology apprenticeship following Milady standards, preparing for Indiana cosmetology license exam.',
+  subtitle: 'Indiana Cosmetology License Apprenticeship with Indiana State Board Aligned Standards & State Board Prep',
+  description: '2,000-hour cosmetology apprenticeship following Indiana State Board Aligned standards, preparing for Indiana cosmetology license exam.',
   category: 'Cosmetology',
   duration_hours: 2000,
   passing_score: 80,
@@ -102,7 +102,7 @@ const COSMETOLOGY_COURSE = {
       { title: 'Infection Control and Sanitation', duration: 180 },
       { title: 'Professional Ethics and Client Relations', duration: 60 },
     ]},
-    { title: 'Module 2: Hair Care and Styling (Milady)', sort_order: 2, lessons: [
+    { title: 'Module 2: Hair Care and Styling (Indiana State Board Aligned)', sort_order: 2, lessons: [
       { title: 'Hair Structure and Chemistry', duration: 120 },
       { title: 'Shampooing and Conditioning', duration: 90 },
       { title: 'Hair Cutting Techniques', duration: 240 },
@@ -110,21 +110,21 @@ const COSMETOLOGY_COURSE = {
       { title: 'Braiding and Updos', duration: 120 },
       { title: 'Wigs and Hair Enhancements', duration: 90 },
     ]},
-    { title: 'Module 3: Chemical Services (Milady)', sort_order: 3, lessons: [
+    { title: 'Module 3: Chemical Services (Indiana State Board Aligned)', sort_order: 3, lessons: [
       { title: 'Hair Coloring and Bleaching', duration: 240 },
       { title: 'Hair Lightening and Highlighting', duration: 180 },
       { title: 'Chemical Hair Relaxing', duration: 120 },
       { title: 'Permanent Waving', duration: 180 },
       { title: 'Chemical Safety and Allergies', duration: 60 },
     ]},
-    { title: 'Module 4: Skin Care and Facials (Milady)', sort_order: 4, lessons: [
+    { title: 'Module 4: Skin Care and Facials (Indiana State Board Aligned)', sort_order: 4, lessons: [
       { title: 'Skin Anatomy and Analysis', duration: 90 },
       { title: 'Facial Treatments', duration: 180 },
       { title: 'Hair Removal Techniques', duration: 120 },
       { title: 'Makeup Application', duration: 180 },
       { title: 'Advanced Skin Treatments', duration: 90 },
     ]},
-    { title: 'Module 5: Nail Technology (Milady)', sort_order: 5, lessons: [
+    { title: 'Module 5: Nail Technology (Indiana State Board Aligned)', sort_order: 5, lessons: [
       { title: 'Nail Anatomy and Disorders', duration: 60 },
       { title: 'Manicuring and Pedicuring', duration: 180 },
       { title: 'Nail Tips and Sculptured Nails', duration: 120 },
@@ -143,10 +143,10 @@ const COSMETOLOGY_COURSE = {
   ]
 };
 
-// Esthetician Course - Milady Standards
+// Esthetician Course - Indiana State Board Aligned Standards
 const ESTHETICIAN_COURSE = {
   title: 'Esthetician Apprenticeship - Complete Course',
-  subtitle: 'Indiana Esthetician License with Milady Standards & Advanced Skin Care',
+  subtitle: 'Indiana Esthetician License with Indiana State Board Aligned Standards & Advanced Skin Care',
   description: 'Comprehensive esthetics apprenticeship covering advanced skin care, facial treatments, and Indiana state board exam preparation.',
   category: 'Esthetician',
   duration_hours: 700,
@@ -160,20 +160,20 @@ const ESTHETICIAN_COURSE = {
       { title: 'Skin Anatomy and Physiology', duration: 120 },
       { title: 'Skin Types and Conditions', duration: 90 },
     ]},
-    { title: 'Module 2: Facial Treatments (Milady)', sort_order: 2, lessons: [
+    { title: 'Module 2: Facial Treatments (Indiana State Board Aligned)', sort_order: 2, lessons: [
       { title: 'Facial Consultation and Analysis', duration: 60 },
       { title: 'Basic Facial Procedures', duration: 180 },
       { title: 'Advanced Facial Treatments', duration: 180 },
       { title: 'Chemical Peels', duration: 120 },
       { title: 'Microcurrent and LED Therapy', duration: 90 },
     ]},
-    { title: 'Module 3: Hair Removal (Milady)', sort_order: 3, lessons: [
+    { title: 'Module 3: Hair Removal (Indiana State Board Aligned)', sort_order: 3, lessons: [
       { title: 'Waxing Fundamentals', duration: 90 },
       { title: 'Facial Waxing Techniques', duration: 90 },
       { title: 'Body Waxing', duration: 90 },
       { title: 'Threading', duration: 60 },
     ]},
-    { title: 'Module 4: Makeup Artistry (Milady)', sort_order: 4, lessons: [
+    { title: 'Module 4: Makeup Artistry (Indiana State Board Aligned)', sort_order: 4, lessons: [
       { title: 'Color Theory and Products', duration: 60 },
       { title: 'Basic Makeup Application', duration: 120 },
       { title: 'Special Occasion Makeup', duration: 90 },
@@ -187,10 +187,10 @@ const ESTHETICIAN_COURSE = {
   ]
 };
 
-// Nail Technician Course - Milady Standards
+// Nail Technician Course - Indiana State Board Aligned Standards
 const NAIL_TECHNICIAN_COURSE = {
   title: 'Nail Technician Apprenticeship - Complete Course',
-  subtitle: 'Indiana Nail Technician License with Milady Standards & Advanced Nail Art',
+  subtitle: 'Indiana Nail Technician License with Indiana State Board Aligned Standards & Advanced Nail Art',
   description: 'Complete nail technician apprenticeship covering manicures, pedicures, nail enhancements, and Indiana state board exam prep.',
   category: 'Nail Technology',
   duration_hours: 400,
@@ -204,19 +204,19 @@ const NAIL_TECHNICIAN_COURSE = {
       { title: 'Nail Anatomy and Disorders', duration: 90 },
       { title: 'Client Consultation', duration: 30 },
     ]},
-    { title: 'Module 2: Manicuring (Milady)', sort_order: 2, lessons: [
+    { title: 'Module 2: Manicuring (Indiana State Board Aligned)', sort_order: 2, lessons: [
       { title: 'Basic Manicure Procedures', duration: 90 },
       { title: 'Spa Manicure', duration: 60 },
       { title: 'Hot Oil Manicure', duration: 45 },
       { title: 'French Manicure', duration: 45 },
       { title: 'Nail Polish Application', duration: 30 },
     ]},
-    { title: 'Module 3: Pedicuring (Milady)', sort_order: 3, lessons: [
+    { title: 'Module 3: Pedicuring (Indiana State Board Aligned)', sort_order: 3, lessons: [
       { title: 'Basic Pedicure Procedures', duration: 90 },
       { title: 'Spa Pedicure', duration: 60 },
       { title: 'Callus Treatment', duration: 45 },
     ]},
-    { title: 'Module 4: Nail Enhancements (Milady)', sort_order: 4, lessons: [
+    { title: 'Module 4: Nail Enhancements (Indiana State Board Aligned)', sort_order: 4, lessons: [
       { title: 'Acrylic Nail Extensions', duration: 120 },
       { title: 'Gel Nails', duration: 90 },
       { title: 'Nail Repair', duration: 45 },

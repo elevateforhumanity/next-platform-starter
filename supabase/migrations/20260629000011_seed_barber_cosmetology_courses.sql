@@ -1,7 +1,8 @@
--- Seed comprehensive courses for beauty apprenticeships with Milady-aligned modules
+-- Seed comprehensive courses for beauty apprenticeships
+-- Indiana State Board aligned curriculum
 -- These courses will be visible in the LMS and Host Shop Admin
 
--- Check if barber course exists, if not create it
+-- Barber Apprenticeship Course
 INSERT INTO public.courses (
   program_id,
   slug,
@@ -21,8 +22,8 @@ SELECT
   p.id,
   'barber-apprenticeship-course',
   'Barber Apprenticeship - Complete Course',
-  '2,000-hour DOL registered apprenticeship with Milady Standards',
-  'Comprehensive barber apprenticeship covering all Milady standards, Indiana state board exam preparation, and hands-on OJT training. Compliant with DOL registered apprenticeship requirements.',
+  '2,000-hour DOL registered apprenticeship program',
+  'Indiana Barber Apprenticeship covering hair cutting, shaving, chemical services, and state board exam prep. Compliant with DOL registered apprenticeship requirements including 1,500 OJT hours and 500 RTI hours.',
   'published',
   true,
   'Barber Apprenticeship',
@@ -36,7 +37,7 @@ WHERE p.slug = 'barber-apprenticeship'
   AND NOT EXISTS (SELECT 1 FROM public.courses WHERE slug = 'barber-apprenticeship-course')
 ON CONFLICT (slug) DO NOTHING;
 
--- Check if cosmetology course exists, if not create it
+-- Cosmetology Apprenticeship Course
 INSERT INTO public.courses (
   program_id,
   slug,
@@ -56,8 +57,8 @@ SELECT
   p.id,
   'cosmetology-apprenticeship-course',
   'Cosmetology Apprenticeship - Complete Course',
-  '2,000-hour apprenticeship with Milady Standards & State Board Prep',
-  'Indiana cosmetology license apprenticeship following Milady standards, preparing for Indiana cosmetology license exam.',
+  '2,000-hour Indiana cosmetology license apprenticeship',
+  'Indiana Cosmetology Apprenticeship covering hair, skin, nails, and makeup services. Prepares for Indiana cosmetology license exam with comprehensive theory and practical training.',
   'published',
   true,
   'Cosmetology',
@@ -71,7 +72,7 @@ WHERE p.slug = 'cosmetology-apprenticeship'
   AND NOT EXISTS (SELECT 1 FROM public.courses WHERE slug = 'cosmetology-apprenticeship-course')
 ON CONFLICT (slug) DO NOTHING;
 
--- Esthetician course
+-- Esthetician Apprenticeship Course
 INSERT INTO public.courses (
   program_id,
   slug,
@@ -91,8 +92,8 @@ SELECT
   p.id,
   'esthetician-apprenticeship-course',
   'Esthetician Apprenticeship - Complete Course',
-  '700-hour Indiana esthetician license with Milady Standards',
-  'Comprehensive esthetics apprenticeship covering advanced skin care, facial treatments, and Indiana state board exam preparation.',
+  '700-hour Indiana esthetician license apprenticeship',
+  'Indiana Esthetician Apprenticeship covering advanced skin care, facials, hair removal, and makeup. Prepares for Indiana esthetician license exam.',
   'published',
   true,
   'Esthetician',
@@ -106,7 +107,7 @@ WHERE p.slug = 'esthetician-apprenticeship'
   AND NOT EXISTS (SELECT 1 FROM public.courses WHERE slug = 'esthetician-apprenticeship-course')
 ON CONFLICT (slug) DO NOTHING;
 
--- Nail technician course
+-- Nail Technician Apprenticeship Course
 INSERT INTO public.courses (
   program_id,
   slug,
@@ -126,8 +127,8 @@ SELECT
   p.id,
   'nail-technician-apprenticeship-course',
   'Nail Technician Apprenticeship - Complete Course',
-  '400-hour Indiana nail technician license with Milady Standards',
-  'Complete nail technician apprenticeship covering manicures, pedicures, nail enhancements, and Indiana state board exam prep.',
+  '400-hour Indiana nail technician license apprenticeship',
+  'Indiana Nail Technician Apprenticeship covering manicures, pedicures, nail enhancements, and nail art. Prepares for Indiana nail technician license exam.',
   'published',
   true,
   'Nail Technology',

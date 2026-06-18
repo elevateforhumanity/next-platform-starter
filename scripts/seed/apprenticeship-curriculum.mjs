@@ -1,7 +1,7 @@
 /**
  * Seed Apprenticeship Curriculum
  * Creates comprehensive modules and lessons for all apprenticeship courses
- * - Milady Standards for beauty programs
+ * - Indiana State Board aligned
  * - State Board exam prep
  * - DOL progress tracking
  * 
@@ -19,7 +19,7 @@ if (!supabaseUrl || !supabaseServiceKey) {
 
 const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-// Barber Course Modules & Lessons - Milady Standards + DOL
+// Barber Course Modules & Lessons - Indiana State Board Aligned + DOL
 const BARBER_MODULES = [
   {
     title: 'Module 1: Foundations & Professional Development',
@@ -33,7 +33,7 @@ const BARBER_MODULES = [
     ]
   },
   {
-    title: 'Module 2: Hair Cutting Fundamentals (Milady Standards)',
+    title: 'Module 2: Hair Cutting Fundamentals',
     sort_order: 2,
     lessons: [
       { title: 'Hair Analysis and Consultation', duration: 60, description: 'Learn to analyze hair type, face shape, and client preferences.' },
@@ -47,7 +47,7 @@ const BARBER_MODULES = [
     ]
   },
   {
-    title: 'Module 3: Shaving & Facial Hair (Milady Standards)',
+    title: 'Module 3: Shaving & Facial Hair',
     sort_order: 3,
     lessons: [
       { title: 'Straight Razor Shaving Fundamentals', duration: 180, description: 'Master the classic straight razor shave technique.' },
@@ -107,7 +107,7 @@ const BARBER_MODULES = [
   },
 ];
 
-// Cosmetology Modules - Milady
+// Cosmetology Modules - Indiana State Board Aligned
 const COSMETOLOGY_MODULES = [
   { title: 'Module 1: Foundations of Cosmetology', sort_order: 1, lessons: [
     { title: 'History and Career Paths in Cosmetology', duration: 90 },
@@ -115,7 +115,7 @@ const COSMETOLOGY_MODULES = [
     { title: 'Infection Control and Sanitation', duration: 180 },
     { title: 'Professional Ethics and Client Relations', duration: 60 },
   ]},
-  { title: 'Module 2: Hair Care and Styling (Milady)', sort_order: 2, lessons: [
+  { title: 'Module 2: Hair Care and Styling (Indiana State Board Aligned)', sort_order: 2, lessons: [
     { title: 'Hair Structure and Chemistry', duration: 120 },
     { title: 'Shampooing and Conditioning', duration: 90 },
     { title: 'Hair Cutting Techniques', duration: 240 },
@@ -123,21 +123,21 @@ const COSMETOLOGY_MODULES = [
     { title: 'Braiding and Updos', duration: 120 },
     { title: 'Wigs and Hair Enhancements', duration: 90 },
   ]},
-  { title: 'Module 3: Chemical Services (Milady)', sort_order: 3, lessons: [
+  { title: 'Module 3: Chemical Services (Indiana State Board Aligned)', sort_order: 3, lessons: [
     { title: 'Hair Coloring and Bleaching', duration: 240 },
     { title: 'Hair Lightening and Highlighting', duration: 180 },
     { title: 'Chemical Hair Relaxing', duration: 120 },
     { title: 'Permanent Waving', duration: 180 },
     { title: 'Chemical Safety and Allergies', duration: 60 },
   ]},
-  { title: 'Module 4: Skin Care and Facials (Milady)', sort_order: 4, lessons: [
+  { title: 'Module 4: Skin Care and Facials (Indiana State Board Aligned)', sort_order: 4, lessons: [
     { title: 'Skin Anatomy and Analysis', duration: 90 },
     { title: 'Facial Treatments', duration: 180 },
     { title: 'Hair Removal Techniques', duration: 120 },
     { title: 'Makeup Application', duration: 180 },
     { title: 'Advanced Skin Treatments', duration: 90 },
   ]},
-  { title: 'Module 5: Nail Technology (Milady)', sort_order: 5, lessons: [
+  { title: 'Module 5: Nail Technology (Indiana State Board Aligned)', sort_order: 5, lessons: [
     { title: 'Nail Anatomy and Disorders', duration: 60 },
     { title: 'Manicuring and Pedicuring', duration: 180 },
     { title: 'Nail Tips and Sculptured Nails', duration: 120 },
@@ -155,7 +155,7 @@ const COSMETOLOGY_MODULES = [
   ]},
 ];
 
-// Esthetician Modules - Milady
+// Esthetician Modules - Indiana State Board Aligned
 const ESTHETICIAN_MODULES = [
   { title: 'Module 1: Esthetics Foundations', sort_order: 1, lessons: [
     { title: 'History and Career Paths', duration: 30 },
@@ -164,20 +164,20 @@ const ESTHETICIAN_MODULES = [
     { title: 'Skin Anatomy and Physiology', duration: 120 },
     { title: 'Skin Types and Conditions', duration: 90 },
   ]},
-  { title: 'Module 2: Facial Treatments (Milady)', sort_order: 2, lessons: [
+  { title: 'Module 2: Facial Treatments (Indiana State Board Aligned)', sort_order: 2, lessons: [
     { title: 'Facial Consultation and Analysis', duration: 60 },
     { title: 'Basic Facial Procedures', duration: 180 },
     { title: 'Advanced Facial Treatments', duration: 180 },
     { title: 'Chemical Peels', duration: 120 },
     { title: 'Microcurrent and LED Therapy', duration: 90 },
   ]},
-  { title: 'Module 3: Hair Removal (Milady)', sort_order: 3, lessons: [
+  { title: 'Module 3: Hair Removal (Indiana State Board Aligned)', sort_order: 3, lessons: [
     { title: 'Waxing Fundamentals', duration: 90 },
     { title: 'Facial Waxing Techniques', duration: 90 },
     { title: 'Body Waxing', duration: 90 },
     { title: 'Threading', duration: 60 },
   ]},
-  { title: 'Module 4: Makeup Artistry (Milady)', sort_order: 4, lessons: [
+  { title: 'Module 4: Makeup Artistry (Indiana State Board Aligned)', sort_order: 4, lessons: [
     { title: 'Color Theory and Products', duration: 60 },
     { title: 'Basic Makeup Application', duration: 120 },
     { title: 'Special Occasion Makeup', duration: 90 },
@@ -190,7 +190,7 @@ const ESTHETICIAN_MODULES = [
   ]},
 ];
 
-// Nail Technician Modules - Milady
+// Nail Technician Modules - Indiana State Board Aligned
 const NAIL_MODULES = [
   { title: 'Module 1: Nail Technology Foundations', sort_order: 1, lessons: [
     { title: 'History and Career Paths', duration: 30 },
@@ -199,19 +199,19 @@ const NAIL_MODULES = [
     { title: 'Nail Anatomy and Disorders', duration: 90 },
     { title: 'Client Consultation', duration: 30 },
   ]},
-  { title: 'Module 2: Manicuring (Milady)', sort_order: 2, lessons: [
+  { title: 'Module 2: Manicuring (Indiana State Board Aligned)', sort_order: 2, lessons: [
     { title: 'Basic Manicure Procedures', duration: 90 },
     { title: 'Spa Manicure', duration: 60 },
     { title: 'Hot Oil Manicure', duration: 45 },
     { title: 'French Manicure', duration: 45 },
     { title: 'Nail Polish Application', duration: 30 },
   ]},
-  { title: 'Module 3: Pedicuring (Milady)', sort_order: 3, lessons: [
+  { title: 'Module 3: Pedicuring (Indiana State Board Aligned)', sort_order: 3, lessons: [
     { title: 'Basic Pedicure Procedures', duration: 90 },
     { title: 'Spa Pedicure', duration: 60 },
     { title: 'Callus Treatment', duration: 45 },
   ]},
-  { title: 'Module 4: Nail Enhancements (Milady)', sort_order: 4, lessons: [
+  { title: 'Module 4: Nail Enhancements (Indiana State Board Aligned)', sort_order: 4, lessons: [
     { title: 'Acrylic Nail Extensions', duration: 120 },
     { title: 'Gel Nails', duration: 90 },
     { title: 'Nail Repair', duration: 45 },
@@ -294,7 +294,7 @@ async function seedModulesAndLessons(courseId, modules, courseName) {
         lesson_number: i + 1,
         duration_minutes: lesson.duration || 60,
         description: lesson.description || lesson.title,
-        content: `<h2>${lesson.title}</h2><p>This lesson covers ${lesson.title}. Content aligned with Milady Standards and state board exam requirements.</p>`,
+        content: `<h2>${lesson.title}</h2><p>This lesson covers ${lesson.title}. Content aligned with Indiana State Board Aligned Standards and state board exam requirements.</p>`,
       });
     }
     console.log(`  ✓ ${mod.title}: ${mod.lessons.length} lessons`);
