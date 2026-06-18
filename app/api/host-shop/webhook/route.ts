@@ -25,7 +25,7 @@ export const HOST_SHOP_FEE_AMOUNT_CENTS = 5000; // \$50
 export const HOST_SHOP_FEE_PRICE_ID = 'price_1TiF5rH4a2yrVOt55GqwSgJW';
 
 async function _POST(request: NextRequest) {
-  const payload = Buffer.from(await request.arrayBuffer()).toString();
+  const payload = await request.text();
   const sig = request.headers.get('stripe-signature');
 
   if (!sig) {
