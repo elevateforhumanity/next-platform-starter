@@ -51,7 +51,6 @@ export default async function ProgramHolderLayout({ children }: { children: Reac
       redirect('/program-holder?error=pending-approval');
     }
 
-    orgName = holder?.organization_name || holder?.name || orgName;
     hasSchoolApplications = Boolean(holder?.enable_school_applications);
   }
 
