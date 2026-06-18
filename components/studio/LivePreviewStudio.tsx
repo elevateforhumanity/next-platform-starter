@@ -231,7 +231,7 @@ export default function LivePreviewStudio({
                       className="p-1.5 hover:bg-slate-700 rounded text-slate-400 hover:text-white"
                       title="Generate Image"
                     >
-                      <Image className="h-4 w-4" />
+                      <Image className="h-4 w-4" alt="" />
                     </button>
                     <button
                       onClick={() => handleGenerateVideo('Lesson')}
