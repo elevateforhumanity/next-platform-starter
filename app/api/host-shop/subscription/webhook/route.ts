@@ -22,7 +22,7 @@ const TIER_PRICES: Record<string, string> = {
 };
 
 async function _POST(request: NextRequest) {
-  const payload = Buffer.from(await request.arrayBuffer());
+  const payload = await request.text();
   const sig = request.headers.get('stripe-signature');
 
   if (!sig) {
