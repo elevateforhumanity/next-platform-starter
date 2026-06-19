@@ -17,18 +17,34 @@
 
 | | |
 |---|---|
-| **Hours Completed** | 120 hours |
-| **Hours Needed** | 2,000 hours |
-| **Progress** | 6% |
+| **Hours Owed (Paid For)** | 240 hours (6 weeks × 40h) |
+| **Hours Logged** | 120 hours |
+| **Hours Missing** | 120 hours |
+| **Hours Needed (Total)** | 2,000 hours |
+| **Program Progress** | 6% |
 
-### Weekly Hours Logged
+### Hours Paid For = 40 Hours Each Week
+
+| Week | Payment Date | Hours |
+|------|--------------|-------|
+| Week 1 | May 7, 2026 | 40 hours |
+| Week 2 | May 12, 2026 | 40 hours |
+| Week 3 | May 19, 2026 | 40 hours |
+| Week 4 | May 26, 2026 | 40 hours |
+| Week 5 | June 1, 2026 | 40 hours |
+| Week 6 | June 2, 2026 | 40 hours |
+| **TOTAL** | | **240 hours** |
+
+### Hours Currently Logged in System
 
 | Date | Hours | Status |
 |------|-------|--------|
 | May 12, 2026 | 40 | ✅ Approved |
 | May 23, 2026 | 40 | ✅ Approved |
 | June 5, 2026 | 40 | ✅ Approved |
-| **Total** | **120 hours** | |
+| **Total Logged** | **120 hours** | |
+
+### ⚠️ Hours Missing = 120 hours
 
 ---
 
@@ -58,10 +74,11 @@
 
 ## 📋 What's Next?
 
-1. Keep logging 40 hours per week at your shop
-2. Your hours will be tracked and approved
+1. ⚠️ **120 hours need to be logged** - Contact your administrator
+2. Keep logging 40 hours per week at your shop
 3. Once you reach 2,000 hours, you'll be ready for certification
 
 ---
 
 **Questions?** Contact your administrator.
+
