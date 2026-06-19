@@ -7,7 +7,7 @@ import { apiRequireAdmin } from '@/lib/admin/guards';
 import {
   PATCH as adminPATCH,
   DELETE as adminDELETE,
-} from '@/apps/admin/app/api/admin/lms/courses/[courseId]/route';
+} from '@/app/app/api/admin/lms/courses/[courseId]/route';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 
 export const runtime = 'nodejs';

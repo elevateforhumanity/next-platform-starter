@@ -54,7 +54,7 @@ async function _POST(request: NextRequest) {
     }
 
     const checkoutPlanId = launchPlan ? launchPlan.id : legacyPlanId;
-    let unitAmount = launchPlan
+    const unitAmount = launchPlan
       ? launchPlanPriceCents(launchPlan, interval)
       : priceCents(legacyPlan!, interval);
     if (interval !== 'monthly' && interval !== 'annual') {

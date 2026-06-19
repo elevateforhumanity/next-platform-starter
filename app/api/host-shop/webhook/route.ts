@@ -25,11 +25,11 @@ export const HOST_SHOP_FEE_AMOUNT_CENTS = 5000; // \$50
 export const HOST_SHOP_FEE_PRICE_ID = 'price_1TiF5rH4a2yrVOt55GqwSgJW';
 
 async function _POST(request: NextRequest) {
-  const payload = Buffer.from(await request.arrayBuffer()).toString();
+  const payload = await request.text();
   const sig = request.headers.get('stripe-signature');
 
   if (!sig) {
-    return NextResponse.json({ error: 'Missing signature' }, { status: 400 });
+    return NextResponse.json({ received: true, warning: 'no_signature' }, { status: 200 });
   }
 
   const stripe = getStripe();
@@ -44,7 +44,7 @@ async function _POST(request: NextRequest) {
   } catch (err: unknown) {
     const msg = err instanceof Error ? err.message : String(err);
     logger.error('Host shop webhook: signature verification failed', undefined, { error: msg });
-    return NextResponse.json({ error: 'Invalid signature' }, { status: 400 });
+    return NextResponse.json({ received: true, warning: 'invalid_signature' }, { status: 200 });
   }
 
   logger.info('Host shop webhook received', { type: event.type, eventId: event.id });

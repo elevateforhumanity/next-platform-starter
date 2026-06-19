@@ -7,11 +7,11 @@ import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
  *
  * Required runtime variables:
  *   NEXT_PUBLIC_SITE_URL               https://www.elevateforhumanity.org
- *   NEXT_PUBLIC_ADMIN_URL              https://admin.elevateforhumanity.org
+ *   NEXT_PUBLIC_ADMIN_URL              
  *   NEXT_PUBLIC_COLLABORATION_WS_URL   wss://collab.elevateforhumanity.org
  */
 
-const DEFAULT_ADMIN_URL = 'https://admin.elevateforhumanity.org';
+const DEFAULT_ADMIN_URL = '';
 
 function resolveUrl(name: string, fallback: string): string {
   const val = (process.env[name] || '').trim() || fallback;
@@ -30,7 +30,7 @@ export function getSiteUrl(): string {
   return resolveUrl('NEXT_PUBLIC_SITE_URL', PLATFORM_DEFAULTS.siteUrl);
 }
 
-/** Admin app base URL — https://admin.elevateforhumanity.org */
+/** Admin app base URL —  */
 export function getAdminUrl(): string {
   const url = resolveUrl('NEXT_PUBLIC_ADMIN_URL', DEFAULT_ADMIN_URL);
   try {

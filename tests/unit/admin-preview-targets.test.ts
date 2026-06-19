@@ -6,7 +6,7 @@ describe('mergePreviewTargets', () => {
     const merged = mergePreviewTargets(
       [
         { label: 'Public Site', url: 'https://www.elevateforhumanity.org' },
-        { label: 'Admin', url: 'https://admin.elevateforhumanity.org' },
+        { label: 'Admin', url: '' },
       ],
       [
         { label: 'Homepage', url: 'https://www.elevateforhumanity.org/' },

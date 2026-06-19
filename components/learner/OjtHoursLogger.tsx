@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
-import { Clock, ChevronDown, ChevronUp, Loader2, CheckCircle } from 'lucide-react';
+import { useState, useEffect, useCallback } from 'react';
+import { Clock, ChevronDown, ChevronUp, Loader2, CheckCircle, MapPin, AlertCircle } from 'lucide-react';
 
 const FUNDING_PHASES = [
   { value: 'PRE_WIOA', label: 'Pre-WIOA' },
@@ -18,6 +18,14 @@ const CATEGORIES = [
   'Other',
 ];
 
+interface LocationData {
+  latitude: number;
+  longitude: number;
+  accuracy: number;
+  timestamp: number;
+  address?: string;
+}
+
 export default function OjtHoursLogger() {
   const [open, setOpen] = useState(false);
   const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
@@ -28,6 +36,58 @@ export default function OjtHoursLogger() {
   const [saving, setSaving] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  
+  // Location state
+  const [location, setLocation] = useState<LocationData | null>(null);
+  const [locationError, setLocationError] = useState<string | null>(null);
+  const [locationLoading, setLocationLoading] = useState(false);
+
+  // Get location when opening the form
+  const getLocation = useCallback(() => {
+    if (!navigator.geolocation) {
+      setLocationError('Geolocation not supported by your browser');
+      return;
+    }
+
+    setLocationLoading(true);
+    setLocationError(null);
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setLocation({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+          accuracy: position.coords.accuracy,
+          timestamp: position.timestamp,
+        });
+        setLocationLoading(false);
+      },
+      (err) => {
+        let errorMsg = 'Unable to get location';
+        if (err.code === err.PERMISSION_DENIED) {
+          errorMsg = 'Location permission denied. Please enable location to clock in.';
+        } else if (err.code === err.POSITION_UNAVAILABLE) {
+          errorMsg = 'Location unavailable';
+        } else if (err.code === err.TIMEOUT) {
+          errorMsg = 'Location request timed out';
+        }
+        setLocationError(errorMsg);
+        setLocationLoading(false);
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 60000,
+      }
+    );
+  }, []);
+
+  // Request location when form opens
+  useEffect(() => {
+    if (open && !location) {
+      getLocation();
+    }
+  }, [open, location, getLocation]);
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -68,6 +128,11 @@ export default function OjtHoursLogger() {
         funding_phase: fundingPhase,
         notes,
         source_type: 'learner_self_report',
+        // Include location data
+        clock_in_latitude: location?.latitude,
+        clock_in_longitude: location?.longitude,
+        clock_in_accuracy: location?.accuracy,
+        clock_in_timestamp: location?.timestamp,
       }),
     });
 
@@ -86,16 +151,53 @@ export default function OjtHoursLogger() {
   return (
     <div>
       <button
-        onClick={() => setOpen((o) => !o)}
+        onClick={() => {
+          setOpen((o) => !o);
+          if (!open && !location) getLocation();
+        }}
         className="flex items-center gap-2 text-sm font-medium text-blue-600 hover:text-blue-700"
       >
         <Clock className="w-4 h-4" />
-        Log OJT Hours
+        Clock In / Log OJT Hours
         {open ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
       </button>
 
       {open && (
         <form onSubmit={submit} className="mt-3 space-y-3 bg-slate-50 rounded-lg p-4 border border-slate-200">
+          {/* Location Status */}
+          <div className="flex items-center gap-2 p-2 rounded-lg bg-white border border-slate-200">
+            {locationLoading ? (
+              <>
+                <Loader2 className="w-4 h-4 text-blue-500 animate-spin" />
+                <span className="text-xs text-slate-600">Getting your location...</span>
+              </>
+            ) : location ? (
+              <>
+                <MapPin className="w-4 h-4 text-green-500" />
+                <span className="text-xs text-green-700">Location verified (accuracy: {Math.round(location.accuracy)}m)</span>
+                <button
+                  type="button"
+                  onClick={getLocation}
+                  className="ml-auto text-xs text-blue-600 hover:text-blue-700"
+                >
+                  Refresh
+                </button>
+              </>
+            ) : (
+              <>
+                <AlertCircle className="w-4 h-4 text-amber-500" />
+                <span className="text-xs text-amber-700 flex-1">{locationError || 'Location not set'}</span>
+                <button
+                  type="button"
+                  onClick={getLocation}
+                  className="text-xs text-blue-600 hover:text-blue-700 font-medium"
+                >
+                  Enable Location
+                </button>
+              </>
+            )}
+          </div>
+
           <div className="grid grid-cols-2 gap-3">
             <div>
               <label className="block text-xs font-medium text-slate-600 mb-1">Date</label>
@@ -108,7 +210,7 @@ export default function OjtHoursLogger() {
               />
             </div>
             <div>
-              <label className="block text-xs font-medium text-slate-600 mb-1">Hours</label>
+              <label className="block text-xs font-medium text-slate-600 mb-1">Hours Worked</label>
               <input
                 type="number"
                 min="0.5"
@@ -125,7 +227,7 @@ export default function OjtHoursLogger() {
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-medium text-slate-600 mb-1">Category</label>
+              <label className="block text-xs font-medium text-slate-600 mb-1">Work Category</label>
               <select
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}

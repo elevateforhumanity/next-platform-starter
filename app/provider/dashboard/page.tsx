@@ -56,7 +56,7 @@ export default async function ProviderDashboardPage() {
   );
   const adminHost = getHostFromEnv(
     process.env.NEXT_PUBLIC_ADMIN_URL,
-    'admin.elevateforhumanity.org',
+    '',
   );
 
   const { data: organization } = await db

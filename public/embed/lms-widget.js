@@ -4,16 +4,16 @@
       var c = document.getElementById(id);
       if (!c) return;
       var iframe = document.createElement('iframe');
-      iframe.src = 'https://admin.elevateforhumanity.org' + (opts.route || '/lms');
+      iframe.src = '' + (opts.route || '/lms');
       iframe.style.cssText =
         'width:100%;height:' + (opts.height || '800px') + ';border:none;border-radius:8px';
       c.appendChild(iframe);
     },
     openCourses: function () {
-      window.open('https://admin.elevateforhumanity.org/lms/courses', '_blank');
+      window.open('/lms/courses', '_blank');
     },
     openDashboard: function () {
-      window.open('https://admin.elevateforhumanity.org/lms/dashboard', '_blank');
+      window.open('/lms/dashboard', '_blank');
     },
   };
 })();

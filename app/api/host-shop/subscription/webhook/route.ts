@@ -22,11 +22,11 @@ const TIER_PRICES: Record<string, string> = {
 };
 
 async function _POST(request: NextRequest) {
-  const payload = Buffer.from(await request.arrayBuffer());
+  const payload = await request.text();
   const sig = request.headers.get('stripe-signature');
 
   if (!sig) {
-    return NextResponse.json({ error: 'Missing signature' }, { status: 400 });
+    return NextResponse.json({ received: true, warning: 'no_signature' }, { status: 200 });
   }
 
   let event: Stripe.Event;
@@ -35,7 +35,7 @@ async function _POST(request: NextRequest) {
   } catch (err: unknown) {
     const msg = err instanceof Error ? err.message : String(err);
     logger.error('Host shop subscription webhook: signature verification failed', undefined, { error: msg });
-    return NextResponse.json({ error: 'Invalid signature' }, { status: 400 });
+    return NextResponse.json({ received: true, warning: 'invalid_signature' }, { status: 200 });
   }
 
   logger.info('Host shop subscription webhook received', { type: event.type, eventId: event.id });

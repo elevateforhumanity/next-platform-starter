@@ -26,11 +26,11 @@ export const APPLICATION_FEE_PRICE_ID = 'price_1TiEDyH4a2yrVOt5pYBCQc2D';
 export const APPLICATION_FEE_AMOUNT_CENTS = 1500; // $15
 
 async function _POST(request: NextRequest) {
-  const payload = Buffer.from(await request.arrayBuffer()).toString();
+  const payload = await request.text();
   const sig = request.headers.get('stripe-signature');
 
   if (!sig) {
-    return NextResponse.json({ error: 'Missing signature' }, { status: 400 });
+    return NextResponse.json({ received: true, warning: 'no_signature' }, { status: 200 });
   }
 
   const stripe = getStripe();
@@ -45,7 +45,7 @@ async function _POST(request: NextRequest) {
   } catch (err: unknown) {
     const msg = err instanceof Error ? err.message : String(err);
     logger.error('Application fee webhook: signature verification failed', undefined, { error: msg });
-    return NextResponse.json({ error: 'Invalid signature' }, { status: 400 });
+    return NextResponse.json({ received: true, warning: 'invalid_signature' }, { status: 200 });
   }
 
   logger.info('Application fee webhook received', { type: event.type, eventId: event.id });

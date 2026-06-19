@@ -72,7 +72,7 @@ const getOfficialDomains = () => {
     'elevateforhumanityeducation.com',
     // All legitimate subdomains - NOT clones!
     'app.elevateforhumanity.org',      // LMS portal
-    'admin.elevateforhumanity.org',     // Admin panel
+    '',     // Admin panel
     'api.elevateforhumanity.org',      // API subdomain
     'demo.elevateforhumanity.org',     // Demo site
     'collab.elevateforhumanity.org',   // Collaboration tools

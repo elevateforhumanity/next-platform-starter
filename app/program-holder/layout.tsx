@@ -37,7 +37,6 @@ export default async function ProgramHolderLayout({ children }: { children: Reac
 
   const isAdmin = ['admin', 'super_admin', 'staff', 'org_admin'].includes(profile.role ?? '');
 
-  let orgName = profile.organization ?? undefined;
   let hasSchoolApplications = false;
 
   if (!isAdmin && profile.program_holder_id) {
@@ -51,7 +50,6 @@ export default async function ProgramHolderLayout({ children }: { children: Reac
       redirect('/program-holder?error=pending-approval');
     }
 
-    orgName = holder?.organization_name || holder?.name || orgName;
     hasSchoolApplications = Boolean(holder?.enable_school_applications);
   }
 

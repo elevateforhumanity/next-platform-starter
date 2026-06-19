@@ -10,7 +10,7 @@ import {
 
 // ── Module-level constants ────────────────────────────────────────────────────
 
-const DEFAULT_ADMIN_URL = 'https://admin.elevateforhumanity.org';
+// DEFAULT_ADMIN_URL removed — admin subdomain deprecated
 // Legacy admin path redirects moved to next.config.mjs (LEGACY ADMIN PATH CONSOLIDATION section).
 // next.config.mjs handles these as static 308 redirects at the routing layer.
 
@@ -297,15 +297,6 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next({ request: { headers: requestHeaders } });
   }
 
-  let adminBase = (process.env.NEXT_PUBLIC_ADMIN_URL || DEFAULT_ADMIN_URL).replace(/\/+$/, '');
-  let canonicalAdminHost = 'admin.elevateforhumanity.org';
-  try {
-    canonicalAdminHost = new URL(adminBase).host;
-  } catch (error) {
-    console.error('[proxy] Invalid NEXT_PUBLIC_ADMIN_URL. Falling back to default admin host.', error);
-    adminBase = DEFAULT_ADMIN_URL;
-  }
-
   const isLocalHost =
     hostWithoutPort === 'localhost' ||
     hostWithoutPort === '127.0.0.1' ||
@@ -319,18 +310,8 @@ export async function middleware(request: NextRequest) {
     hostWithoutPort.endsWith('.preview.gitpod-dev.com') ||
     (process.env.GITPOD_WORKSPACE_URL !== undefined && isLocalHost);
 
-  if (
-    (pathname === '/admin' || pathname.startsWith('/admin/')) &&
-    hostWithoutPort !== canonicalAdminHost &&
-    !(process.env.NODE_ENV === 'development' && isLocalHost)
-  ) {
-    // Keep the canonical admin landing page explicit so host-only /admin requests
-    // consistently land on the admin dashboard after domain canonicalization.
-    const adminPath = pathname === '/admin' ? '/admin/dashboard' : pathname;
-    return NextResponse.redirect(`${adminBase}${adminPath}${search}`, { status: 301 });
-  }
-
-  // Legacy admin path redirects are now in next.config.mjs — no runtime lookup needed.
+  // Admin routes are now in the main app at /admin/* — no redirect to subdomain needed.
+  // The standalone admin subdomain (admin.elevateforhumanity.org) has been deprecated.
 
   // ── BYPASS POLICY ────────────────────────────────────────────────────────────
   // Single definition. No other branch in this file references SKIP_ADMIN_AUTH.

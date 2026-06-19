@@ -20,7 +20,7 @@ function trimUrl(url: string | undefined | null): string {
 
 function hostnameIsAdmin(host: string): boolean {
   const h = host.toLowerCase();
-  return h === 'admin.elevateforhumanity.org' || h.startsWith('admin.');
+  return h === '' || h.startsWith('admin.');
 }
 
 /** Canonical public (www / LMS) origin for marketing pages. */
@@ -52,7 +52,7 @@ export function resolvePublicSiteUrl(): string {
 
 /** Canonical admin app origin. */
 export function resolveAdminSiteUrl(): string {
-  return trimUrl(process.env.NEXT_PUBLIC_ADMIN_URL) || 'https://admin.elevateforhumanity.org';
+  return trimUrl(process.env.NEXT_PUBLIC_ADMIN_URL) || '';
 }
 
 /** Default iframe URL when Dev Studio opens (overridable via env / platform_settings). */
