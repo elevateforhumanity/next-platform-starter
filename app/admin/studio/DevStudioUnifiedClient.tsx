@@ -381,7 +381,6 @@ export default function DevStudioUnifiedClient({
                   <WebContainerSandbox
                     onOutput={(output) => setCommandOutput(prev => prev + '\n' + output)}
                     onFileChange={(files) => {
-                      console.debug('Files changed:', files);
                     }}
                   />
                 </div>
