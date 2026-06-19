@@ -36,35 +36,37 @@
 
 ---
 
-## Hours Analysis ⚠️ DISCREPANCY FOUND
+## 📊 HOURS SUMMARY
 
-### Expected vs Actual Hours
+| | |
+|---|---|
+| **WEEKS PAID** | **6 weeks** |
+| **EXPECTED HOURS** | **240 hours** (6 weeks x 40h) |
+| Hours Logged in System | 120 hours |
+| **MISSING HOURS** | **120 hours** |
 
-**Enrolled:** May 3, 2026  
-**Today:** June 18, 2026  
-**Weeks Elapsed:** 7 weeks  
-**Expected Hours (40/week):** 280 hours  
-**Expected Hours (thru last complete week):** 240 hours
+### Payments = 40 Hours Each Week
 
-### Hours Currently Logged
+| Payment Date | Week | Hours Expected |
+|--------------|------|----------------|
+| May 7, 2026 | Week 1 | 40 hours |
+| May 12, 2026 | Week 2 | 40 hours |
+| May 19, 2026 | Week 3 | 40 hours |
+| May 26, 2026 | Week 4 | 40 hours |
+| June 1, 2026 | Week 5 | 40 hours |
+| June 2, 2026 | Week 6 | 40 hours |
+| **TOTAL** | | **240 hours** |
 
-| Date | Hours | Category | Status |
-|------|-------|----------|--------|
-| May 12, 2026 | 40 | Shop Floor | Approved ✅ |
-| May 23, 2026 | 40 | Shop Floor | Approved ✅ |
-| June 5, 2026 | 40 | On-the-Job | Approved ✅ |
-| **TOTAL LOGGED** | **120 hours** | | |
+### Hours Currently Logged in System
 
-### ❌ MISSING: 120 HOURS
+| Date | Hours | Status |
+|------|-------|--------|
+| May 12, 2026 | 40 | Approved ✅ |
+| May 23, 2026 | 40 | Approved ✅ |
+| June 5, 2026 | 40 | Approved ✅ |
+| **TOTAL** | **120 hours** | |
 
-**Weeks NOT Logged:**
-- May 3-9, 2026 (Week 1)
-- May 10-16, 2026 (Week 2) ← overlap with logged entry
-- May 17-23, 2026 (Week 3) ← overlap
-- May 24-30, 2026 (Week 4)
-- May 31-June 6, 2026 (Week 5) ← overlap
-- June 7-13, 2026 (Week 6)
-- June 14-18, 2026 (Week 7 - current week, OK to exclude)
+### ⚠️ MISSING 120 HOURS - NEEDS TO BE LOGGED
 
 ### ✅ SUCCESSFUL PAYMENTS (6)
 
