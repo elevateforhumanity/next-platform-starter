@@ -103,15 +103,23 @@ export async function POST(request: NextRequest) {
       try { course = JSON.parse(jsonMatch[0]); } catch {}
     }
 
+    // Use TextEncoder to properly encode strings for ReadableStream
+    const encoder = new TextEncoder();
+    
     const stream = new ReadableStream({
       start(controller) {
-        for (const chunk of responseText.match(/.{1,50}/g) || []) {
-          controller.enqueue(`data: ${JSON.stringify({ type: 'text', content: chunk })}\n\n`);
+        try {
+          for (const chunk of responseText.match(/.{1,50}/g) || []) {
+            controller.enqueue(encoder.encode(`data: ${JSON.stringify({ type: 'text', content: chunk })}\n\n`));
+          }
+          if (course) {
+            controller.enqueue(encoder.encode(`data: ${JSON.stringify({ type: 'course_ready', course })}\n\n`));
+          }
+          controller.close();
+        } catch (err) {
+          logger.error('[course-builder/chat] stream error', err);
+          controller.error(err);
         }
-        if (course) {
-          controller.enqueue(`data: ${JSON.stringify({ type: 'course_ready', course })}\n\n`);
-        }
-        controller.close();
       }
     });
 

@@ -36,7 +36,6 @@ export default async function CMIDashboardPage() {
   const supabase = await createClient();
   const db = (await requireAdminClient()) || supabase;
 
-  if (!supabase) redirect('/login?redirect=/admin/cmi');
 
   const {
     data: { user },

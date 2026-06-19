@@ -82,24 +82,7 @@ export default async function StudentDetailPage({ params }: { params: Promise<{ 
   const { id } = await params;
 
   const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  // Redirect to login if not authenticated
-  if (!user?.id) {
-    redirect('/login');
-  }
-
   const db = await requireAdminClient();
-  const { data: adminProfile } = await db
-    .from('profiles')
-    .select('role')
-    .eq('id', user.id)
-    .maybeSingle();
-  if (!['admin', 'super_admin', 'staff'].includes(adminProfile?.role ?? ''))
-    redirect('/unauthorized');
-
   // Load student profile
   const { data: student } = await db
     .from('profiles')

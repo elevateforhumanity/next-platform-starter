@@ -20,7 +20,6 @@ export default async function DocumentDetailPage({
 
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
-  if (!user?.id) { redirect('/login'); }
 
   const db = await requireAdminClient();
 
