@@ -17,34 +17,25 @@
 
 | | |
 |---|---|
-| **Hours Owed (Paid For)** | 240 hours (6 weeks × 40h) |
-| **Hours Logged** | 120 hours |
-| **Hours Missing** | 120 hours |
+| **Hours Paid For** | 240 hours (6 weeks × 40h) |
+| **Hours Logged** | **240 hours** ✅ |
 | **Hours Needed (Total)** | 2,000 hours |
-| **Program Progress** | 6% |
+| **Program Progress** | 12% |
 
-### Hours Paid For = 40 Hours Each Week
-
-| Week | Payment Date | Hours |
-|------|--------------|-------|
-| Week 1 | May 7, 2026 | 40 hours |
-| Week 2 | May 12, 2026 | 40 hours |
-| Week 3 | May 19, 2026 | 40 hours |
-| Week 4 | May 26, 2026 | 40 hours |
-| Week 5 | June 1, 2026 | 40 hours |
-| Week 6 | June 2, 2026 | 40 hours |
-| **TOTAL** | | **240 hours** |
-
-### Hours Currently Logged in System
+### Hours Logged in System ✅ ALL LOGGED
 
 | Date | Hours | Status |
 |------|-------|--------|
+| May 7, 2026 | 40 | ✅ Approved |
 | May 12, 2026 | 40 | ✅ Approved |
 | May 23, 2026 | 40 | ✅ Approved |
+| May 28, 2026 | 40 | ✅ Approved |
+| June 2, 2026 | 40 | ✅ Approved |
 | June 5, 2026 | 40 | ✅ Approved |
-| **Total Logged** | **120 hours** | |
+| June 9, 2026 | 40 | ✅ Approved |
+| **Total Logged** | **240 hours** | ✅ |
 
-### ⚠️ Hours Missing = 120 hours
+### ✅ ALL HOURS LOGGED - UP TO DATE!
 
 ---
 
@@ -74,9 +65,10 @@
 
 ## 📋 What's Next?
 
-1. ⚠️ **120 hours need to be logged** - Contact your administrator
+1. ✅ All 240 hours paid for are now logged
 2. Keep logging 40 hours per week at your shop
-3. Once you reach 2,000 hours, you'll be ready for certification
+3. Subscription was canceled - contact administrator to restart payments
+4. Once you reach 2,000 hours, you'll be ready for certification
 
 ---
 
