@@ -21,6 +21,11 @@ export default async function WebhookHealthPage() {
     data: { user },
   } = await supabase.auth.getUser();
 
+  if (!user) {
+    redirect('/login');
+  }
+
+
   const adminDb = await requireAdminClient();
   if (adminDb) {
     const { data: profile } = await adminDb

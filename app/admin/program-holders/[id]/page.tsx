@@ -81,6 +81,11 @@ export default async function AdminProgramHolderDetailPage({ params, searchParam
     data: { user },
   } = await supabase.auth.getUser();
 
+  if (!user) {
+    redirect('/login');
+  }
+
+
   const { data: adminProfile } = await supabase
     .from('profiles')
     .select('role')

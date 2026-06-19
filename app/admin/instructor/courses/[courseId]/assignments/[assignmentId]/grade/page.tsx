@@ -21,6 +21,11 @@ export default async function SpeedGraderPage({ params }: { params: Params }) {
     data: { user },
   } = await supabase.auth.getUser();
 
+  if (!user) {
+    redirect('/login');
+  }
+
+
   // Verify instructor role
   const { data: profile } = await supabase
     .from('profiles')

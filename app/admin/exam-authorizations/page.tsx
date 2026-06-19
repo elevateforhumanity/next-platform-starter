@@ -18,6 +18,11 @@ export default async function ExamAuthorizationsPage() {
     data: { user },
   } = await supabase.auth.getUser();
 
+  if (!user) {
+    redirect('/login');
+  }
+
+
   const db = await requireAdminClient();
 
   const { data: profile } = await supabase

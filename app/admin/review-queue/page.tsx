@@ -46,6 +46,11 @@ export default async function ReviewQueuePage({
     data: { user },
   } = await supabase.auth.getUser();
 
+  if (!user) {
+    redirect('/login');
+  }
+
+
   // Check admin role
   const { data: profile } = await supabase
     .from('profiles')

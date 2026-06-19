@@ -47,6 +47,11 @@ export default async function AttachmentLibraryPage() {
   const {
     data: { user },
   } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect('/login');
+  }
+
   const db = await requireAdminClient();
 
   const { data: profile } = await db

@@ -21,6 +21,11 @@ export default async function PrefillReviewPage({
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
+  if (!user) {
+    redirect('/login');
+  }
+
+
   const db = await requireAdminClient();
 
   const { data: profile } = await db.from('profiles').select('role').eq('id', user.id).maybeSingle();

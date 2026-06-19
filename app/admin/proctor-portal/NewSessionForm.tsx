@@ -58,6 +58,11 @@ export default function NewSessionForm({ session, programs = [], onSaved, onCanc
       const {
         data: { user },
       } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect('/login');
+  }
+
       if (user) {
         setCurrentUserId(user.id);
         const { data: profile } = await supabase

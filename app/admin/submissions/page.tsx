@@ -118,6 +118,11 @@ export default async function SubmissionsOSPage() {
     data: { user },
   } = await supabase.auth.getUser();
 
+  if (!user) {
+    redirect('/login');
+  }
+
+
   const db = await requireAdminClient();
 
   const { data: profile } = await db

@@ -28,6 +28,11 @@ export default async function ManageProgramPage({ params }: { params: Promise<{ 
     data: { user },
   } = await supabase.auth.getUser();
 
+  if (!user) {
+    redirect('/login');
+  }
+
+
   const db = await requireAdminClient();
 
   const { data: profile } = await supabase

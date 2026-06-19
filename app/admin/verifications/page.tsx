@@ -24,6 +24,11 @@ export default async function VerificationsPage() {
     data: { user },
   } = await supabase.auth.getUser();
 
+  if (!user) {
+    redirect('/login');
+  }
+
+
   const db = await requireAdminClient();
   const { data: profile } = await db
     .from('profiles')

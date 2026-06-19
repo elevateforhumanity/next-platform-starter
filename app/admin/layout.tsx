@@ -32,6 +32,11 @@ export default async function AdminGroupLayout({ children }: { children: ReactNo
 
   const { data: { user }, error } = await supabase.auth.getUser();
 
+  if (!user) {
+    redirect('/login');
+  }
+
+
   if (error || !user) {
     redirect(loginRedirect);
   }
