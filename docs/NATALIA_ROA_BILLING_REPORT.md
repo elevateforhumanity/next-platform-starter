@@ -36,48 +36,65 @@
 
 ---
 
-## Hours Logged
+## Hours Analysis ⚠️ DISCREPANCY FOUND
+
+### Expected vs Actual Hours
+
+**Enrolled:** May 3, 2026  
+**Today:** June 18, 2026  
+**Weeks Elapsed:** 7 weeks  
+**Expected Hours (40/week):** 280 hours  
+**Expected Hours (thru last complete week):** 240 hours
+
+### Hours Currently Logged
 
 | Date | Hours | Category | Status |
 |------|-------|----------|--------|
 | May 12, 2026 | 40 | Shop Floor | Approved ✅ |
 | May 23, 2026 | 40 | Shop Floor | Approved ✅ |
 | June 5, 2026 | 40 | On-the-Job | Approved ✅ |
-| **TOTAL** | **120 hours** | | |
+| **TOTAL LOGGED** | **120 hours** | | |
 
----
+### ❌ MISSING: 120 HOURS
 
-## Payment History
+**Weeks NOT Logged:**
+- May 3-9, 2026 (Week 1)
+- May 10-16, 2026 (Week 2) ← overlap with logged entry
+- May 17-23, 2026 (Week 3) ← overlap
+- May 24-30, 2026 (Week 4)
+- May 31-June 6, 2026 (Week 5) ← overlap
+- June 7-13, 2026 (Week 6)
+- June 14-18, 2026 (Week 7 - current week, OK to exclude)
+
+### Payment History
 
 | Date | Amount | Status | Notes |
 |------|--------|--------|-------|
 | May 12, 2026 | $600.00 | ✅ Successful | Setup Fee (Checkout) |
-| Weekly Payments | — | ⏳ Pending | Auto-billing enabled |
-
-### Stripe Subscription Status
-- **Subscription Active:** Yes
-- **Last Payment Date:** None recorded (awaiting first weekly payment)
-- **Failed Payments:** None
+| Weekly Payments | — | ⚠️ CHECK STRIPE | Auto-billing may be affected by missing hours |
 
 ---
 
-## Summary
+## Action Items
 
-### ✅ GOOD STANDING
-1. Enrollment active
-2. Setup fee paid ($600)
-3. Subscription auto-renewal configured
-4. 120 hours logged and approved
-5. No failed payments recorded
+### 1. Hours Discrepancy - NEEDS ATTENTION
+- **Logged:** 120 hours
+- **Expected:** 240 hours (6 complete weeks)
+- **Missing:** 120 hours
+- **Possible Causes:**
+  - Hours not properly entered
+  - Hours in different table/database
+  - Batch import missing
 
-### ⚠️ NEEDS VERIFICATION
-- Weekly auto-payments status (check Stripe dashboard)
+### 2. Check Stripe for Pending Payments
+Login to https://dashboard.stripe.com and search:
+- Email: natataroa@gmail.com
+- Customer ID: cus_UTVa6pmsYlWBsp
+- Subscription: sub_1TiizwH4a2yrVOt5NVcCV61S
 
 ---
 
 ## Stripe Dashboard Access
 
-Login to https://dashboard.stripe.com and search for:
-- Email: natataroa@gmail.com
 - Customer ID: cus_UTVa6pmsYlWBsp
 - Subscription: sub_1TiizwH4a2yrVOt5NVcCV61S
