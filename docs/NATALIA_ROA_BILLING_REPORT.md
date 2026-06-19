@@ -66,12 +66,38 @@
 - June 7-13, 2026 (Week 6)
 - June 14-18, 2026 (Week 7 - current week, OK to exclude)
 
-### Payment History
+### ✅ SUCCESSFUL PAYMENTS (6)
 
-| Date | Amount | Status | Notes |
-|------|--------|--------|-------|
-| May 12, 2026 | $600.00 | ✅ Successful | Setup Fee (Checkout) |
-| Weekly Payments | — | ⚠️ CHECK STRIPE | Auto-billing may be affected by missing hours |
+| Date | Amount |
+|------|--------|
+| May 7, 2026 | $600.00 |
+| May 12, 2026 | $151.03 |
+| May 19, 2026 | $151.03 |
+| May 26, 2026 | $151.03 |
+| June 1, 2026 | $151.03 |
+| June 2, 2026 | $151.03 |
+| **TOTAL** | **$1,255.12** |
+
+## ❌ FAILED PAYMENTS (7)
+
+| Date | Amount | Reason |
+|------|--------|--------|
+| May 7, 2026 | $600.00 | incorrect_zip |
+| June 9, 2026 | $151.03 | incorrect_zip |
+| June 11, 2026 | $151.03 | incorrect_zip |
+| June 15, 2026 | $151.03 | incorrect_zip |
+| June 15, 2026 | $151.03 | incorrect_zip |
+| June 16, 2026 | $151.03 | incorrect_zip |
+| June 19, 2026 | $151.03 | incorrect_zip |
+| **TOTAL** | **$1,205.09** | |
+
+## 💰 PAYMENT SUMMARY
+
+| | |
+|---|---|
+| Total Successful | $1,255.12 |
+| Total Failed | $1,205.09 |
+| **Net Received** | **$1,255.12** |
 
 ---
 
