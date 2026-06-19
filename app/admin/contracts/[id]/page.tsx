@@ -20,7 +20,7 @@ export default async function ContractDetailPage({
 
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
-  if (!user) { redirect('/login'); }
+  if (!user?.id) { redirect('/login'); }
 
   const db = await requireAdminClient();
 

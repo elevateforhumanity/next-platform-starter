@@ -87,7 +87,7 @@ export default async function StudentDetailPage({ params }: { params: Promise<{ 
   } = await supabase.auth.getUser();
 
   // Redirect to login if not authenticated
-  if (!user) {
+  if (!user?.id) {
     redirect('/login');
   }
 
