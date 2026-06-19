@@ -8,7 +8,6 @@ import { resolveSlug } from '@/lib/program-registry';
 import { getProgramBySlug } from '@/data/programs/catalog';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 import { hero as heroTokens } from '@/lib/page-design-tokens';
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const revalidate = 600;
 
@@ -150,7 +149,7 @@ export default async function StudentApplicationPage({
           fill
           sizes="100vw"
           className="object-cover"
-          priority placeholder={blurDataURL}
+          priority placeholder="blur"
         />
       </div>
 
@@ -231,7 +230,7 @@ export default async function StudentApplicationPage({
                     alt={p.title}
                     fill
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                    className="object-cover group-hover:scale-105 transition-transform duration-500" placeholder={blurDataURL}
+                    className="object-cover group-hover:scale-105 transition-transform duration-500" placeholder="blur"
                   />
                   <span className="absolute top-2 right-2 bg-brand-green-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
                     Funding May Apply

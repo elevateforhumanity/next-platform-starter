@@ -8,7 +8,6 @@ import { useState } from 'react';
 import { Calendar, CreditCard, Award } from 'lucide-react';
 import { loadStripe } from '@stripe/stripe-js';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || '');
 
@@ -73,7 +72,7 @@ export default function IPLAExamSignup() {
           fill
           sizes="100vw"
           className="object-cover"
-          priority placeholder={blurDataURL}
+          priority placeholder="blur"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-brand-blue-900/80 via-brand-blue-800/40 to-brand-blue-900/20" />
         <div className="absolute bottom-0 left-0 right-0 p-6 md:p-10">

@@ -7,7 +7,6 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { ArrowRight } from 'lucide-react';
 import { BNPL_PROVIDER_SUMMARY } from '@/lib/bnpl-config';
 import EligibilityPreQualifier from '@/components/enrollment/EligibilityPreQualifier';
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/wioa-eligibility' },
@@ -36,7 +35,7 @@ export default function WIOAEligibilityPage() {
           fill
           sizes="100vw"
           className="object-cover"
-          priority placeholder={blurDataURL}
+          priority placeholder="blur"
         />
         <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-10">
           <div className="max-w-4xl mx-auto">
@@ -102,7 +101,7 @@ export default function WIOAEligibilityPage() {
                     alt={item.title}
                     fill
                     sizes="100vw"
-                    className="object-cover" placeholder={blurDataURL}
+                    className="object-cover" placeholder="blur"
                   />
                   <div className="absolute top-3 left-3 w-9 h-9 bg-brand-blue-700 rounded-full flex items-center justify-center text-white font-bold shadow">
                     {item.step}
@@ -157,7 +156,7 @@ export default function WIOAEligibilityPage() {
                     alt={item.title}
                     fill
                     sizes="100vw"
-                    className="object-cover" placeholder={blurDataURL}
+                    className="object-cover" placeholder="blur"
                   />
                 </div>
                 <div className="p-3 text-center">
@@ -254,7 +253,7 @@ export default function WIOAEligibilityPage() {
                     alt={item.title}
                     fill
                     sizes="100vw"
-                    className="object-cover" placeholder={blurDataURL}
+                    className="object-cover" placeholder="blur"
                   />
                 </div>
                 <div className="p-4">

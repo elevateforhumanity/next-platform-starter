@@ -6,7 +6,6 @@ import { ArrowRight } from 'lucide-react';
 import HeroVideo from '@/components/marketing/HeroVideo';
 import heroBanners from '@/content/heroBanners';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const revalidate = 3600;
 
@@ -126,7 +125,7 @@ export default function HowItWorksPage() {
                     fill
                     sizes="100vw"
                     quality={90}
-                    className="object-cover" placeholder={blurDataURL}
+                    className="object-cover" placeholder="blur"
                   />
                 </div>
                 <div className="p-5 flex-1">

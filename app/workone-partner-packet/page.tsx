@@ -21,7 +21,6 @@ import {
 } from 'lucide-react';
 import { PrintButton } from './PrintButton';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const metadata: Metadata = {
   title: 'WorkOne Partner Packet',
@@ -169,7 +168,7 @@ export default function WorkOnePartnerPacketPage() {
                   fill
                   quality={85}
                   className="object-cover"
-                  sizes="100vw" placeholder={blurDataURL}
+                  sizes="100vw" placeholder="blur"
                 />
               </div>
               <div className="bg-white rounded-2xl p-8 shadow-lg border border-slate-200">
@@ -245,7 +244,7 @@ export default function WorkOnePartnerPacketPage() {
                   fill
                   sizes="100vw"
                   quality={85}
-                  className="object-cover" placeholder={blurDataURL}
+                  className="object-cover" placeholder="blur"
                 />
               </div>
               <div className="p-6">
@@ -268,7 +267,7 @@ export default function WorkOnePartnerPacketPage() {
                   fill
                   sizes="100vw"
                   quality={85}
-                  className="object-cover" placeholder={blurDataURL}
+                  className="object-cover" placeholder="blur"
                 />
               </div>
               <div className="p-6">
@@ -291,7 +290,7 @@ export default function WorkOnePartnerPacketPage() {
                   fill
                   sizes="100vw"
                   quality={85}
-                  className="object-cover" placeholder={blurDataURL}
+                  className="object-cover" placeholder="blur"
                 />
               </div>
               <div className="p-6">
@@ -314,7 +313,7 @@ export default function WorkOnePartnerPacketPage() {
                   fill
                   sizes="100vw"
                   quality={85}
-                  className="object-cover" placeholder={blurDataURL}
+                  className="object-cover" placeholder="blur"
                 />
               </div>
               <div className="p-6">
@@ -407,7 +406,7 @@ export default function WorkOnePartnerPacketPage() {
                     fill
                     sizes="100vw"
                     quality={85}
-                    className="object-cover" placeholder={blurDataURL}
+                    className="object-cover" placeholder="blur"
                   />
                 </div>
                 <div className="p-6">

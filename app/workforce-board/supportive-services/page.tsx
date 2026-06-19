@@ -6,7 +6,6 @@ import Link from 'next/link';
 
 import Image from 'next/image';
 import { BookOpen, Award, Briefcase } from 'lucide-react';
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const metadata: Metadata = {
   alternates: {
@@ -39,7 +38,7 @@ export default function SupportiveServicesPage() {
           priority
           sizes="100vw"
           className="object-cover"
-          quality={85} placeholder={blurDataURL}
+          quality={85} placeholder="blur"
         />
       </section>
 
@@ -78,7 +77,7 @@ export default function SupportiveServicesPage() {
                   fill
                   sizes="(max-width: 768px) 100vw, 50vw"
                   className="object-cover"
-                  quality={85} placeholder={blurDataURL}
+                  quality={85} placeholder="blur"
                 />
               </div>
             </div>

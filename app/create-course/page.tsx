@@ -4,7 +4,6 @@ import { createClient } from '@/lib/supabase/server';
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const dynamic = 'force-dynamic';
 
@@ -45,7 +44,7 @@ export default async function CreateCoursePage() {
           className="object-cover"
           quality={90}
           priority
-          sizes="100vw" placeholder={blurDataURL}
+          sizes="100vw" placeholder="blur"
         />
 
         <div className="relative z-10 max-w-4xl mx-auto px-4 text-center">
@@ -139,7 +138,7 @@ export default async function CreateCoursePage() {
                   fill
                   className="object-cover"
                   quality={90}
-                  sizes="(max-width: 768px) 100vw, 50vw" placeholder={blurDataURL}
+                  sizes="(max-width: 768px) 100vw, 50vw" placeholder="blur"
                 />
               </div>
             </div>

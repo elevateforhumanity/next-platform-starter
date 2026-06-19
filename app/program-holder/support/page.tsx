@@ -5,7 +5,6 @@ import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Mail, Phone, Clock, HelpCircle } from 'lucide-react';
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const dynamic = 'force-dynamic';
 
@@ -98,7 +97,7 @@ export default async function SupportPage() {
           className="object-cover"
           quality={90}
           priority
-          sizes="100vw" placeholder={blurDataURL}
+          sizes="100vw" placeholder="blur"
         />
       </section>
 

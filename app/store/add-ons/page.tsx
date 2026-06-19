@@ -13,7 +13,6 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import StoreProductVideo from '@/app/store/StoreProductVideo';
 
 import { createBrowserClient } from '@supabase/ssr';
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
 const addOns = [
   {
     id: 'community-hub',
@@ -123,7 +122,7 @@ export default function AddOnsPage() {
       <section className="relative w-full">
         <div className="relative h-[300px] md:h-[400px] w-full overflow-hidden">
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
-          <Image src="/images/pages/store-addons-hero.jpg" alt="Platform Add-Ons" fill className="object-cover" priority sizes="100vw" placeholder={blurDataURL} />
+          <Image src="/images/pages/store-addons-hero.jpg" alt="Platform Add-Ons" fill className="object-cover" priority sizes="100vw" placeholder="blur" />
         </div>
         <div className="bg-slate-900 py-10">
           <div className="max-w-5xl mx-auto px-4 text-center">

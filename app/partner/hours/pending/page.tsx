@@ -6,7 +6,6 @@ import { useRouter } from 'next/navigation';
 import { Clock, XCircle, ArrowLeft, User, Calendar, Building, AlertCircle } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { logger } from '@/lib/logger';
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 interface PendingHour {
   id: string;
@@ -175,7 +174,7 @@ export default function PartnerHoursPendingPage() {
           fill
           sizes="100vw"
           className="object-cover"
-          priority placeholder={blurDataURL}
+          priority placeholder="blur"
         />
       </section>
       <div className="bg-white border-b">

@@ -5,7 +5,6 @@ import { Metadata } from 'next';
 import { Heart, Users, Clock, MapPin, Calendar, ArrowRight } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { logger } from '@/lib/logger';
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const metadata: Metadata = {
   title: 'Volunteer Opportunities',
@@ -59,7 +58,7 @@ export default async function VolunteerPage() {
           fill
           className="object-cover"
           priority
-          sizes="100vw" placeholder={blurDataURL}
+          sizes="100vw" placeholder="blur"
         />
       </div>
 

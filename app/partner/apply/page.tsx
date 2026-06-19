@@ -6,7 +6,6 @@ import { Building2, ArrowRight, Loader2, CheckCircle, AlertCircle } from 'lucide
 import { trackEvent } from '@/components/analytics/google-analytics';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 const PARTNER_TYPES = [
   {
@@ -139,7 +138,7 @@ export default function PartnerApplyPage() {
           fill
           sizes="100vw"
           className="object-cover"
-          priority placeholder={blurDataURL}
+          priority placeholder="blur"
         />
       </section>
       <div className="bg-slate-50 border-b">

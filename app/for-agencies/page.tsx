@@ -16,7 +16,6 @@ import {
 } from 'lucide-react';
 import { WorkforceSystemDiagram } from '@/components/marketing/WorkforceSystemDiagram';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const revalidate = 3600;
 
@@ -106,7 +105,7 @@ export default async function ForAgenciesPage() {
           fill
           sizes="100vw"
           className="object-cover"
-          priority placeholder={blurDataURL}
+          priority placeholder="blur"
         />
         <div className="absolute inset-0 bg-slate-900/60" />
         <div className="absolute inset-0 flex items-end">

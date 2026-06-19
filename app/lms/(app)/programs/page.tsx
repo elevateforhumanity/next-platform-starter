@@ -6,7 +6,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Clock, Award, BookOpen, ChevronRight, DollarSign } from 'lucide-react';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const metadata: Metadata = {
   title: 'Programs',
@@ -59,7 +58,7 @@ export default async function LmsProgramsPage() {
                 alt={PLATFORM_DEFAULTS.orgName}
                 width={120}
                 height={32}
-                className="h-8 w-auto" placeholder={blurDataURL}
+                className="h-8 w-auto" placeholder="blur"
               />
             </Link>
             <div className="flex items-center gap-3">
@@ -177,7 +176,7 @@ export default async function LmsProgramsPage() {
                         alt={p.title}
                         fill
                         className="object-cover group-hover:scale-105 transition duration-500"
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" placeholder={blurDataURL}
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" placeholder="blur"
                       />
                       {p.funded && (
                         <span className="absolute top-3 left-3 bg-brand-green-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">

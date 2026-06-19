@@ -4,7 +4,6 @@ import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { Metadata } from 'next';
 import { ChevronRight, FileText, Download, ExternalLink, FolderOpen, Search } from 'lucide-react';
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const metadata: Metadata = {
   title: 'Documentation | FERPA Portal',
@@ -107,7 +106,7 @@ export default async function FerpaDocumentationPage() {
           fill
           sizes="100vw"
           className="object-cover"
-          priority placeholder={blurDataURL}
+          priority placeholder="blur"
         />
       </section>
       <div className="bg-white border-b border-slate-200">

@@ -6,7 +6,6 @@ import { Shield, Users, Award, Building2 } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 import HostShopSyllabusRequirement from '@/components/programs/beauty/HostShopSyllabusRequirement';
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const metadata: Metadata = {
   title: 'Become a Host Nail Salon | Nail Technician Apprenticeship',
@@ -35,7 +34,7 @@ export default function NailHostShopsPage() {
           alt="Professional nail salon interior"
           fill sizes="100vw"
           className="object-cover"
-          priority placeholder={blurDataURL}
+          priority placeholder="blur"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-brand-blue-900/70 to-transparent" />
         <div className="absolute bottom-10 left-8 max-w-xl">
@@ -56,7 +55,7 @@ export default function NailHostShopsPage() {
           <div className="grid md:grid-cols-2 gap-12 items-center mb-20">
             <div className="relative h-80 rounded-2xl overflow-hidden shadow-xl">
               <Image sizes="100vw" src="/images/pages/nail-technician.webp"
-                alt="Nail technician training apprentice" fill className="object-cover" placeholder={blurDataURL} />
+                alt="Nail technician training apprentice" fill className="object-cover" placeholder="blur" />
             </div>
             <div>
               <div className="w-16 h-16 bg-purple-100 rounded-2xl flex items-center justify-center mb-6">
@@ -85,14 +84,14 @@ export default function NailHostShopsPage() {
             </div>
             <div className="relative h-80 rounded-2xl overflow-hidden shadow-xl order-1 md:order-2">
               <Image sizes="100vw" src="/images/pages/nail-technician.webp"
-                alt="DOL compliance documentation" fill className="object-cover" placeholder={blurDataURL} />
+                alt="DOL compliance documentation" fill className="object-cover" placeholder="blur" />
             </div>
           </div>
 
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="relative h-80 rounded-2xl overflow-hidden shadow-xl">
               <Image sizes="100vw" src="/images/pages/nail-technician.webp"
-                alt="Nail technician receiving license" fill className="object-cover" placeholder={blurDataURL} />
+                alt="Nail technician receiving license" fill className="object-cover" placeholder="blur" />
             </div>
             <div>
               <div className="w-16 h-16 bg-amber-100 rounded-2xl flex items-center justify-center mb-6">

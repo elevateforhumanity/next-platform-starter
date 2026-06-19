@@ -4,7 +4,6 @@ import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { Metadata } from 'next';
 import {
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
   ChevronRight,
   Shield,
   AlertTriangle,
@@ -82,7 +81,7 @@ export default async function FerpaCompliancePage() {
           fill
           sizes="100vw"
           className="object-cover"
-          priority placeholder={blurDataURL}
+          priority placeholder="blur"
         />
       </section>
       <div className="bg-white border-b border-slate-200">

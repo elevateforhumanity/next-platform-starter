@@ -7,7 +7,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Award, Clock, Check, ArrowRight, BookOpen, Shield } from 'lucide-react';
 import { COURSES as courses } from '@/app/data/courses';
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const metadata: Metadata = {
   title: 'Certification Courses | Elevate Store',
@@ -40,7 +39,7 @@ export default function StoreCoursesPage() {
       <section className="relative w-full">
         <div className="relative h-[clamp(190px,32vw,360px)] w-full overflow-hidden">
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
-          <Image src="/images/pages/store-courses-hero.jpg" alt="Certification courses" fill sizes="100vw" className="object-cover" priority quality={85} placeholder={blurDataURL} />
+          <Image src="/images/pages/store-courses-hero.jpg" alt="Certification courses" fill sizes="100vw" className="object-cover" priority quality={85} placeholder="blur" />
         </div>
         <div className="bg-slate-900 py-10">
           <div className="max-w-5xl mx-auto px-4 text-center">
@@ -65,7 +64,7 @@ export default function StoreCoursesPage() {
                     alt={course.name}
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-300"
-                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" placeholder={blurDataURL} />
+                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" placeholder="blur" />
                   <div className="absolute top-4 left-4 px-3 py-1 bg-brand-blue-600 text-white text-xs font-bold rounded-full">
                     {course.provider}
                   </div>

@@ -5,7 +5,6 @@ import { Calendar, Tag, ArrowRight, Newspaper } from 'lucide-react';
 import { getPublishedPosts, getFeaturedPost, getCategories, formatPostDate } from '@/lib/data/news';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const revalidate = 3600;
 
@@ -37,7 +36,7 @@ export default async function NewsPage() {
           fill
           className="object-cover"
           priority
-          sizes="100vw" placeholder={blurDataURL}
+          sizes="100vw" placeholder="blur"
         />
 
         <div className="absolute inset-x-0 bottom-0 max-w-6xl mx-auto px-4 pb-8">
@@ -89,7 +88,7 @@ export default async function NewsPage() {
                         alt={featured.title}
                         fill
                         className="object-cover group-hover:scale-105 transition-transform duration-500"
-                        sizes="100vw" placeholder={blurDataURL}
+                        sizes="100vw" placeholder="blur"
                       />
                     ) : (
                       <div className="absolute inset-0 bg-gradient-to-br from-brand-blue-600 to-brand-blue-800 flex items-center justify-center">
@@ -134,7 +133,7 @@ export default async function NewsPage() {
                             alt={post.title}
                             fill
                             className="object-cover group-hover:scale-105 transition-transform duration-500"
-                            sizes="100vw" placeholder={blurDataURL}
+                            sizes="100vw" placeholder="blur"
                           />
                         ) : (
                           <div className="absolute inset-0 bg-gradient-to-br from-slate-200 to-slate-300 flex items-center justify-center">

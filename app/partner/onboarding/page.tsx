@@ -22,7 +22,6 @@ import { DOCUMENT_TYPE_LABELS, getRequiredDocuments, type DocumentType } from '@
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { SponsorshipInfoPanel } from '@/components/partner/SponsorshipInfoPanel';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 const AVAILABLE_PROGRAMS = [
   {
@@ -199,7 +198,7 @@ export default function PartnerOnboardingPage() {
           fill
           sizes="100vw"
           className="object-cover"
-          priority placeholder={blurDataURL}
+          priority placeholder="blur"
         />
       </section>
       {/* Breadcrumbs */}

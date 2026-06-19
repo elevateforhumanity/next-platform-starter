@@ -8,7 +8,6 @@ import { TEAM } from '@/data/team';
 import { createClient } from '@/lib/supabase/server';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 import { HomeTrustBar } from '@/components/home/HomeTrustBar';
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const revalidate = 3600; // re-fetch team from DB hourly
 
@@ -75,7 +74,7 @@ export default async function AboutPage() {
               fill
               className="object-cover object-top"
               priority
-              sizes="(max-width: 640px) 160px, 208px" placeholder={blurDataURL}
+              sizes="(max-width: 640px) 160px, 208px" placeholder="blur"
             />
           </div>
           {/* Page identity */}
@@ -160,7 +159,7 @@ export default async function AboutPage() {
           <div className="space-y-8">
             <div className="flex flex-col sm:flex-row gap-5">
               <div className="relative h-48 sm:h-auto sm:w-56 flex-shrink-0 rounded-lg overflow-hidden">
-                <Image src="/images/pages/about-career-training.webp" alt="Career training programs" fill sizes="(max-width: 640px) 100vw, 224px" quality={90} className="object-cover" placeholder={blurDataURL} />
+                <Image src="/images/pages/about-career-training.webp" alt="Career training programs" fill sizes="(max-width: 640px) 100vw, 224px" quality={90} className="object-cover" placeholder="blur" />
               </div>
               <div>
                 <h3 className="font-bold text-slate-900 text-lg mb-2">Career Training Programs</h3>
@@ -179,7 +178,7 @@ export default async function AboutPage() {
 
             <div className="flex flex-col sm:flex-row gap-5">
               <div className="relative h-48 sm:h-auto sm:w-56 flex-shrink-0 rounded-lg overflow-hidden">
-                <Image src="/images/pages/about-funding-nav.webp" alt="Workforce funding options" fill sizes="(max-width: 640px) 100vw, 224px" quality={90} className="object-cover" placeholder={blurDataURL} />
+                <Image src="/images/pages/about-funding-nav.webp" alt="Workforce funding options" fill sizes="(max-width: 640px) 100vw, 224px" quality={90} className="object-cover" placeholder="blur" />
               </div>
               <div>
                 <h3 className="font-bold text-slate-900 text-lg mb-2">Funding Navigation</h3>
@@ -197,7 +196,7 @@ export default async function AboutPage() {
 
             <div className="flex flex-col sm:flex-row gap-5">
               <div className="relative h-48 sm:h-auto sm:w-56 flex-shrink-0 rounded-lg overflow-hidden">
-                <Image src="/images/pages/about-employer-partners.webp" alt="Employer partnerships" fill sizes="(max-width: 640px) 100vw, 224px" quality={90} className="object-cover" placeholder={blurDataURL} />
+                <Image src="/images/pages/about-employer-partners.webp" alt="Employer partnerships" fill sizes="(max-width: 640px) 100vw, 224px" quality={90} className="object-cover" placeholder="blur" />
               </div>
               <div>
                 <h3 className="font-bold text-slate-900 text-lg mb-2">Job Placement &amp; Employer Partnerships</h3>
@@ -216,7 +215,7 @@ export default async function AboutPage() {
 
             <div className="flex flex-col sm:flex-row gap-5">
               <div className="relative h-48 sm:h-auto sm:w-56 flex-shrink-0 rounded-lg overflow-hidden">
-                <Image src="/images/pages/about-supportive-services.webp" alt="Supportive services" fill sizes="(max-width: 640px) 100vw, 224px" quality={90} className="object-cover" placeholder={blurDataURL} />
+                <Image src="/images/pages/about-supportive-services.webp" alt="Supportive services" fill sizes="(max-width: 640px) 100vw, 224px" quality={90} className="object-cover" placeholder="blur" />
               </div>
               <div>
                 <h3 className="font-bold text-slate-900 text-lg mb-2">Supportive Services</h3>
@@ -357,7 +356,7 @@ export default async function AboutPage() {
             ].map((item) => (
               <div key={item.title} className="bg-white rounded-xl border border-slate-200 overflow-hidden">
                 <div className="relative h-40 overflow-hidden">
-                  <Image src={item.image} alt={item.title} fill sizes="(max-width: 640px) 100vw, 50vw" quality={90} className="object-cover" placeholder={blurDataURL} />
+                  <Image src={item.image} alt={item.title} fill sizes="(max-width: 640px) 100vw, 50vw" quality={90} className="object-cover" placeholder="blur" />
                 </div>
                 <div className="p-5">
                   <h3 className="font-bold text-slate-900 mb-2">{item.title}</h3>
@@ -392,7 +391,7 @@ export default async function AboutPage() {
             ].map((cred) => (
               <div key={cred.name} className="bg-white rounded-lg border border-slate-200 p-5 text-center">
                 <div className="relative w-16 h-16 mx-auto mb-3 overflow-hidden">
-                  <Image src={cred.logo} alt={cred.name} fill sizes="64px" className="object-contain" placeholder={blurDataURL} />
+                  <Image src={cred.logo} alt={cred.name} fill sizes="64px" className="object-contain" placeholder="blur" />
                 </div>
                 <h3 className="font-bold text-slate-900 text-sm">{cred.name}</h3>
                 <p className="text-brand-red-600 text-xs font-semibold mb-2">{cred.role}</p>
@@ -457,7 +456,7 @@ export default async function AboutPage() {
                   fill
                   sizes="(max-width: 640px) 192px, 224px"
                   quality={95}
-                  className="object-cover object-top" placeholder={blurDataURL}
+                  className="object-cover object-top" placeholder="blur"
                 />
               </div>
               <div className="p-6 flex-1">
@@ -553,7 +552,7 @@ export default async function AboutPage() {
                     alt={member.name}
                     fill
                     sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                    quality={90} className="object-cover object-center" placeholder={blurDataURL}
+                    quality={90} className="object-cover object-center" placeholder="blur"
                   />
                 </div>
                 <h3 className="font-bold text-slate-900 text-sm sm:text-base">{member.name}</h3>
@@ -582,7 +581,7 @@ export default async function AboutPage() {
             ].map((p) => (
               <Link key={p.name} href={p.href} className="group bg-white rounded-lg border border-slate-200 overflow-hidden hover:shadow-md transition">
                 <div className="relative h-36 overflow-hidden">
-                  <Image src={p.image} alt={p.name} fill sizes="(max-width: 640px) 100vw, 33vw" quality={90} className="object-cover group-hover:scale-105 transition-transform duration-300" placeholder={blurDataURL} />
+                  <Image src={p.image} alt={p.name} fill sizes="(max-width: 640px) 100vw, 33vw" quality={90} className="object-cover group-hover:scale-105 transition-transform duration-300" placeholder="blur" />
                 </div>
                 <div className="p-4">
                   <h3 className="font-bold text-slate-900 text-sm">{p.name}</h3>
@@ -606,7 +605,7 @@ export default async function AboutPage() {
           <div className="grid sm:grid-cols-3 gap-6">
             <Link href="/for-providers" className="bg-white rounded-xl overflow-hidden border border-slate-200 hover:shadow-md transition">
               <div className="relative h-40 overflow-hidden">
-                <Image src="/images/pages/about-partner-cta.webp" alt="Partner with Elevate" fill sizes="(max-width: 640px) 100vw, 33vw" quality={90} className="object-cover" placeholder={blurDataURL} />
+                <Image src="/images/pages/about-partner-cta.webp" alt="Partner with Elevate" fill sizes="(max-width: 640px) 100vw, 33vw" quality={90} className="object-cover" placeholder="blur" />
               </div>
               <div className="p-5">
                 <h3 className="font-bold text-slate-900 mb-2">Partner With Us</h3>
@@ -618,7 +617,7 @@ export default async function AboutPage() {
             </Link>
             <Link href="/about/partners" className="bg-white rounded-xl overflow-hidden border border-slate-200 hover:shadow-md transition">
               <div className="relative h-40 overflow-hidden">
-                <Image src="/images/pages/employer-hero.webp" alt="Employer and community partners" fill sizes="(max-width: 640px) 100vw, 33vw" quality={90} className="object-cover" placeholder={blurDataURL} />
+                <Image src="/images/pages/employer-hero.webp" alt="Employer and community partners" fill sizes="(max-width: 640px) 100vw, 33vw" quality={90} className="object-cover" placeholder="blur" />
               </div>
               <div className="p-5">
                 <h3 className="font-bold text-slate-900 mb-2">Our Partners</h3>
@@ -630,7 +629,7 @@ export default async function AboutPage() {
             </Link>
             <Link href="/pathways" className="bg-white rounded-xl overflow-hidden border border-slate-200 hover:shadow-md transition">
               <div className="relative h-40 overflow-hidden">
-                <Image src="/images/pages/job-placement.webp" alt="Career pathways" fill sizes="(max-width: 640px) 100vw, 33vw" quality={90} className="object-cover" placeholder={blurDataURL} />
+                <Image src="/images/pages/job-placement.webp" alt="Career pathways" fill sizes="(max-width: 640px) 100vw, 33vw" quality={90} className="object-cover" placeholder="blur" />
               </div>
               <div className="p-5">
                 <h3 className="font-bold text-slate-900 mb-2">Career Pathways Framework</h3>

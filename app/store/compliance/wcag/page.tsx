@@ -8,7 +8,6 @@ import Image from 'next/image';
 import { ArrowRight, Home, ChevronRight, Circle, Eye, Keyboard, Volume2, Monitor } from 'lucide-react';
 import AvatarGuide from '@/components/AvatarGuide';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const metadata: Metadata = {
   title: `WCAG Accessibility Tools | ${PLATFORM_DEFAULTS.orgName} Store`,
@@ -102,7 +101,7 @@ export default function WCAGCompliancePage() {
       <section className="relative w-full">
         <div className="relative h-[300px] md:h-[400px] w-full overflow-hidden">
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
-          <Image src="/images/pages/store-compliance-wcag-hero.jpg" alt="WCAG" fill className="object-cover" priority sizes="100vw" placeholder={blurDataURL} />
+          <Image src="/images/pages/store-compliance-wcag-hero.jpg" alt="WCAG" fill className="object-cover" priority sizes="100vw" placeholder="blur" />
         </div>
         <div className="bg-slate-900 py-10">
           <div className="max-w-5xl mx-auto px-4 text-center">
@@ -124,7 +123,7 @@ export default function WCAGCompliancePage() {
             {features.map((feature) => (
               <div key={feature.title} className="bg-white rounded-2xl overflow-hidden border-2 border-slate-200 hover:border-brand-blue-500 hover:shadow-xl transition-all group">
                 <div className="relative h-48 overflow-hidden">
-                  <Image src={feature.image} alt={feature.title} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover group-hover:scale-105 transition-transform duration-300" placeholder={blurDataURL} />
+                  <Image src={feature.image} alt={feature.title} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover group-hover:scale-105 transition-transform duration-300" placeholder="blur" />
                   <h3 className="absolute bottom-4 left-4 text-xl font-bold text-slate-900">{feature.title}</h3>
                 </div>
                 <div className="p-6">

@@ -7,7 +7,6 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { SITE_STATS, statLabel } from '@/lib/site-stats';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 import {
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
   GraduationCap,
   Award,
   Users,
@@ -130,7 +129,7 @@ export default function K12SolutionsPage() {
             alt="K-12 students in a career and technical education classroom"
             fill
             className="object-cover"
-            priority placeholder={blurDataURL}
+            priority placeholder="blur"
           />
           <div className="absolute inset-0 bg-slate-900/50" />
           <div className="absolute inset-0 flex items-end">

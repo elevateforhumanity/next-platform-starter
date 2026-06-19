@@ -6,7 +6,6 @@ import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import {
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
   getAttendanceSummary,
   getStudentsWithLowAttendance,
   type AttendanceSession,
@@ -108,7 +107,7 @@ export default async function PartnerAttendancePage() {
           fill
           sizes="100vw"
           className="object-cover"
-          priority placeholder={blurDataURL}
+          priority placeholder="blur"
         />
       </section>
       <div className="mb-6">

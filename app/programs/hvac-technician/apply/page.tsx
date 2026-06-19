@@ -8,7 +8,6 @@ import { BNPL_PROVIDER_NAMES } from '@/lib/bnpl-config';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 import Turnstile from '@/components/Turnstile';
 import FundingEligibilityFlow, {
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
   type EligibilityStatus,
 } from '@/components/programs/FundingEligibilityFlow';
 
@@ -345,7 +344,7 @@ export default function HvacApplyPage() {
             fill
             className="object-cover"
             priority
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" placeholder={blurDataURL}
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" placeholder="blur"
           />
         </div>
         <div className="bg-white py-10 border-t">

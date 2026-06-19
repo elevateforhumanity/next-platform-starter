@@ -7,7 +7,6 @@ import Link from 'next/link';
 import { logger } from '@/lib/logger';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 import {
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
   Users,
   Palette,
   BookOpen,
@@ -97,7 +96,7 @@ function SuccessContent() {
       {/* Hero Image */}
       <section className="relative h-[160px] sm:h-[220px] md:h-[280px] overflow-hidden">
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
-        <Image src="/images/pages/store-licenses-success-hero.webp" alt="Elevate store" fill sizes="100vw" className="object-cover" priority placeholder={blurDataURL} />
+        <Image src="/images/pages/store-licenses-success-hero.webp" alt="Elevate store" fill sizes="100vw" className="object-cover" priority placeholder="blur" />
       </section>
         <Loader2 className="w-10 h-10 text-brand-blue-600 animate-spin" />
       </div>

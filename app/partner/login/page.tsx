@@ -7,7 +7,6 @@ import { useSafeSearchParams } from '@/hooks/useSafeSearchParams';
 import { Building, Lock, Mail, ArrowRight, AlertCircle } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
 import { getRoleDestination } from '@/lib/auth/role-destinations';
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 const IDENTITY_ERRORS: Record<string, string> = {
   identity: 'Your account could not be verified. Please contact support.',
@@ -152,7 +151,7 @@ function PartnerLoginPageInner() {
           fill
           sizes="100vw"
           className="object-cover"
-          priority placeholder={blurDataURL}
+          priority placeholder="blur"
         />
       </section>
       <div className="max-w-md w-full">

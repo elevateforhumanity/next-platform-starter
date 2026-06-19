@@ -4,7 +4,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/ui/Button';
 import { ArrowRight } from 'lucide-react';
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const revalidate = 3600;
 export const metadata: Metadata = {
@@ -38,7 +37,7 @@ export default async function SuccessStoriesPage() {
             fill
             className="object-cover"
             priority
-            sizes="100vw" placeholder={blurDataURL}
+            sizes="100vw" placeholder="blur"
           />
         </div>
         <div className="bg-white py-10">
@@ -62,7 +61,7 @@ export default async function SuccessStoriesPage() {
                   alt="CNA student providing patient care"
                   fill
                   className="object-cover"
-                  sizes="100vw" placeholder={blurDataURL}
+                  sizes="100vw" placeholder="blur"
                 />
               </div>
               <div className="p-6">
@@ -87,7 +86,7 @@ export default async function SuccessStoriesPage() {
                   alt="Barber apprentice cutting hair"
                   fill
                   className="object-cover"
-                  sizes="100vw" placeholder={blurDataURL}
+                  sizes="100vw" placeholder="blur"
                 />
               </div>
               <div className="p-6">
@@ -111,7 +110,7 @@ export default async function SuccessStoriesPage() {
                   alt="Business and technology training"
                   fill
                   className="object-cover"
-                  sizes="100vw" placeholder={blurDataURL}
+                  sizes="100vw" placeholder="blur"
                 />
               </div>
               <div className="p-6">

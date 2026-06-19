@@ -5,7 +5,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowRight, TrendingUp, Shield, Building2, Users } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const metadata: Metadata = {
   title: 'Guides & Resources | Elevate Store',
@@ -96,7 +95,7 @@ export default function GuidesPage() {
           fill
           className="object-cover"
           priority
-          sizes="100vw" placeholder={blurDataURL}
+          sizes="100vw" placeholder="blur"
         />
       </section>
 
@@ -148,7 +147,7 @@ export default function GuidesPage() {
                       alt={guide.imageAlt}
                       fill
                       className="object-cover"
-                      sizes="(max-width: 1024px) 100vw, 50vw" placeholder={blurDataURL}
+                      sizes="(max-width: 1024px) 100vw, 50vw" placeholder="blur"
                     />
                     <div className="absolute top-4 left-4">
                       <span className={`inline-block px-3 py-1.5 rounded-full text-xs font-bold text-white ${guide.badgeColor}`}>

@@ -6,7 +6,6 @@ import { ArrowRight, FileText, Shield } from 'lucide-react';
 import { hero as heroTokens } from '@/lib/page-design-tokens';
 import { RAPIDS_CONFIG } from '@/lib/compliance/rapids-config';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const revalidate = 3600;
 
@@ -74,7 +73,7 @@ export default function HostShopApplyPage() {
           className="object-cover object-center"
           priority
           sizes={heroTokens.imageSizes}
-          placeholder={blurDataURL}
+          placeholder="blur"
         />
       </section>
 

@@ -6,7 +6,6 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
 import { ArrowRight, AlertTriangle } from 'lucide-react';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const metadata: Metadata = {
   title: 'Platform Licensing Guide | Elevate LMS',
@@ -194,7 +193,7 @@ export default function LicensingGuidePage() {
           fill
           className="object-cover"
           priority
-          sizes="100vw" placeholder={blurDataURL}
+          sizes="100vw" placeholder="blur"
         />
         <div className="absolute inset-0 bg-slate-900/55" />
         <div className="absolute inset-0 flex items-end">
@@ -230,7 +229,7 @@ export default function LicensingGuidePage() {
                 alt="License tier comparison — managed vs source-use"
                 fill
                 className="object-cover"
-                sizes="(max-width: 768px) 100vw, 896px" placeholder={blurDataURL}
+                sizes="(max-width: 768px) 100vw, 896px" placeholder="blur"
               />
             </div>
             <div className="grid md:grid-cols-2 gap-5">
@@ -276,7 +275,7 @@ export default function LicensingGuidePage() {
                   alt={step.imageAlt}
                   fill
                   className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 896px" placeholder={blurDataURL}
+                  sizes="(max-width: 768px) 100vw, 896px" placeholder="blur"
                 />
               </div>
               {step.content}
@@ -295,7 +294,7 @@ export default function LicensingGuidePage() {
                 alt="Billing and subscription management"
                 fill
                 className="object-cover"
-                sizes="(max-width: 768px) 100vw, 896px" placeholder={blurDataURL}
+                sizes="(max-width: 768px) 100vw, 896px" placeholder="blur"
               />
             </div>
             <div className="bg-amber-50 border border-amber-200 rounded-xl p-6">

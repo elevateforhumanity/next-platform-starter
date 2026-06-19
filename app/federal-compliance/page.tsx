@@ -6,7 +6,6 @@ import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { Shield, Scale, Users, FileText, ArrowRight, Phone } from 'lucide-react';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const metadata: Metadata = {
   title: 'Federal Compliance',
@@ -39,7 +38,7 @@ export default function FederalCompliancePage() {
             className="object-cover opacity-30"
             priority
             sizes="100vw"
-            placeholder={blurDataURL}
+            placeholder="blur"
           />
         </div>
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 py-16 sm:py-24">

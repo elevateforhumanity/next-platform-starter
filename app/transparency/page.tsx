@@ -6,7 +6,6 @@ import { FileText, ArrowRight, ExternalLink } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 import { loadVerifiedPublicStats } from '@/lib/site-stats-server';
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const metadata: Metadata = {
   title: `Transparency | ${PLATFORM_DEFAULTS.orgName}`,
@@ -79,7 +78,7 @@ export default async function TransparencyPage() {
           fill
           className="object-cover"
           priority
-          sizes="100vw" placeholder={blurDataURL}
+          sizes="100vw" placeholder="blur"
         />
         <div className="absolute inset-0 bg-slate-900/60 flex items-end">
           <div className="max-w-4xl mx-auto px-6 pb-10 w-full">

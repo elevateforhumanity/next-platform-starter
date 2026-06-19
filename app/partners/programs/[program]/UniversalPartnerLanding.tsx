@@ -6,7 +6,6 @@ import { ArrowRight, Phone } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import type { ProgramConfig } from '@/lib/partners/program-config';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 const CALENDLY_URL =
   process.env.NEXT_PUBLIC_CALENDLY_30MIN || 'https://calendly.com/elevate4humanityedu';
@@ -32,7 +31,7 @@ export default function UniversalPartnerLanding({ config }: { config: ProgramCon
             fill
             className="object-cover"
             priority
-            sizes="100vw" placeholder={blurDataURL}
+            sizes="100vw" placeholder="blur"
           />
         </div>
         <div className="relative max-w-4xl mx-auto px-4 text-center">

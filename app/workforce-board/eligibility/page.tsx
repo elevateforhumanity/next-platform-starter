@@ -4,7 +4,6 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
 import Image from 'next/image';
 import { FileText, HelpCircle } from 'lucide-react';
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/workforce-board/eligibility' },
@@ -64,7 +63,7 @@ export default function EligibilityPage() {
             fill
             className="object-cover"
             priority
-            sizes="100vw" placeholder={blurDataURL}
+            sizes="100vw" placeholder="blur"
           />
         </div>
         <div className="bg-white py-10">

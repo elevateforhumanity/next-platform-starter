@@ -5,7 +5,6 @@ import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { Metadata } from 'next';
 import { ChevronRight, Search, User, Shield, Eye, AlertCircle } from 'lucide-react';
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const metadata: Metadata = {
   title: 'Search Records | FERPA Portal',
@@ -127,7 +126,7 @@ export default async function FerpaRecordsSearchPage({
           fill
           sizes="100vw"
           className="object-cover"
-          priority placeholder={blurDataURL}
+          priority placeholder="blur"
         />
       </section>
       {/* Header */}

@@ -6,7 +6,6 @@ import { useSafeSearchParams } from '@/hooks/useSafeSearchParams';
 import Link from 'next/link';
 import { Check, Calendar, CreditCard, ArrowRight, Loader2 } from 'lucide-react';
 import { TRIAL_DAYS } from '@/lib/license/types';
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 function CheckoutSuccessContent() {
   const searchParams = useSafeSearchParams();
@@ -59,7 +58,7 @@ function CheckoutSuccessContent() {
       {/* Hero Image */}
       <section className="relative h-[160px] sm:h-[220px] md:h-[280px] overflow-hidden">
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
-        <Image src="/images/pages/store-checkout-success-hero.webp" alt="Elevate store" fill sizes="100vw" className="object-cover" priority placeholder={blurDataURL} />
+        <Image src="/images/pages/store-checkout-success-hero.webp" alt="Elevate store" fill sizes="100vw" className="object-cover" priority placeholder="blur" />
       </section>
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-green-600 mx-auto mb-4" />

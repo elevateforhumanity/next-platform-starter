@@ -5,7 +5,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 import {
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
   CheckCircle,
   ArrowRight,
   Phone,
@@ -294,7 +293,7 @@ export default function CheckEligibilityPage() {
           fill
           className="object-cover object-center"
           priority
-          sizes="100vw" placeholder={blurDataURL}
+          sizes="100vw" placeholder="blur"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-brand-blue-900/85 via-brand-blue-800/60 to-transparent" />
         <div

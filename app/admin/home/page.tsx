@@ -8,7 +8,6 @@ import {
 } from 'lucide-react';
 import { requireRole } from '@/lib/auth/require-role';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const dynamic = 'force-dynamic';
 
@@ -103,7 +102,7 @@ export default async function AdminHomePage() {
           fill
           className="object-cover object-center"
           priority
-          placeholder={blurDataURL}
+          placeholder="blur"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-brand-blue-900/90 to-brand-blue-900/40" />
         <div className="relative z-10 flex h-full flex-col justify-center px-6 sm:px-12 max-w-6xl mx-auto">

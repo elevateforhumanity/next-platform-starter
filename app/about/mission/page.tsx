@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { CheckCircle, ArrowRight, Heart, Users, Award, Briefcase } from 'lucide-react';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const revalidate = 3600;
 
@@ -75,7 +74,7 @@ export default function MissionPage() {
             fill
             className="object-cover opacity-40"
             priority
-            sizes="100vw" placeholder={blurDataURL}
+            sizes="100vw" placeholder="blur"
           />
         </div>
         <div className="relative max-w-5xl mx-auto px-4 py-20">
@@ -120,7 +119,7 @@ export default function MissionPage() {
               alt={`${PLATFORM_DEFAULTS.orgName} training`}
               fill
               className="object-cover"
-              sizes="(max-width: 768px) 100vw, 50vw" placeholder={blurDataURL}
+              sizes="(max-width: 768px) 100vw, 50vw" placeholder="blur"
             />
           </div>
         </div>
@@ -155,7 +154,7 @@ export default function MissionPage() {
               alt="Learners in training"
               fill
               className="object-cover"
-              sizes="(max-width: 768px) 100vw, 50vw" placeholder={blurDataURL}
+              sizes="(max-width: 768px) 100vw, 50vw" placeholder="blur"
             />
           </div>
           <div className="order-1 md:order-2">

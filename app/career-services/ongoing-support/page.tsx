@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { Heart, Users, TrendingUp, MessageSquare, Calendar, Phone } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const metadata: Metadata = {
   title: 'Ongoing Support | Career Services',
@@ -110,7 +109,7 @@ export default async function OngoingSupportPage() {
             fill
             className="object-cover"
             priority
-            sizes="100vw" placeholder={blurDataURL}
+            sizes="100vw" placeholder="blur"
           />
         </div>
         <div className="bg-white py-10">

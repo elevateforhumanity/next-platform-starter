@@ -20,7 +20,6 @@ import {
 } from 'lucide-react';
 import { COSMETOLOGY_PROGRAM_ID, COSMETOLOGY_COURSE_ID, TOTAL_HOURS_REQUIRED } from '@/lib/cosmetology/pricing';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const metadata: Metadata = {
   title: `Welcome to Your Cosmetology Apprenticeship | ${PLATFORM_DEFAULTS.orgName}`,
@@ -170,7 +169,7 @@ export default async function CosmetologyOrientationPage() {
           fill
           priority
           className="object-cover object-center"
-          sizes="100vw" placeholder={blurDataURL}
+          sizes="100vw" placeholder="blur"
         />
         {/* Gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-r from-brand-blue-900/85 via-brand-blue-800/60 to-transparent" />

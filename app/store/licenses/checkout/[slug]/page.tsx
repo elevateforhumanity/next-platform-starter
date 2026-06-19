@@ -18,7 +18,6 @@ import {
 import { ArrowLeft, Lock, AlertCircle } from 'lucide-react';
 import Link from 'next/link';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
@@ -83,7 +82,7 @@ function CheckoutForm({
       {/* Hero Image */}
       <section className="relative h-[160px] sm:h-[220px] md:h-[280px] overflow-hidden">
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
-        <Image src="/images/pages/store-licenses-checkout-hero.webp" alt="Elevate store" fill sizes="100vw" className="object-cover" priority placeholder={blurDataURL} />
+        <Image src="/images/pages/store-licenses-checkout-hero.webp" alt="Elevate store" fill sizes="100vw" className="object-cover" priority placeholder="blur" />
       </section>
       <PaymentElement />
 

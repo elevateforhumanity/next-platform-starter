@@ -6,7 +6,6 @@ import Link from 'next/link';
 import { Shield, AlertTriangle, BookOpen, FileText, Users, Phone, CheckCircle } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const metadata: Metadata = {
   title: 'Academic Integrity Policy',
@@ -36,7 +35,7 @@ export default function AcademicIntegrityPage() {
           className="object-cover"
           quality={90}
           priority
-          sizes="100vw" placeholder={blurDataURL}
+          sizes="100vw" placeholder="blur"
         />
       </section>
 

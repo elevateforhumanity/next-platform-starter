@@ -7,7 +7,6 @@ import Image from 'next/image';
 import { Phone } from 'lucide-react';
 import OrientationScheduleClient from './OrientationScheduleClient';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/orientation/schedule' },
@@ -35,7 +34,7 @@ export default function OrientationSchedulePage() {
             fill
             className="object-cover"
             priority
-            sizes="100vw" placeholder={blurDataURL}
+            sizes="100vw" placeholder="blur"
           />
         </div>
         <div className="bg-white border-t py-10 text-center px-4">

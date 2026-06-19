@@ -8,7 +8,6 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 import {
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
   Heart,
   Shield,
   TrendingUp,
@@ -73,7 +72,7 @@ export default async function JRIProgramsPage() {
           className="object-cover object-center"
           priority
           sizes="100vw"
-          placeholder={blurDataURL}
+          placeholder="blur"
         />
       </div>
 
@@ -156,7 +155,7 @@ export default async function JRIProgramsPage() {
                 fill
                 className="object-cover"
                 sizes="(max-width: 768px) 100vw, 50vw"
-                placeholder={blurDataURL}
+                placeholder="blur"
               />
             </div>
           </div>
@@ -348,7 +347,7 @@ export default async function JRIProgramsPage() {
                     sizes="100vw"
                     className="object-cover group-hover:scale-105 transition-transform duration-300"
                     loading="lazy"
-                    placeholder={blurDataURL}
+                    placeholder="blur"
                   />
                 </div>
                 <div className="p-6">

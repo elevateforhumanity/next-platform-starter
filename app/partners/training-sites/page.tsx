@@ -28,7 +28,6 @@ import {
 } from '@/data/training-partners';
 import { createClient } from '@/lib/supabase/server';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 const SITE_URL = PLATFORM_DEFAULTS.siteUrl;
 
@@ -202,7 +201,7 @@ export default async function TrainingSitesPage() {
           fill
           className="object-cover object-center"
           priority
-          sizes="100vw" placeholder={blurDataURL}
+          sizes="100vw" placeholder="blur"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-brand-blue-900/80 via-brand-blue-800/40 to-brand-blue-900/60" />
         <div className="absolute bottom-0 left-0 right-0 max-w-5xl mx-auto px-4 pb-12 pt-20">
@@ -402,7 +401,7 @@ export default async function TrainingSitesPage() {
                 alt={`Employer partnership with ${PLATFORM_DEFAULTS.orgName}`}
                 fill
                 className="object-cover"
-                sizes="(max-width: 768px) 100vw, 50vw" placeholder={blurDataURL}
+                sizes="(max-width: 768px) 100vw, 50vw" placeholder="blur"
               />
             </div>
           </div>

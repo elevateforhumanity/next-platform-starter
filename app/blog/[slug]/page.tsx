@@ -9,7 +9,6 @@ import { ArrowLeft, Calendar, User, Clock, Tag } from 'lucide-react';
 import { sanitizeRichHtml } from '@/lib/security/sanitize-html';
 import { STATIC_POSTS, type BlogPost } from '@/content/blog/posts';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const dynamic = 'force-dynamic';
 
@@ -153,7 +152,7 @@ export default async function BlogPostPage({ params }: { params: Params }) {
           className="object-cover"
           quality={90}
           priority
-          sizes="100vw" placeholder={blurDataURL}
+          sizes="100vw" placeholder="blur"
         />
       </section>
 
@@ -204,7 +203,7 @@ export default async function BlogPostPage({ params }: { params: Params }) {
                       alt={related.title}
                       fill
                       className="object-cover group-hover:scale-105 transition-transform duration-300"
-                      sizes="100vw" placeholder={blurDataURL}
+                      sizes="100vw" placeholder="blur"
                     />
                   </div>
                   <div className="p-6">

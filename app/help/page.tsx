@@ -22,7 +22,6 @@ import {
   Rocket,
 } from 'lucide-react';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const metadata: Metadata = {
   alternates: {
@@ -48,7 +47,7 @@ export default async function HelpPage() {
             className="object-cover"
             quality={90}
             priority
-            sizes="100vw" placeholder={blurDataURL}
+            sizes="100vw" placeholder="blur"
           />
           {/* Gradient Overlay for better text readability */}
           <div className="absolute inset-0 bg-gradient-to-br from-brand-blue-900/90 via-brand-blue-800/80 to-brand-blue-700/90" />
@@ -209,7 +208,7 @@ export default async function HelpPage() {
                 fill
                 className="object-cover"
                 quality={90}
-                sizes="(max-width: 1024px) 100vw, 50vw" placeholder={blurDataURL}
+                sizes="(max-width: 1024px) 100vw, 50vw" placeholder="blur"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-brand-blue-900/80 to-transparent" />
               <div className="absolute bottom-8 left-8 right-8 text-white">

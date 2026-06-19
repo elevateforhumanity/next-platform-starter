@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 import {
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
   CheckCircle,
   ArrowRight,
   Users,
@@ -88,7 +87,7 @@ export default function FssaPage() {
             fill
             className="object-cover opacity-30"
             priority
-            sizes="100vw" placeholder={blurDataURL}
+            sizes="100vw" placeholder="blur"
           />
         </div>
         <div className="relative max-w-5xl mx-auto px-4 py-20">
@@ -164,7 +163,7 @@ export default function FssaPage() {
               alt="FSSA IMPACT training"
               fill
               className="object-cover"
-              sizes="(max-width: 768px) 100vw, 50vw" placeholder={blurDataURL}
+              sizes="(max-width: 768px) 100vw, 50vw" placeholder="blur"
             />
           </div>
         </div>

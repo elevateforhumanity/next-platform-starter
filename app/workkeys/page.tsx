@@ -4,7 +4,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { ChevronRight } from 'lucide-react';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const metadata: Metadata = {
   title: `ACT WorkKeys / NCRC | ${PLATFORM_DEFAULTS.orgName} — Indianapolis`,
@@ -66,7 +65,7 @@ export default function WorkKeysPage() {
           fill
           sizes="100vw"
           className="object-cover"
-          priority placeholder={blurDataURL}
+          priority placeholder="blur"
         />
       </section>
 
@@ -111,7 +110,7 @@ export default function WorkKeysPage() {
                 alt="WorkKeys assessment testing"
                 fill
                 sizes="600px"
-                className="object-cover" placeholder={blurDataURL}
+                className="object-cover" placeholder="blur"
               />
             </div>
             <div>
@@ -152,7 +151,7 @@ export default function WorkKeysPage() {
                 className="rounded-2xl overflow-hidden border border-slate-200 flex flex-col"
               >
                 <div className="relative h-44 flex-shrink-0">
-                  <Image src={img} alt={name} fill sizes="400px" className="object-cover" placeholder={blurDataURL} />
+                  <Image src={img} alt={name} fill sizes="400px" className="object-cover" placeholder="blur" />
                 </div>
                 <div className="p-4 flex-1 bg-white">
                   <h3 className="font-bold text-slate-900 text-sm mb-1">{name}</h3>
@@ -178,7 +177,7 @@ export default function WorkKeysPage() {
                 className="rounded-xl overflow-hidden border border-slate-200 flex flex-col"
               >
                 <div className="relative h-32 flex-shrink-0">
-                  <Image src={img} alt={level} fill sizes="300px" className="object-cover" placeholder={blurDataURL} />
+                  <Image src={img} alt={level} fill sizes="300px" className="object-cover" placeholder="blur" />
                   <div className="absolute bottom-0 left-0 right-0 bg-black/55 px-3 py-1.5">
                     <p className="font-extrabold text-slate-900 text-sm">{level}</p>
                   </div>
@@ -239,7 +238,7 @@ export default function WorkKeysPage() {
                 alt="WorkKeys testing at Elevate"
                 fill
                 sizes="600px"
-                className="object-cover" placeholder={blurDataURL}
+                className="object-cover" placeholder="blur"
               />
             </div>
           </div>

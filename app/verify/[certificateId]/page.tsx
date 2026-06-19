@@ -4,7 +4,6 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 // Dynamic canonical — each certificate has its own URL
 export async function generateMetadata({ params }: { params: Promise<{ certificateId: string }> }): Promise<Metadata> {
@@ -159,7 +158,7 @@ export default async function VerifyCertificatePage({
           className="object-cover"
           quality={90}
           priority
-          sizes="100vw" placeholder={blurDataURL}
+          sizes="100vw" placeholder="blur"
         />
       </section>
 
@@ -282,7 +281,7 @@ export default async function VerifyCertificatePage({
                     alt="QR Code"
                     width={192}
                     height={192}
-                    unoptimized placeholder={blurDataURL} sizes="(max-width: 768px) 100vw, 50vw"
+                    unoptimized placeholder="blur" sizes="(max-width: 768px) 100vw, 50vw"
                   />
                 </div>
               </div>

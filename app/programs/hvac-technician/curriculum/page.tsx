@@ -6,7 +6,6 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { readFileSync } from 'fs';
 import path from 'path';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
 function getCourseBySlug(slug: string) {
   const defs: any[] = JSON.parse(
     readFileSync(path.join(process.cwd(), 'public/data/course-definitions.json'), 'utf8'),
@@ -45,7 +44,7 @@ export default function HVACCurriculumPage() {
           fill
           sizes="100vw"
           className="object-cover"
-          priority placeholder={blurDataURL}
+          priority placeholder="blur"
         />
         <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-4 py-2 rounded">
           <span className="text-sm font-bold text-slate-900">{PLATFORM_DEFAULTS.orgName}</span>

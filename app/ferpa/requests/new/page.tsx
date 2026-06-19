@@ -8,7 +8,6 @@ import Link from 'next/link';
 import { ChevronRight, User, FileText, AlertCircle, Loader2 } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
 import { logger } from '@/lib/logger';
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 const REQUEST_TYPES = [
   {
@@ -133,7 +132,7 @@ export default function NewFerpaRequestPage() {
           fill
           sizes="100vw"
           className="object-cover"
-          priority placeholder={blurDataURL}
+          priority placeholder="blur"
         />
       </section>
       <div className="max-w-7xl mx-auto px-4 py-4">

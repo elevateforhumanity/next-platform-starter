@@ -6,7 +6,6 @@ import { getAdminClient } from '@/lib/supabase/admin';
 import EligibilityPreQualifier from '@/components/enrollment/EligibilityPreQualifier';
 import { CheckCircle, XCircle, AlertCircle, ArrowRight, Users } from 'lucide-react';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const revalidate = 3600;
 
@@ -103,7 +102,7 @@ export default async function EligibilityPage() {
             className="object-cover opacity-30"
             priority
             sizes="100vw"
-            placeholder={blurDataURL}
+            placeholder="blur"
           />
         </div>
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 py-16 sm:py-24">

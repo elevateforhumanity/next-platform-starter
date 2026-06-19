@@ -5,7 +5,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Smartphone, Zap, Download, Wifi, Bell, Lock } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const metadata: Metadata = {
   alternates: {
@@ -49,7 +48,7 @@ export default async function MobileAppPage() {
           className="object-cover"
           quality={90}
           priority
-          sizes="100vw" placeholder={blurDataURL}
+          sizes="100vw" placeholder="blur"
         />
       </section>
 

@@ -5,7 +5,6 @@ import Image from 'next/image';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { MessageSquare } from 'lucide-react';
 import FAQSearch from './FAQSearch';
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const metadata: Metadata = {
   title: 'FAQ',
@@ -280,7 +279,7 @@ export default function FAQPage() {
           sizes="100vw"
           quality={90}
           className="object-cover"
-          priority placeholder={blurDataURL}
+          priority placeholder="blur"
         />
       </section>
       <div className="bg-white border-b border-slate-200 py-8 px-6">

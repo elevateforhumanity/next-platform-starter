@@ -5,7 +5,6 @@ import Image from 'next/image';
 import { Calendar, Clock, MapPin, User, Video, Building } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const metadata: Metadata = {
   title: 'Book an Appointment',
@@ -100,7 +99,7 @@ export default async function BookingPage() {
             fill
             className="object-cover"
             priority
-            sizes="100vw" placeholder={blurDataURL}
+            sizes="100vw" placeholder="blur"
           />
         </div>
         <div className="bg-white py-10">
@@ -212,7 +211,7 @@ export default async function BookingPage() {
                         fill
                         sizes="80px"
                         className="object-cover"
-                        placeholder={blurDataURL}
+                        placeholder="blur"
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center">

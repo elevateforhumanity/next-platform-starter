@@ -6,7 +6,6 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { requireAdminClient } from '@/lib/supabase/admin';
 import { formatPostDate } from '@/lib/data/news';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const revalidate = 3600;
 
@@ -92,7 +91,7 @@ export default async function PressPage() {
                         alt={post.title}
                         fill
                         sizes="(max-width: 640px) 100vw, 50vw"
-                        className="object-cover group-hover:scale-105 transition-transform duration-500" placeholder={blurDataURL}
+                        className="object-cover group-hover:scale-105 transition-transform duration-500" placeholder="blur"
                       />
                     </div>
                   )}

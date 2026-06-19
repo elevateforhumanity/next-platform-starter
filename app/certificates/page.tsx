@@ -5,7 +5,6 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
 import Image from 'next/image';
 import {
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
   Award,
   Shield,
   Search,
@@ -41,7 +40,7 @@ export default function CertificatesPage() {
           className="object-cover"
           quality={90}
           priority
-          sizes="100vw" placeholder={blurDataURL}
+          sizes="100vw" placeholder="blur"
         />
       </section>
       {/* Verify Certificate */}

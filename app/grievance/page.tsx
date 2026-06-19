@@ -5,7 +5,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Scale, Phone, Mail, AlertTriangle } from 'lucide-react';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/grievance' },
@@ -53,7 +52,7 @@ export default function GrievancePage() {
           fill
           sizes="100vw"
           className="object-cover"
-          priority placeholder={blurDataURL}
+          priority placeholder="blur"
         />
       </section>
 

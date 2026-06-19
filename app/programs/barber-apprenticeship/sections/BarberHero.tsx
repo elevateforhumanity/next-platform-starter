@@ -3,7 +3,6 @@ import Link from 'next/link';
 import { ArrowRight, Building2 } from 'lucide-react';
 import { QUICK_STATS } from '../barber-program-data';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export function BarberHero() {
   return (
@@ -16,7 +15,7 @@ export function BarberHero() {
           alt="Barber apprentice cutting hair in a licensed barbershop"
           fill sizes="100vw"
           className="object-cover"
-          priority placeholder={blurDataURL}
+          priority placeholder="blur"
         />
       </section>
 
@@ -89,7 +88,7 @@ export function BarberHero() {
                 src="/images/pages/programs-barber-training.jpg"
                 alt="Barber apprentice training in licensed shop"
                 fill sizes="(max-width: 1024px) 100vw, 50vw"
-                className="object-cover" placeholder={blurDataURL}
+                className="object-cover" placeholder="blur"
               />
             </div>
           </div>

@@ -8,7 +8,6 @@ import { Clock, Users, BookOpen } from 'lucide-react';
 import { LMS_HEROES } from '@/lib/lms/image-map';
 import { BARBER_COURSE_ID } from '@/lib/barber/constants';
 import { BARBER_CURRICULUM_COVER } from '@/lib/barber/branding';
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const metadata: Metadata = {
   title: 'My Programs | LMS',
@@ -61,7 +60,7 @@ export default async function MyCoursesPage() {
           fill
           sizes="100vw"
           className="object-cover"
-          priority placeholder={blurDataURL}
+          priority placeholder="blur"
         />
       </section>
 

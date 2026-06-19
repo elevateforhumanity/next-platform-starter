@@ -22,7 +22,6 @@ import { PrintButton } from './PrintButton';
 import { BARBER_SECTIONS, BARBER_STATS } from './barber-rubric-data';
 import type { RubricSection, RubricItem } from './barber-rubric-data';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const metadata: Metadata = {
   title: 'Barber Apprenticeship Competency Rubric | Compliance',
@@ -152,7 +151,7 @@ export default function BarberCompetencyRubricPage() {
           fill
           sizes="100vw"
           className="object-cover"
-          priority placeholder={blurDataURL}
+          priority placeholder="blur"
         />
         <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-10">
           <div className="max-w-6xl mx-auto">

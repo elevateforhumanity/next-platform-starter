@@ -19,7 +19,6 @@ import {
 import { CourseDetailClient } from './CourseDetailClient';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const dynamic = 'force-dynamic';
 
@@ -164,7 +163,7 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
                   alt={course.title}
                   width={600}
                   height={400}
-                  className="w-full object-cover" placeholder={blurDataURL}
+                  className="w-full object-cover" placeholder="blur"
                 />
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="w-20 h-20 bg-white/90 rounded-full flex items-center justify-center cursor-pointer hover:scale-110 transition">

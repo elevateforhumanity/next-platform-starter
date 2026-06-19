@@ -7,7 +7,6 @@ import { Quote, ArrowRight, Play, CheckCircle, TrendingUp, Heart } from 'lucide-
 import ModernLandingHero from '@/components/landing/ModernLandingHero';
 import { createClient } from '@/lib/supabase/server';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const metadata: Metadata = {
   title: 'Success Stories - Real People, Real Results',
@@ -293,7 +292,7 @@ export default async function SuccessStoriesPage() {
                       fill
                       sizes="100vw"
                       className="object-cover group-hover:scale-105 transition-transform duration-300"
-                      quality={90} placeholder={blurDataURL}
+                      quality={90} placeholder="blur"
                     />
                     {story.videoContent && (
                       <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">

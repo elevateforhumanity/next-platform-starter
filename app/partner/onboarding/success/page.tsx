@@ -6,7 +6,6 @@ import Link from 'next/link';
 import { Mail, Clock, ArrowRight, CheckCircle, DollarSign } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export default function PartnerOnboardingSuccessPage() {
   // Auth guard — must be signed in to access onboarding
@@ -38,7 +37,7 @@ export default function PartnerOnboardingSuccessPage() {
           fill
           sizes="100vw"
           className="object-cover"
-          priority placeholder={blurDataURL}
+          priority placeholder="blur"
         />
       </section>
       {/* Breadcrumbs */}

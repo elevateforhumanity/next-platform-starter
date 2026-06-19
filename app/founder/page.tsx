@@ -6,7 +6,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowRight } from 'lucide-react';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/founder' },
@@ -31,7 +30,7 @@ export default function FounderPage() {
           fill
           sizes="100vw"
           className="object-cover"
-          priority placeholder={blurDataURL}
+          priority placeholder="blur"
         />
         <div className="absolute inset-0 flex items-center px-6">
           <div className="max-w-6xl mx-auto w-full">
@@ -59,7 +58,7 @@ export default function FounderPage() {
                 fill
                 className="object-cover object-top"
                 priority
-                sizes="(max-width: 1024px) 100vw, 50vw" placeholder={blurDataURL}
+                sizes="(max-width: 1024px) 100vw, 50vw" placeholder="blur"
               />
             </div>
 

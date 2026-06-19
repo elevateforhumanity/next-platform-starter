@@ -14,7 +14,6 @@ import {
 } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { logger } from '@/lib/logger';
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 interface DocumentRequirement {
   id: string;
@@ -139,7 +138,7 @@ export default function PartnerDocumentsPage() {
           fill
           sizes="100vw"
           className="object-cover"
-          priority placeholder={blurDataURL}
+          priority placeholder="blur"
         />
       </section>
       <div className="mb-6">

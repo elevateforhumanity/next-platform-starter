@@ -9,7 +9,6 @@ import { ProgressDashboard } from '@/components/ProgressDashboard';
 import { ProgressTrackingDashboard } from '@/components/ProgressTrackingDashboard';
 import { LmsHeroBanner } from '@/components/lms/LmsHeroBanner';
 import {
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
   TrendingUp,
   Clock,
   BookOpen,
@@ -293,7 +292,7 @@ export default async function ProgressPage() {
                                 fill
                                 className="object-cover rounded-xl"
                                 sizes="64px"
-                                placeholder={blurDataURL}
+                                placeholder="blur"
                               />
                             ) : (
                               <BookOpen className="w-8 h-8 text-slate-400" />

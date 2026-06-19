@@ -6,7 +6,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import OrientationFormClient from './OrientationFormClient';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/orientation' },
@@ -32,7 +31,7 @@ export default async function OrientationPage() {
           className="object-cover"
           quality={90}
           priority
-          sizes="100vw" placeholder={blurDataURL}
+          sizes="100vw" placeholder="blur"
         />
       </section>
       {/* Title + Intro */}

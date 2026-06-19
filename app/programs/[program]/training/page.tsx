@@ -17,7 +17,6 @@ import { createClient } from '@/lib/supabase/server';
 import { createPublicClient } from '@/lib/supabase/public';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import {
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
   BookOpen,
   ExternalLink,
   Clock,
@@ -377,7 +376,7 @@ function InternalCard({ item, index }: { item: InternalItem; index: number }) {
           alt={label}
           fill
           className="object-cover"
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" placeholder={blurDataURL}
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" placeholder="blur"
         />
         {/* Step badge */}
         <div className="absolute top-3 left-3 w-7 h-7 rounded-full bg-white/90 text-slate-700 text-xs font-bold flex items-center justify-center shadow">
@@ -454,7 +453,7 @@ function ExternalCard({ item, index }: { item: ExternalItem; index: number }) {
           alt={item.title}
           fill
           className="object-cover"
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" placeholder={blurDataURL}
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" placeholder="blur"
         />
         <div className="absolute top-3 left-3 w-7 h-7 rounded-full bg-white/90 text-slate-700 text-xs font-bold flex items-center justify-center shadow">
           {index + 1}

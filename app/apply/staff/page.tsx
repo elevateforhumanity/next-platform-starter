@@ -4,7 +4,6 @@ import { createClient } from '@/lib/supabase/server';
 import StaffApplicationForm from './StaffApplicationForm';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const dynamic = 'force-dynamic';
 
@@ -36,7 +35,7 @@ export default async function StaffApplicationPage() {
           fill
           sizes="100vw"
           className="object-cover"
-          priority placeholder={blurDataURL}
+          priority placeholder="blur"
         />
         <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-4 py-2 rounded">
           <span className="text-sm font-bold text-slate-900">{PLATFORM_DEFAULTS.orgName}</span>

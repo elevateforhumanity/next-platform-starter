@@ -4,7 +4,6 @@ import Image from 'next/image';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { loadPublicProgramList } from '@/lib/programs/public-program-list';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const metadata: Metadata = {
   title: 'Complete Your Application',
@@ -45,7 +44,7 @@ export default async function EnrollPage() {
           alt="Enroll in Training"
           fill
           className="object-cover"
-          priority placeholder={blurDataURL}
+          priority placeholder="blur"
         />
       </div>
 

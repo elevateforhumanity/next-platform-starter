@@ -5,7 +5,6 @@ import { ArrowRight } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import HeroVideo from '@/components/marketing/HeroVideo';
 import heroBanners from '@/content/heroBanners';
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const dynamic = 'force-static';
 
@@ -200,7 +199,7 @@ export default function PlatformPage() {
                     alt={cap.alt}
                     fill
                     className="object-cover"
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" placeholder={blurDataURL}
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" placeholder="blur"
                   />
                 </div>
                 <div className="p-5">
@@ -269,7 +268,7 @@ export default function PlatformPage() {
                     alt={a.alt}
                     fill
                     className="object-cover"
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw" placeholder={blurDataURL}
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw" placeholder="blur"
                   />
                 </div>
                 <div className="p-5 flex flex-col flex-1">
@@ -330,7 +329,7 @@ export default function PlatformPage() {
                 alt="Compliance and audit infrastructure"
                 fill
                 className="object-cover"
-                sizes="(max-width: 1024px) 100vw, 50vw" placeholder={blurDataURL}
+                sizes="(max-width: 1024px) 100vw, 50vw" placeholder="blur"
               />
             </div>
           </div>

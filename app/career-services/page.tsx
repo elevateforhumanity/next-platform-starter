@@ -9,7 +9,6 @@ import VirtualCareerFair from '@/components/VirtualCareerFair';
 import { StudentSuccessCoaching } from '@/components/StudentSuccessCoaching';
 import WorkOneLocator from '@/components/WorkOneLocator';
 import LiveJobPostings from '@/components/careers/LiveJobPostings';
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const dynamic = 'force-static';
 
@@ -77,7 +76,7 @@ export default function CareerServicesPage() {
                     alt={item.title}
                     fill
                     sizes="100vw"
-                    className="object-cover" placeholder={blurDataURL}
+                    className="object-cover" placeholder="blur"
                   />
                 </div>
                 <div className="py-3 pr-3 sm:p-5 flex-1">

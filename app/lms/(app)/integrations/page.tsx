@@ -9,7 +9,6 @@ import Image from 'next/image';
 import { BookOpen, Award, Briefcase } from 'lucide-react';
 
 import { VideoConferencingIntegration } from '@/components/VideoConferencingIntegration';
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const dynamic = 'force-dynamic';
 
@@ -104,7 +103,7 @@ export default async function IntegrationsPage() {
           className="object-cover"
           quality={90}
           priority
-          sizes="100vw" placeholder={blurDataURL}
+          sizes="100vw" placeholder="blur"
         />
       </section>
 
@@ -142,7 +141,7 @@ export default async function IntegrationsPage() {
                   fill
                   className="object-cover"
                   quality={90}
-                  sizes="(max-width: 768px) 100vw, 50vw" placeholder={blurDataURL}
+                  sizes="(max-width: 768px) 100vw, 50vw" placeholder="blur"
                 />
               </div>
             </div>

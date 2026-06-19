@@ -14,7 +14,6 @@ import {
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { ACTIVE_PROVIDERS, type ExamDefinition } from '@/lib/testing/proctoring-capabilities';
 import { getProvidersForAmount } from '@/lib/bnpl-config';
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const metadata: Metadata = {
   title: 'Testing & Credential Exams',
@@ -69,7 +68,7 @@ export default function TestingPage() {
           fill
           sizes="100vw"
           className="object-cover"
-          priority placeholder={blurDataURL}
+          priority placeholder="blur"
         />
       </section>
 
@@ -151,7 +150,7 @@ export default function TestingPage() {
                       alt={provider.name}
                       fill
                       className="object-cover object-center group-hover:scale-105 transition-transform duration-300"
-                      sizes="(max-width: 1024px) 100vw, 33vw" placeholder={blurDataURL}
+                      sizes="(max-width: 1024px) 100vw, 33vw" placeholder="blur"
                     />
                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
                   </Link>
@@ -425,7 +424,7 @@ export default function TestingPage() {
                     alt={s.title}
                     fill
                     className="object-cover object-center"
-                    sizes="(max-width:640px) 100vw, (max-width:1024px) 50vw, 25vw" placeholder={blurDataURL}
+                    sizes="(max-width:640px) 100vw, (max-width:1024px) 50vw, 25vw" placeholder="blur"
                   />
                   <div className="absolute inset-0 bg-brand-blue-900/50" />
                   <div className="absolute top-3 left-3 w-8 h-8 bg-brand-blue-700 rounded-full flex items-center justify-center text-white font-bold text-sm border-2 border-white">

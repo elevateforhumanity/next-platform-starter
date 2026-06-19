@@ -6,7 +6,6 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { ArrowRight } from 'lucide-react';
 import PageVideoHero from '@/components/ui/PageVideoHero';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const metadata: Metadata = {
   title: 'Job Ready Indy',
@@ -41,7 +40,7 @@ export default function JobReadyIndyPage() {
           fill
           className="object-cover"
           priority
-          sizes="100vw" placeholder={blurDataURL}
+          sizes="100vw" placeholder="blur"
         />
       </section>
       <div className="bg-white border-b border-slate-200 py-8 px-4">
@@ -85,7 +84,7 @@ export default function JobReadyIndyPage() {
                 alt="Job Ready Indy career training"
                 fill
                 className="object-cover"
-                sizes="(max-width: 768px) 100vw, 50vw" placeholder={blurDataURL}
+                sizes="(max-width: 768px) 100vw, 50vw" placeholder="blur"
               />
             </div>
           </div>

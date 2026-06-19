@@ -6,7 +6,6 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { getAdminClient } from '@/lib/supabase/admin';
 import { PayNowButton } from '@/components/programs/PayNowButton';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const revalidate = 3600;
 
@@ -242,7 +241,7 @@ export default async function CoursesPage() {
                             alt={course.title}
                             fill
                             className="object-cover object-center"
-                            sizes="(max-width:640px) 100vw,(max-width:1024px) 50vw,33vw" placeholder={blurDataURL}
+                            sizes="(max-width:640px) 100vw,(max-width:1024px) 50vw,33vw" placeholder="blur"
                           />
                         </div>
                       )}

@@ -8,7 +8,6 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 import HostShopSyllabusRequirement from '@/components/programs/beauty/HostShopSyllabusRequirement';
 import { getApprovedShops, PROGRAM_LABELS } from '@/lib/programs/host-shops';
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const metadata: Metadata = {
   title: 'Become a Host Barbershop | Barber Apprenticeship',
@@ -38,7 +37,7 @@ export default async function HostShopsPage() {
           alt="Professional barbershop interior"
           fill sizes="100vw"
           className="object-cover"
-          priority placeholder={blurDataURL}
+          priority placeholder="blur"
         />
       </section>
 
@@ -57,7 +56,7 @@ export default async function HostShopsPage() {
                 src="/images/pages/barber-training.webp"
                 alt="Barber training apprentice"
                 fill
-                className="object-cover" placeholder={blurDataURL}
+                className="object-cover" placeholder="blur"
               />
             </div>
             <div>
@@ -109,7 +108,7 @@ export default async function HostShopsPage() {
                 src="/images/pages/barber-gallery-2.webp"
                 alt="Professional barbershop"
                 fill
-                className="object-cover" placeholder={blurDataURL}
+                className="object-cover" placeholder="blur"
               />
             </div>
           </div>
@@ -121,7 +120,7 @@ export default async function HostShopsPage() {
                 src="/images/pages/barber-gallery-3.webp"
                 alt="Barber with client"
                 fill
-                className="object-cover" placeholder={blurDataURL}
+                className="object-cover" placeholder="blur"
               />
             </div>
             <div>

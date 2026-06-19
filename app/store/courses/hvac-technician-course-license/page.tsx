@@ -6,7 +6,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Check, Play, BookOpen, Award, Clock, Users, FileText, Wrench } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const metadata: Metadata = {
   title: 'HVAC Technician Course License | Elevate Store',
@@ -220,7 +219,7 @@ export default function HvacCourseLicensePage() {
               <div key={c.credential} className="rounded-xl overflow-hidden border border-slate-200">
                 <div className="relative h-36">
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
-                  <Image src={c.img} alt={c.credential} fill className="object-cover" sizes="(max-width: 640px) 100vw, 33vw" placeholder={blurDataURL} />
+                  <Image src={c.img} alt={c.credential} fill className="object-cover" sizes="(max-width: 640px) 100vw, 33vw" placeholder="blur" />
                 </div>
                 <div className="p-4">
                   <p className="font-bold text-slate-900 text-sm">{c.credential}</p>

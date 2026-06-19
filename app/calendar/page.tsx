@@ -5,7 +5,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Clock } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
-import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const metadata: Metadata = {
   title: 'My Calendar',
@@ -78,7 +77,7 @@ export default async function CalendarPage() {
             fill
             className="object-cover"
             priority
-            sizes="100vw" placeholder={blurDataURL}
+            sizes="100vw" placeholder="blur"
           />
         </div>
         <div className="bg-white py-10">
@@ -100,7 +99,7 @@ export default async function CalendarPage() {
                 alt="Sign in to view your schedule"
                 fill
                 sizes="100vw"
-                className="object-cover" placeholder={blurDataURL}
+                className="object-cover" placeholder="blur"
               />
             </div>
             <div className="p-6 text-center">
@@ -140,7 +139,7 @@ export default async function CalendarPage() {
                                 alt={enrollment.course?.title || 'Course'}
                                 fill
                                 sizes="100vw"
-                                className="object-cover" placeholder={blurDataURL}
+                                className="object-cover" placeholder="blur"
                               />
                             </div>
                             <div className="flex-1 p-4">
@@ -171,7 +170,7 @@ export default async function CalendarPage() {
                             alt="Browse programs"
                             fill
                             sizes="100vw"
-                            className="object-cover" placeholder={blurDataURL}
+                            className="object-cover" placeholder="blur"
                           />
                         </div>
                         <div className="p-6 text-center text-slate-700">
@@ -263,7 +262,7 @@ export default async function CalendarPage() {
                     alt="Events"
                     fill
                     sizes="100vw"
-                    className="object-cover" placeholder={blurDataURL}
+                    className="object-cover" placeholder="blur"
                   />
                 </div>
                 <div className="p-4 text-center">
