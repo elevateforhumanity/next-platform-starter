@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 export default async function DocumentCenterPage() {
   await requireAdmin();
-  const db = await createAdminClient();
+  const db = await getAdminClient();
 
   const { data, error } = await db
     .from('documents')

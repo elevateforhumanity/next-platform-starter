@@ -24,7 +24,7 @@ const STAT_KEYS = [
 
 async function getCurrentStats(): Promise<Record<string, string>> {
   try {
-    const db = createAdminClient();
+    const db = await getAdminClient();
     const { data } = await db
       .from('platform_settings')
       .select('key, value')
