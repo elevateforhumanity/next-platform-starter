@@ -159,7 +159,7 @@ const nextConfig = {
 
   // Experimental features for better performance
   experimental: {
-    workerThreads: false,
+    workerThreads: true,
     cpus: 4,
     optimizePackageImports: ['lucide-react', 'framer-motion', '@radix-ui/react-'],
     modularizeImports: {
@@ -177,8 +177,8 @@ const nextConfig = {
       ],
     },
     optimizeCss: false,
-    parallelServerCompiles: false,
-    parallelServerBuildTraces: false,
+    parallelServerCompiles: true,
+    parallelServerBuildTraces: true,
   },
 
   // Suppress middleware deprecation warning (middleware.ts is still correct for our use case)
