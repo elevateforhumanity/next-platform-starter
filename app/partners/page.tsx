@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 import {
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
   Users,
   Briefcase,
   Building2,
@@ -162,7 +163,7 @@ export default function PartnersIndexPage() {
             fill
             sizes="100vw"
             className="object-cover object-center"
-            priority placeholder="empty"
+            priority placeholder={blurDataURL}
           />
         </div>
         <div className="bg-white py-10 border-t">
@@ -233,7 +234,7 @@ export default function PartnersIndexPage() {
                       alt={type.title}
                       fill
                       sizes="(max-width: 768px) 100vw, 40vw"
-                      className="object-cover" placeholder="empty"
+                      className="object-cover" placeholder={blurDataURL}
                     />
                   </div>
 

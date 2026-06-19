@@ -4,6 +4,7 @@ import { useState, useMemo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Search, Clock } from 'lucide-react';
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -85,7 +86,7 @@ function CatalogProgramCard({ p }: { p: CatalogProgram }) {
           alt={p.heroImageAlt}
           fill
           className="object-cover transition duration-500 group-hover:scale-105"
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw" placeholder="empty"
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw" placeholder={blurDataURL}
         />
         {/* Top badges only — no overlay, no text */}
         <div className="absolute left-3 top-3 flex flex-wrap gap-1.5">

@@ -5,6 +5,7 @@ import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import {
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
   FileText,
   AlertCircle,
   Plus,
@@ -106,7 +107,7 @@ export default async function ReportsPage() {
           className="object-cover"
           quality={90}
           priority
-          sizes="100vw" placeholder="empty"
+          sizes="100vw" placeholder={blurDataURL}
         />
 
       </section>

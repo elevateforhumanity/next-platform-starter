@@ -6,6 +6,7 @@ import { ArrowRight } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import LazyVideo from '@/components/ui/LazyVideo';
 import { WorkforceBoardStats } from './WorkforceBoardStats';
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const metadata: Metadata = {
   alternates: {
@@ -148,7 +149,7 @@ export default function WorkforceBoardPage() {
                     alt={feature.title}
                     fill
                     className="object-cover group-hover:scale-105 transition duration-300"
-                    sizes="100vw" placeholder="empty"
+                    sizes="100vw" placeholder={blurDataURL}
                   />
                 </div>
                 <div className="p-4">
@@ -183,7 +184,7 @@ export default function WorkforceBoardPage() {
                     alt={link.title}
                     fill
                     className="object-cover group-hover:scale-105 transition duration-300"
-                    sizes="100vw" placeholder="empty"
+                    sizes="100vw" placeholder={blurDataURL}
                   />
                   <div className="absolute bottom-4 left-4 right-4 text-white">
                     <h3 className="text-lg font-bold mb-1">{link.title}</h3>

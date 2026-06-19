@@ -5,6 +5,7 @@ import { Building2, Briefcase, GraduationCap, Handshake, Award } from 'lucide-re
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { createPublicClient } from '@/lib/supabase/server';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const revalidate = 600;
 
@@ -55,7 +56,7 @@ export default async function PartnersPage() {
             fill
             className="object-cover"
             priority
-            sizes="100vw" placeholder="empty"
+            sizes="100vw" placeholder={blurDataURL}
           />
         </div>
         <div className="bg-white py-10">
@@ -91,7 +92,7 @@ export default async function PartnersPage() {
                         height={60}
                         className="object-contain"
                         onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
-                        placeholder="empty"
+                        placeholder={blurDataURL}
                         sizes="(max-width: 768px) 100vw, 50vw"
                       />
                     </div>
@@ -126,7 +127,7 @@ export default async function PartnersPage() {
                         height={60}
                         className="object-contain"
                         onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
-                        placeholder="empty"
+                        placeholder={blurDataURL}
                         sizes="(max-width: 768px) 100vw, 50vw"
                       />
                     </div>
@@ -170,7 +171,7 @@ export default async function PartnersPage() {
                           height={60}
                           className="object-contain"
                           onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
-                        placeholder="empty"
+                        placeholder={blurDataURL}
                         sizes="(max-width: 768px) 100vw, 50vw"
                         />
                       </div>

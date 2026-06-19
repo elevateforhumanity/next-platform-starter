@@ -11,6 +11,7 @@ export const dynamic = 'force-dynamic';
 // EligibilityScreener uses browser APIs — imported via a 'use client' wrapper.
 import EligibilityScreener from '@/components/funding/EligibilityScreenerClient';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/funding' },
@@ -196,7 +197,7 @@ export default function FundingPage() {
           fill
           sizes="100vw"
           className="object-cover"
-          priority placeholder="empty"
+          priority placeholder={blurDataURL}
         />
       </section>
 
@@ -278,7 +279,7 @@ export default function FundingPage() {
                     alt={opt.imageAlt}
                     fill
                     sizes="(max-width: 640px) 100vw, 50vw"
-                    className="object-cover" placeholder="empty"
+                    className="object-cover" placeholder={blurDataURL}
                   />
                   <span
                     className={`absolute top-3 left-3 text-xs font-bold px-3 py-1 rounded-full ${opt.tagColor}`}

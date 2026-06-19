@@ -4,6 +4,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
 import Image from 'next/image';
 import { BookOpen, Video, FileText, Download, Headphones, Monitor } from 'lucide-react';
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/training/learning-center' },
@@ -65,7 +66,7 @@ export default function LearningCenterPage() {
             fill
             className="object-cover"
             priority
-            sizes="100vw" placeholder="empty"
+            sizes="100vw" placeholder={blurDataURL}
           />
         </div>
         <div className="bg-white py-10">

@@ -10,6 +10,7 @@ import Turnstile from '@/components/Turnstile';
 
 import FeedbackWidget from '@/components/FeedbackWidget';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 const contactInfo = [
   {
@@ -109,7 +110,7 @@ function ContactPageInner() {
           sizes="100vw"
           quality={90}
           className="object-cover"
-          priority placeholder="empty"
+          priority placeholder={blurDataURL}
         />
       </div>
       <div className="bg-white border-b border-slate-200 py-8 px-6">

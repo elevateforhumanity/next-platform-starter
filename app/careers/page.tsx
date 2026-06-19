@@ -6,6 +6,7 @@ import ModernLandingHero from '@/components/landing/ModernLandingHero';
 import { getActivePositions } from '@/lib/data/careers';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 import { formatProgramsDisplay } from '@/lib/site-stats';
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const metadata: Metadata = {
   title: 'Careers - Join Our Team',
@@ -171,7 +172,7 @@ export default async function CareersPage() {
                       alt={benefit.title}
                       fill
                       sizes="(max-width: 768px) 100vw, 33vw"
-                      className="object-cover" placeholder="empty"
+                      className="object-cover" placeholder={blurDataURL}
                     />
                   </div>
                   <h3 className="text-xl font-semibold mb-3 text-black">{benefit.title}</h3>

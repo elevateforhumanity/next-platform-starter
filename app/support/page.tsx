@@ -8,6 +8,7 @@ import SupportTicketsList from '@/components/support/SupportTicketsList';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { LiveChatSupport } from '@/components/LiveChatSupport';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const metadata: Metadata = {
   title: 'Support',
@@ -91,7 +92,7 @@ export default async function SupportPage() {
           fill
           sizes="100vw"
           className="object-cover"
-          priority placeholder="empty"
+          priority placeholder={blurDataURL}
         />
       </section>
 

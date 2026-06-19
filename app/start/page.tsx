@@ -15,6 +15,7 @@ import {
 import ProgressSteps from '@/components/start/ProgressSteps';
 import StartForm from '@/components/start/StartForm';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const metadata: Metadata = {
   title: 'Start Here',
@@ -64,7 +65,7 @@ export default function StartPage() {
           fill
           sizes="100vw"
           className="object-cover"
-          priority placeholder="empty"
+          priority placeholder={blurDataURL}
         />
         <div className="relative mx-auto max-w-6xl px-4 py-16 md:py-24">
           <div className="max-w-2xl">

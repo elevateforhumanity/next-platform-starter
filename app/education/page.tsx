@@ -8,6 +8,7 @@ import { getMarketingProgramSectors } from '@/lib/programs/catalog-sectors';
 import { formatPublicProgramsDisplay } from '@/lib/programs/public-programs-page';
 import { loadVerifiedPublicStats } from '@/lib/site-stats-server';
 import Logo from '@/components/ui/Logo';
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const revalidate = 0;
 
@@ -99,7 +100,7 @@ export default async function EducationLandingPage() {
                     fill
                     className="object-cover"
                     sizes="(max-width: 768px) 100vw, 33vw"
-                    placeholder="empty"
+                    placeholder={blurDataURL}
                   />
                 </div>
                 <div className="p-5">
@@ -147,7 +148,7 @@ export default async function EducationLandingPage() {
                     fill
                     className="object-cover"
                     sizes="(max-width: 768px) 100vw, 33vw"
-                    placeholder="empty"
+                    placeholder={blurDataURL}
                   />
                 </div>
                 <div className="p-4">

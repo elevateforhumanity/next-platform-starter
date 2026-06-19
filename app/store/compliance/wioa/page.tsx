@@ -8,6 +8,7 @@ import Image from 'next/image';
 import { ArrowRight, Home, ChevronRight, Download, FileText, Users, BarChart3, Shield, CheckCircle, } from 'lucide-react';
 import AvatarGuide from '@/components/AvatarGuide';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const metadata: Metadata = {
   title: `WIOA Compliance Tools | ${PLATFORM_DEFAULTS.orgName} Store`,
@@ -145,7 +146,7 @@ export default function WIOACompliancePage() {
       <section className="relative w-full">
         <div className="relative h-[300px] md:h-[400px] w-full overflow-hidden">
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
-          <Image src="/images/pages/store-compliance-wioa-hero.jpg" alt="WIOA Compliance" fill className="object-cover" priority sizes="100vw" placeholder="empty" />
+          <Image src="/images/pages/store-compliance-wioa-hero.jpg" alt="WIOA Compliance" fill className="object-cover" priority sizes="100vw" placeholder={blurDataURL} />
         </div>
         <div className="bg-slate-900 py-10">
           <div className="max-w-5xl mx-auto px-4 text-center">
@@ -199,7 +200,7 @@ export default function WIOACompliancePage() {
                     alt={feature.title}
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-300"
-                   sizes="100vw" placeholder="empty" />
+                   sizes="100vw" placeholder={blurDataURL} />
                   <h3 className="absolute bottom-4 left-4 text-xl font-bold text-slate-900">{feature.title}</h3>
                 </div>
                 <div className="p-6">
@@ -232,7 +233,7 @@ export default function WIOACompliancePage() {
             ].map((item) => (
               <div key={item.step} className="text-center">
                 <div className="relative w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden border-4 border-brand-green-600">
-                  <Image src={item.image} alt={item.title} fill sizes="100vw" className="object-cover" placeholder="empty" />
+                  <Image src={item.image} alt={item.title} fill sizes="100vw" className="object-cover" placeholder={blurDataURL} />
                   <div className="absolute inset-0 bg-brand-green-600/60 flex items-center justify-center">
                     <span className="text-2xl font-black text-slate-900">{item.step}</span>
                   </div>
@@ -318,7 +319,7 @@ export default function WIOACompliancePage() {
                   alt="WIOA Resources"
                   fill
                   className="object-cover"
-                 sizes="100vw" placeholder="empty" />
+                 sizes="100vw" placeholder={blurDataURL} />
               </div>
             </div>
           </div>

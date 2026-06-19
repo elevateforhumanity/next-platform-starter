@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { createBrowserClient } from '@supabase/ssr';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export default function GrantProgramsPage() {
   const [dbRows, setDbRows] = useState<any[]>([]);
@@ -48,7 +49,7 @@ export default function GrantProgramsPage() {
           className="object-cover"
           quality={90}
           priority
-          sizes="100vw" placeholder="empty"
+          sizes="100vw" placeholder={blurDataURL}
         />
         <div className="relative z-10 max-w-4xl mx-auto px-4 text-center text-white h-full flex flex-col justify-center drop-shadow-lg">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 drop-shadow-md">
@@ -164,7 +165,7 @@ export default function GrantProgramsPage() {
                     alt={`${program.title} program`}
                     fill
                     className="object-cover"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" placeholder="empty"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" placeholder={blurDataURL}
                   />
                 </div>
                 <div className="p-6">

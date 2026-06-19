@@ -7,6 +7,7 @@ import Link from 'next/link';
 
 import Image from 'next/image';
 import { ArrowRight, Zap } from 'lucide-react';
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const metadata: Metadata = {
   title: 'Community Hub Add-On | Build Engagement | Elevate Store',
@@ -163,7 +164,7 @@ export default function CommunityHubPage() {
                     alt={feature.title}
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-300"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw" placeholder="empty"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw" placeholder={blurDataURL}
                   />
                   <div className="absolute bottom-3 left-4">
                     <h3 className="text-lg font-bold text-white">{feature.title}</h3>

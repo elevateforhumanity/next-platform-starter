@@ -16,6 +16,7 @@ import { resolvePortalForUser } from '@/lib/portal/router';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 import { hydrateBrowserSupabaseConfig } from '@/lib/supabase/public-config';
 import { mapAuthError } from '@/lib/auth/map-auth-error';
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 
 const ADMIN_LOGIN_ROLES = new Set(['super_admin', 'admin', 'staff', 'org_admin', 'platform_operator']);
@@ -343,7 +344,7 @@ function LoginForm() {
           className="object-cover"
           priority
           quality={90}
-          sizes="100vw" placeholder="empty"
+          sizes="100vw" placeholder={blurDataURL}
         />
       </section>
 

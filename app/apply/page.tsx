@@ -7,6 +7,7 @@ import ApplyPathGuide from '@/components/apply/ApplyPathGuide';
 import { normalizeProgramInterest } from '@/lib/intake/normalize-program-interest';
 import { getAdminClient } from '@/lib/supabase/admin';
 import { getStaticProgram, STATIC_PROGRAM_MAP } from '@/data/programs/index';
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 // No static revalidation; use the admin client when it is available so all
 // published programs are returned, but keep the intake page usable in CI/local
@@ -93,7 +94,7 @@ export default async function ApplyPage({
             className="object-cover object-center"
             priority
             sizes="100vw"
-            placeholder="empty"
+            placeholder={blurDataURL}
           />
         </div>
         <div className="bg-white border-b border-slate-200 py-10">

@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { Check, Shield, Users, BarChart3, Lock, Headphones, ArrowRight, AlertTriangle } from 'lucide-react';
 import { LicenseDemo } from '@/components/store/LicenseDemo';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const metadata: Metadata = {
   title: 'Managed Enterprise LMS Platform',
@@ -132,7 +133,7 @@ export default function ManagedPlatformPage() {
                   alt="Elevate managed platform dashboard"
                   fill
                   className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 80vw" placeholder="empty"
+                  sizes="(max-width: 768px) 100vw, 80vw" placeholder={blurDataURL}
                 />
               </div>
             </div>

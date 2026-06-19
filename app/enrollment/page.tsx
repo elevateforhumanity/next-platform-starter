@@ -19,6 +19,7 @@ import HeroVideo from '@/components/marketing/HeroVideo';
 import heroBanners from '@/content/heroBanners';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 import { loadPublicProgramList } from '@/lib/programs/public-program-list';
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const dynamic = 'force-dynamic';
 
@@ -247,7 +248,7 @@ export default async function EnrollmentPage() {
                     alt={p.name}
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-300"
-                    sizes="(max-width: 640px) 100vw, 33vw" placeholder="empty"
+                    sizes="(max-width: 640px) 100vw, 33vw" placeholder={blurDataURL}
                   />
                 </div>
                 <div className="p-5 flex flex-col flex-1">
@@ -374,7 +375,7 @@ export default async function EnrollmentPage() {
                   alt="Career pathways for all students"
                   fill
                   className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 50vw" placeholder="empty"
+                  sizes="(max-width: 768px) 100vw, 50vw" placeholder={blurDataURL}
                 />
               </div>
             </div>

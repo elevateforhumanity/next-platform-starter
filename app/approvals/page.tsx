@@ -15,6 +15,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Award, Building2, Shield, Users, FileCheck, CheckCircle } from 'lucide-react';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export default function ApprovalsPage() {
   return (
@@ -32,7 +33,7 @@ export default function ApprovalsPage() {
           className="object-cover"
           priority
           quality={90}
-          sizes="100vw" placeholder="empty"
+          sizes="100vw" placeholder={blurDataURL}
         />
       </section>
 

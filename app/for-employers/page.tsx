@@ -19,6 +19,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 import { loadVerifiedPublicStats } from '@/lib/site-stats-server';
 import { HomeEmployerStrip } from '@/components/home/HomeEmployerStrip';
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const metadata: Metadata = {
   title: 'For Employers | Hire, Sponsor & Train | Elevate Workforce OS',
@@ -66,7 +67,7 @@ export default async function ForEmployersPage() {
           fill
           className="object-cover"
           priority
-          sizes="100vw" placeholder="empty"
+          sizes="100vw" placeholder={blurDataURL}
         />
       </section>
       <div className="bg-white border-b border-slate-200 py-8 px-4">

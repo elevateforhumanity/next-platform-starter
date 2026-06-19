@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { ArrowRight, ChevronDown, ChevronUp, Phone } from 'lucide-react';
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export default function WritingCenterPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
@@ -105,7 +106,7 @@ export default function WritingCenterPage() {
           fill
           sizes="100vw"
           className="object-cover"
-          priority placeholder="empty"
+          priority placeholder={blurDataURL}
         />
       </section>
 
@@ -137,7 +138,7 @@ export default function WritingCenterPage() {
                   alt="Student submitting a draft for written review"
                   fill
                   className="object-cover"
-                  sizes="100vw" placeholder="empty"
+                  sizes="100vw" placeholder={blurDataURL}
                 />
               </div>
               <div className="p-8">
@@ -165,7 +166,7 @@ export default function WritingCenterPage() {
                   alt="Live tutoring session via Zoom"
                   fill
                   className="object-cover"
-                  sizes="100vw" placeholder="empty"
+                  sizes="100vw" placeholder={blurDataURL}
                 />
               </div>
               <div className="p-8">
@@ -207,7 +208,7 @@ export default function WritingCenterPage() {
                     alt={service.title}
                     fill
                     className="object-cover"
-                    sizes="100vw" placeholder="empty"
+                    sizes="100vw" placeholder={blurDataURL}
                   />
                 </div>
                 <div className="p-6">

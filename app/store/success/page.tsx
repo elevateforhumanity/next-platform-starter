@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import {
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
   Download,
   Mail,
   ArrowRight,
@@ -78,7 +79,7 @@ export default async function StoreSuccessPage({
       {/* Hero Image */}
       <section className="relative h-[160px] sm:h-[220px] md:h-[280px] overflow-hidden">
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
-        <Image src="/images/pages/store-success-hero.webp" alt="Elevate store" fill sizes="100vw" className="object-cover" priority placeholder="empty" />
+        <Image src="/images/pages/store-success-hero.webp" alt="Elevate store" fill sizes="100vw" className="object-cover" priority placeholder={blurDataURL} />
       </section>
       <div className="max-w-3xl mx-auto px-4 py-16">
         <div className="bg-white rounded-2xl shadow-lg p-8 text-center">

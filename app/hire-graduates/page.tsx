@@ -9,6 +9,7 @@ import Image from 'next/image';
 import HeroVideo from '@/components/marketing/HeroVideo';
 import heroBanners from '@/content/heroBanners';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const metadata: Metadata = {
   alternates: {
@@ -77,7 +78,7 @@ export default async function HireGraduatesPage() {
                 alt="Certified graduates ready for employment"
                 fill
                 className="object-cover"
-                sizes="(max-width: 768px) 100vw, 50vw" placeholder="empty"
+                sizes="(max-width: 768px) 100vw, 50vw" placeholder={blurDataURL}
               />
             </div>
           </div>
@@ -114,7 +115,7 @@ export default async function HireGraduatesPage() {
                     alt={card.alt}
                     fill
                     className="object-cover"
-                    sizes="(max-width: 768px) 100vw, 33vw" placeholder="empty"
+                    sizes="(max-width: 768px) 100vw, 33vw" placeholder={blurDataURL}
                   />
                 </div>
                 <div className="p-5">

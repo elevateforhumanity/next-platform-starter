@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { AlertTriangle, Check, X, Building2, Shield, ArrowRight, Ban } from 'lucide-react';
 import { LicenseDemo } from '@/components/store/LicenseDemo';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const metadata: Metadata = {
   title: 'Restricted Source-Use License',
@@ -51,7 +52,7 @@ export default function SourceUseLicensePage() {
                   alt="Elevate platform overview"
                   fill
                   className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 70vw" placeholder="empty"
+                  sizes="(max-width: 768px) 100vw, 70vw" placeholder={blurDataURL}
                 />
               </div>
             </div>

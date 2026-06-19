@@ -6,6 +6,7 @@ import type { ProgramPageConfig } from '@/components/programs/ProgramPageLayout'
 import { InView } from '@/components/ui/InView';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const dynamic = 'force-static';
 export const revalidate = 86400;
@@ -68,7 +69,7 @@ export default function Page() {
                 <ScrollReveal key={p.title} delay={i * 80} direction="up">
                   <Link href={p.href} className="group block bg-white rounded-xl border-2 border-slate-200 hover:border-brand-red-400 hover:shadow-md transition-all overflow-hidden">
                     <div className="relative aspect-[3/2] w-full overflow-hidden">
-                      <Image fill src={p.image} alt={p.title} className="object-cover group-hover:scale-105 transition-transform duration-300" sizes="(max-width:640px) 100vw,(max-width:1024px) 50vw,33vw" placeholder="empty" />
+                      <Image fill src={p.image} alt={p.title} className="object-cover group-hover:scale-105 transition-transform duration-300" sizes="(max-width:640px) 100vw,(max-width:1024px) 50vw,33vw" placeholder={blurDataURL} />
                     </div>
                     <div className="p-5">
                       <div className="flex items-center justify-between mb-1">

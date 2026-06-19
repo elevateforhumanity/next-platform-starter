@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 import {
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
   Users,
   BookOpen,
   ArrowRight,
@@ -143,7 +144,7 @@ export default function JRIPage() {
           fill
           className="object-cover"
           priority
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" placeholder="empty"
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" placeholder={blurDataURL}
         />
       </section>
       {/* Stats Section */}
@@ -187,7 +188,7 @@ export default function JRIPage() {
                     alt={benefit.alt}
                     fill
                     className="object-cover"
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" placeholder="empty"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" placeholder={blurDataURL}
                   />
                 </div>
                 <div className="p-5">

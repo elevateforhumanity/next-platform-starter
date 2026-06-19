@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { Phone, Building2, Users, DollarSign, TrendingUp, ArrowRight } from 'lucide-react';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const dynamic = 'force-static';
 
@@ -197,7 +198,7 @@ export default function AgenciesPage() {
                     alt={feature.alt}
                     fill
                     className="object-cover"
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw" placeholder="empty"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw" placeholder={blurDataURL}
                   />
                 </div>
                 <div className="p-5 flex flex-col flex-1">

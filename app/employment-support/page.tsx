@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { ArrowRight, Users, FileText, Mic, Handshake, Bus, HeartHandshake } from 'lucide-react';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/employment-support' },
@@ -31,7 +32,7 @@ export default function EmploymentSupportPage() {
           fill
           sizes="100vw"
           className="object-cover"
-          priority placeholder="empty"
+          priority placeholder={blurDataURL}
         />
       </section>
 
@@ -105,7 +106,7 @@ export default function EmploymentSupportPage() {
                     fill
                     sizes="(max-width: 640px) 112px, (max-width: 1024px) 50vw, 33vw"
                     className="object-cover"
-                    loading="lazy" placeholder="empty"
+                    loading="lazy" placeholder={blurDataURL}
                   />
                 </div>
                 <div className="py-3 pr-3 sm:p-5 flex-1">
@@ -187,7 +188,7 @@ export default function EmploymentSupportPage() {
                 fill
                 sizes="(max-width: 768px) 100vw, 50vw"
                 className="object-cover"
-                loading="lazy" placeholder="empty"
+                loading="lazy" placeholder={blurDataURL}
               />
             </div>
             <div className="flex flex-col justify-center">
@@ -234,7 +235,7 @@ export default function EmploymentSupportPage() {
                   fill
                   sizes="(max-width: 768px) 100vw, 50vw"
                   className="object-cover"
-                  loading="lazy" placeholder="empty"
+                  loading="lazy" placeholder={blurDataURL}
                 />
               </div>
               <h3 className="text-xl font-semibold text-slate-900 mb-2">Industry Training</h3>
@@ -258,7 +259,7 @@ export default function EmploymentSupportPage() {
                   fill
                   sizes="(max-width: 768px) 100vw, 50vw"
                   className="object-cover"
-                  loading="lazy" placeholder="empty"
+                  loading="lazy" placeholder={blurDataURL}
                 />
               </div>
               <h3 className="text-xl font-semibold text-slate-900 mb-2">One-on-One Support</h3>

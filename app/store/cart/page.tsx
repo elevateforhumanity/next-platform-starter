@@ -3,6 +3,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Image from 'next/image';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 import StoreCartView from '@/components/store/StoreCartView';
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const metadata: Metadata = {
   title: 'Shopping Cart',
@@ -37,7 +38,7 @@ export default async function CartPage({
           sizes="100vw"
           className="object-cover"
           priority
-          placeholder="empty"
+          placeholder={blurDataURL}
         />
       </section>
       <div className="max-w-7xl mx-auto px-4 py-4">

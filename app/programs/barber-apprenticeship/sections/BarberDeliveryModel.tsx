@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { COMPETENCIES } from '../barber-program-data';
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export function BarberDeliveryModel() {
   return (
@@ -15,7 +16,7 @@ export function BarberDeliveryModel() {
             <div className="bg-white rounded-xl overflow-hidden border border-slate-200">
               <div className="relative" style={{ aspectRatio: "3/2" }}>
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
-                <Image src="/images/pages/barber-delivery-1.webp" alt="Barber classroom instruction" fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" placeholder="empty" />
+                <Image src="/images/pages/barber-delivery-1.webp" alt="Barber classroom instruction" fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" placeholder={blurDataURL} />
               </div>
               <div className="p-6">
                 <h3 className="font-bold text-lg text-slate-900 mb-2">Related Technical Instruction (RTI)</h3>
@@ -24,7 +25,7 @@ export function BarberDeliveryModel() {
             </div>
             <div className="bg-white rounded-xl overflow-hidden border border-slate-200">
               <div className="relative" style={{ aspectRatio: "3/2" }}>
-                <Image src="/images/pages/barber-delivery-2.webp" alt="Apprentice cutting hair in licensed barbershop" fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" placeholder="empty" />
+                <Image src="/images/pages/barber-delivery-2.webp" alt="Apprentice cutting hair in licensed barbershop" fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" placeholder={blurDataURL} />
               </div>
               <div className="p-6">
                 <h3 className="font-bold text-lg text-slate-900 mb-2">On-the-Job Training (OJT)</h3>
@@ -33,7 +34,7 @@ export function BarberDeliveryModel() {
             </div>
             <div className="bg-white rounded-xl overflow-hidden border border-slate-200">
               <div className="relative" style={{ aspectRatio: "3/2" }}>
-                <Image src="/images/pages/barber-delivery-3.webp" alt="Barber apprentice progress tracking" fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" placeholder="empty" />
+                <Image src="/images/pages/barber-delivery-3.webp" alt="Barber apprentice progress tracking" fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" placeholder={blurDataURL} />
               </div>
               <div className="p-6">
                 <h3 className="font-bold text-lg text-slate-900 mb-2">Progress Tracking</h3>
@@ -42,7 +43,7 @@ export function BarberDeliveryModel() {
             </div>
             <div className="bg-white rounded-xl overflow-hidden border border-slate-200">
               <div className="relative" style={{ aspectRatio: "3/2" }}>
-                <Image src="/images/pages/barber-cutting.webp" alt="Licensed barbershop training environment" fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" placeholder="empty" />
+                <Image src="/images/pages/barber-cutting.webp" alt="Licensed barbershop training environment" fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" placeholder={blurDataURL} />
               </div>
               <div className="p-6">
                 <h3 className="font-bold text-lg text-slate-900 mb-2">Program Oversight</h3>

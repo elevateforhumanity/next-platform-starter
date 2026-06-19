@@ -4,6 +4,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
 import Image from 'next/image';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const dynamic = 'force-static';
 
@@ -103,7 +104,7 @@ export default function TrainingPage() {
           fill
           className="object-cover"
           priority
-          sizes="100vw" placeholder="empty"
+          sizes="100vw" placeholder={blurDataURL}
         />
       </section>
 
@@ -166,7 +167,7 @@ export default function TrainingPage() {
                     alt={area.title}
                     fill
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    className="object-cover group-hover:scale-105 transition-transform duration-500" placeholder="empty"
+                    className="object-cover group-hover:scale-105 transition-transform duration-500" placeholder={blurDataURL}
                   />
                 </div>
                 <div className="p-5">

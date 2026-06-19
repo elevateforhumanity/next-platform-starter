@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Share2, Users, Heart, Mail, MessageCircle, Copy } from 'lucide-react';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/share' },
@@ -55,7 +56,7 @@ export default function SharePage() {
             fill
             className="object-cover"
             priority
-            sizes="100vw" placeholder="empty"
+            sizes="100vw" placeholder={blurDataURL}
           />
         </div>
         <div className="bg-white py-10">

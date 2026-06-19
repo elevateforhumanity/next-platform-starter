@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { ChevronRight } from 'lucide-react';
 import HeroVideo from '@/components/marketing/HeroVideo';
 import heroBanners from '@/content/heroBanners';
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const revalidate = 3600;
 
@@ -138,7 +139,7 @@ export default function EmployerPage() {
               >
                 <div className="relative h-40 flex-shrink-0">
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
-                  <Image src={img} alt={alt} fill sizes="400px" className="object-cover" placeholder="empty" />
+                  <Image src={img} alt={alt} fill sizes="400px" className="object-cover" placeholder={blurDataURL} />
                 </div>
                 <div className="p-4 flex-1">
                   <h3 className="font-bold text-slate-900 text-sm leading-tight mb-1">{title}</h3>
@@ -168,7 +169,7 @@ export default function EmployerPage() {
                     alt={label}
                     fill
                     sizes="200px"
-                    className="object-cover group-hover:scale-105 transition-transform duration-300" placeholder="empty"
+                    className="object-cover group-hover:scale-105 transition-transform duration-300" placeholder={blurDataURL}
                   />
                 </div>
                 <div className="p-2 bg-white">
@@ -192,7 +193,7 @@ export default function EmployerPage() {
             {STEPS.map(({ n, title, desc, img }) => (
               <div key={n} className="flex flex-col">
                 <div className="relative h-40 rounded-xl overflow-hidden mb-3 flex-shrink-0">
-                  <Image src={img} alt={title} fill sizes="300px" className="object-cover" placeholder="empty" />
+                  <Image src={img} alt={title} fill sizes="300px" className="object-cover" placeholder={blurDataURL} />
                   <div className="absolute top-3 left-3 w-8 h-8 rounded-full bg-brand-red-600 text-white font-extrabold text-sm flex items-center justify-center shadow">
                     {n}
                   </div>
@@ -247,7 +248,7 @@ export default function EmployerPage() {
                 alt="Employer partnership meeting"
                 fill
                 sizes="600px"
-                className="object-cover" placeholder="empty"
+                className="object-cover" placeholder={blurDataURL}
               />
             </div>
           </div>

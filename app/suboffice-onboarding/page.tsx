@@ -6,6 +6,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 import {
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
   Building2,
   Upload,
   FileText,
@@ -39,7 +40,7 @@ export default function SubofficeOnboardingPage() {
           fill
           className="object-cover"
           priority
-          sizes="100vw" placeholder="empty"
+          sizes="100vw" placeholder={blurDataURL}
         />
       </section>
 

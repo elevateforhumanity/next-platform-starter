@@ -5,6 +5,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
 import Image from 'next/image';
 import {
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
   Zap,
   Shield,
   Clock,
@@ -58,7 +59,7 @@ export default function DirectDepositPage() {
           fill
           className="object-cover"
           priority
-          sizes="100vw" placeholder="empty"
+          sizes="100vw" placeholder={blurDataURL}
         />
       </section>
 

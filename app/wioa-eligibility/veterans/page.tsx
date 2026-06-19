@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { Shield, Award, Briefcase, Phone, CheckCircle } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const metadata: Metadata = {
   title: 'WIOA Eligibility for Veterans',
@@ -92,7 +93,7 @@ export default async function VeteransPage() {
             fill
             className="object-cover"
             priority
-            sizes="100vw" placeholder="empty"
+            sizes="100vw" placeholder={blurDataURL}
           />
         </div>
         <div className="bg-white py-10">

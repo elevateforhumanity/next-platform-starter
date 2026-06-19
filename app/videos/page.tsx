@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { getAllLiveVideos, getAllCategories } from '@/lib/video/registry';
 import { Play } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const revalidate = 3600;
 export const metadata: Metadata = {
@@ -75,7 +76,7 @@ export default async function VideosPage() {
                           alt={video.title}
                           fill
                           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                          className="object-cover group-hover:scale-105 transition" placeholder="empty"
+                          className="object-cover group-hover:scale-105 transition" placeholder={blurDataURL}
                         />
                         <div className="absolute inset-0 flex items-center justify-center">
                           <div className="w-16 h-16 bg-white/90 rounded-full flex items-center justify-center group-hover:scale-110 transition">

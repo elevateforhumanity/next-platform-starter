@@ -4,6 +4,7 @@ import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
 import Image from 'next/image';
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const metadata: Metadata = {
   title: 'Banking Services - Elevate for Humanity',
@@ -29,7 +30,7 @@ export default function BankingPage() {
           className="object-cover"
           priority
           sizes="100vw"
-          placeholder="empty"
+          placeholder={blurDataURL}
         />
       </section>
 
@@ -75,7 +76,7 @@ export default function BankingPage() {
                   fill
                   className="object-cover"
                   sizes="(max-width: 768px) 100vw, 33vw"
-                  placeholder="empty"
+                  placeholder={blurDataURL}
                 />
               </div>
               <div className="p-7">
@@ -116,7 +117,7 @@ export default function BankingPage() {
                   fill
                   className="object-cover"
                   sizes="(max-width: 768px) 100vw, 33vw"
-                  placeholder="empty"
+                  placeholder={blurDataURL}
                 />
               </div>
               <div className="p-7">
@@ -157,7 +158,7 @@ export default function BankingPage() {
                   fill
                   className="object-cover"
                   sizes="(max-width: 768px) 100vw, 33vw"
-                  placeholder="empty"
+                  placeholder={blurDataURL}
                 />
               </div>
               <div className="p-7">
@@ -246,7 +247,7 @@ export default function BankingPage() {
                 fill
                 className="object-cover"
                 sizes="(max-width: 768px) 100vw, 50vw"
-                placeholder="empty"
+                placeholder={blurDataURL}
               />
             </div>
             <div>

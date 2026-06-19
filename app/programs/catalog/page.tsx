@@ -12,6 +12,7 @@ import Link from 'next/link';
 import { BookOpen, MapPin, Clock, Award } from 'lucide-react';
 import CatalogFilters from './CatalogFilters';
 import { PayNowButton } from '@/components/programs/PayNowButton';
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const revalidate = 0;
 
@@ -123,7 +124,7 @@ export default async function ProgramCatalogPage({
             priority
             sizes="100vw"
             className="object-cover object-center"
-            placeholder="empty"
+            placeholder={blurDataURL}
           />
         </div>
         <div className="max-w-4xl mx-auto px-4 py-8">

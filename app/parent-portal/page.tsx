@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 import {
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
   Eye,
   Calendar,
   MessageSquare,
@@ -113,7 +114,7 @@ export default async function ParentPortalPage() {
             fill
             className="object-cover object-center"
             priority
-            sizes="100vw" placeholder="empty"
+            sizes="100vw" placeholder={blurDataURL}
           />
         </div>
         <div className="bg-white border-t py-10 text-center px-4">
@@ -200,7 +201,7 @@ export default async function ParentPortalPage() {
                       alt={f.title}
                       fill
                       className="object-cover"
-                      sizes="(max-width: 640px) 100vw, 33vw" placeholder="empty"
+                      sizes="(max-width: 640px) 100vw, 33vw" placeholder={blurDataURL}
                     />
                     <div className="absolute top-3 left-3 w-9 h-9 rounded-full bg-white/90 flex items-center justify-center shadow">
                       <Icon className="w-4 h-4 text-brand-blue-600" />
@@ -262,7 +263,7 @@ export default async function ParentPortalPage() {
                 alt="Supportive services for students and families"
                 fill
                 className="object-cover"
-                sizes="(max-width: 768px) 100vw, 50vw" placeholder="empty"
+                sizes="(max-width: 768px) 100vw, 50vw" placeholder={blurDataURL}
               />
             </div>
           </div>

@@ -8,6 +8,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { getUnverifiedHours, type OJTHoursLog } from '@/lib/blended-learning/ojt-tracking';
 import { getMyPartnerContext } from '@/lib/partner/access';
 import { getPartnerStudentIds } from '@/lib/partner/students';
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const metadata: Metadata = {
   title: 'Hours Management | Partner Portal',
@@ -110,7 +111,7 @@ export default async function PartnerHoursPage() {
           fill
           sizes="100vw"
           className="object-cover"
-          priority placeholder="empty"
+          priority placeholder={blurDataURL}
         />
       </section>
       <div className="mb-6">

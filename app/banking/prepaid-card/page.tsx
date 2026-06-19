@@ -5,6 +5,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
 import Image from 'next/image';
 import {
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
   CreditCard,
   Shield,
   Circle,
@@ -56,7 +57,7 @@ export default function PrepaidCardPage() {
           fill
           className="object-cover"
           priority
-          sizes="100vw" placeholder="empty"
+          sizes="100vw" placeholder={blurDataURL}
         />
       </section>
 

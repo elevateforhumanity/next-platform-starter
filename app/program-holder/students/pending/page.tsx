@@ -6,6 +6,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { UserPlus, Mail, Phone, XCircle } from 'lucide-react';
 import AcceptDeclineButtons from './AcceptDeclineButtons';
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const dynamic = 'force-dynamic';
 
@@ -90,7 +91,7 @@ export default async function PendingStudentsPage() {
           className="object-cover"
           quality={90}
           priority
-          sizes="100vw" placeholder="empty"
+          sizes="100vw" placeholder={blurDataURL}
         />
       </section>
 

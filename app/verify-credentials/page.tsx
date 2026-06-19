@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 import {
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
   Shield,
   ExternalLink,
   Building2,
@@ -157,7 +158,7 @@ function CredentialCard({ credential }: { credential: VerifiableCredential }) {
               alt={credential.name}
               fill
               sizes="48px"
-              className="object-cover" placeholder="empty"
+              className="object-cover" placeholder={blurDataURL}
             />
           </div>
           <div>
@@ -222,7 +223,7 @@ export default function VerifyCredentialsPage() {
           fill
           sizes="100vw"
           className="object-cover"
-          priority placeholder="empty"
+          priority placeholder={blurDataURL}
         />
         <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-10">
           <div className="max-w-6xl mx-auto">

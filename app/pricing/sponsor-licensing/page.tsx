@@ -5,6 +5,7 @@ import Image from 'next/image';
 import ModernLandingHero from '@/components/landing/ModernLandingHero';
 // All required icons imported
 import { Phone, Mail, Shield, TrendingUp, Users, Check, Globe, Building2 } from 'lucide-react';
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const dynamic = 'force-dynamic';
 
@@ -82,7 +83,7 @@ export default async function SponsorLicensingPage() {
                     alt="Starter"
                     width={24}
                     height={24}
-                    className="w-6 h-6 text-blue-600" placeholder="empty" sizes="(max-width: 768px) 100vw, 50vw"
+                    className="w-6 h-6 text-blue-600" placeholder={blurDataURL} sizes="(max-width: 768px) 100vw, 50vw"
                   />
                 </div>
                 <div>
@@ -111,7 +112,7 @@ export default async function SponsorLicensingPage() {
                     alt="Check"
                     width={20}
                     height={20}
-                    className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" placeholder="empty" sizes="(max-width: 768px) 100vw, 50vw"
+                    className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" placeholder={blurDataURL} sizes="(max-width: 768px) 100vw, 50vw"
                   />
                   <span className="text-sm text-black">
                     Sponsor dashboard (referrals, employers, apprentices)
@@ -123,7 +124,7 @@ export default async function SponsorLicensingPage() {
                     alt="Check"
                     width={20}
                     height={20}
-                    className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" placeholder="empty" sizes="(max-width: 768px) 100vw, 50vw"
+                    className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" placeholder={blurDataURL} sizes="(max-width: 768px) 100vw, 50vw"
                   />
                   <span className="text-sm text-black">RAPIDS lifecycle tracking</span>
                 </div>
@@ -133,7 +134,7 @@ export default async function SponsorLicensingPage() {
                     alt="Check"
                     width={20}
                     height={20}
-                    className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" placeholder="empty" sizes="(max-width: 768px) 100vw, 50vw"
+                    className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" placeholder={blurDataURL} sizes="(max-width: 768px) 100vw, 50vw"
                   />
                   <span className="text-sm text-black">WIOA/WRG compatibility</span>
                 </div>
@@ -143,7 +144,7 @@ export default async function SponsorLicensingPage() {
                     alt="Check"
                     width={20}
                     height={20}
-                    className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" placeholder="empty" sizes="(max-width: 768px) 100vw, 50vw"
+                    className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" placeholder={blurDataURL} sizes="(max-width: 768px) 100vw, 50vw"
                   />
                   <span className="text-sm text-black">Employer onboarding + MOU workflow</span>
                 </div>
@@ -153,7 +154,7 @@ export default async function SponsorLicensingPage() {
                     alt="Check"
                     width={20}
                     height={20}
-                    className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" placeholder="empty" sizes="(max-width: 768px) 100vw, 50vw"
+                    className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" placeholder={blurDataURL} sizes="(max-width: 768px) 100vw, 50vw"
                   />
                   <span className="text-sm text-black">Audit logs + exports</span>
                 </div>
@@ -190,7 +191,7 @@ export default async function SponsorLicensingPage() {
                     alt="Growth"
                     width={24}
                     height={24}
-                    className="w-6 h-6 text-white" placeholder="empty" sizes="(max-width: 768px) 100vw, 50vw"
+                    className="w-6 h-6 text-white" placeholder={blurDataURL} sizes="(max-width: 768px) 100vw, 50vw"
                   />
                 </div>
                 <div>
@@ -219,7 +220,7 @@ export default async function SponsorLicensingPage() {
                     alt="Check"
                     width={20}
                     height={20}
-                    className="w-5 h-5 text-brand-green-400 flex-shrink-0 mt-0.5" placeholder="empty" sizes="(max-width: 768px) 100vw, 50vw"
+                    className="w-5 h-5 text-brand-green-400 flex-shrink-0 mt-0.5" placeholder={blurDataURL} sizes="(max-width: 768px) 100vw, 50vw"
                   />
                   <span className="text-sm text-white">Everything in Starter</span>
                 </div>
@@ -229,7 +230,7 @@ export default async function SponsorLicensingPage() {
                     alt="Check"
                     width={20}
                     height={20}
-                    className="w-5 h-5 text-brand-green-400 flex-shrink-0 mt-0.5" placeholder="empty" sizes="(max-width: 768px) 100vw, 50vw"
+                    className="w-5 h-5 text-brand-green-400 flex-shrink-0 mt-0.5" placeholder={blurDataURL} sizes="(max-width: 768px) 100vw, 50vw"
                   />
                   <span className="text-sm text-white">
                     White-label branding (logo, domain, email)
@@ -241,7 +242,7 @@ export default async function SponsorLicensingPage() {
                     alt="Check"
                     width={20}
                     height={20}
-                    className="w-5 h-5 text-brand-green-400 flex-shrink-0 mt-0.5" placeholder="empty" sizes="(max-width: 768px) 100vw, 50vw"
+                    className="w-5 h-5 text-brand-green-400 flex-shrink-0 mt-0.5" placeholder={blurDataURL} sizes="(max-width: 768px) 100vw, 50vw"
                   />
                   <span className="text-sm text-white">Multi-trade programs</span>
                 </div>
@@ -251,7 +252,7 @@ export default async function SponsorLicensingPage() {
                     alt="Check"
                     width={20}
                     height={20}
-                    className="w-5 h-5 text-brand-green-400 flex-shrink-0 mt-0.5" placeholder="empty" sizes="(max-width: 768px) 100vw, 50vw"
+                    className="w-5 h-5 text-brand-green-400 flex-shrink-0 mt-0.5" placeholder={blurDataURL} sizes="(max-width: 768px) 100vw, 50vw"
                   />
                   <span className="text-sm text-white">WOTC + OJT tracking</span>
                 </div>
@@ -261,7 +262,7 @@ export default async function SponsorLicensingPage() {
                     alt="Check"
                     width={20}
                     height={20}
-                    className="w-5 h-5 text-brand-green-400 flex-shrink-0 mt-0.5" placeholder="empty" sizes="(max-width: 768px) 100vw, 50vw"
+                    className="w-5 h-5 text-brand-green-400 flex-shrink-0 mt-0.5" placeholder={blurDataURL} sizes="(max-width: 768px) 100vw, 50vw"
                   />
                   <span className="text-sm text-white">ETPL performance dashboards</span>
                 </div>
@@ -271,7 +272,7 @@ export default async function SponsorLicensingPage() {
                     alt="Check"
                     width={20}
                     height={20}
-                    className="w-5 h-5 text-brand-green-400 flex-shrink-0 mt-0.5" placeholder="empty" sizes="(max-width: 768px) 100vw, 50vw"
+                    className="w-5 h-5 text-brand-green-400 flex-shrink-0 mt-0.5" placeholder={blurDataURL} sizes="(max-width: 768px) 100vw, 50vw"
                   />
                   <span className="text-sm text-white">WorkOne read-only oversight views</span>
                 </div>
@@ -302,7 +303,7 @@ export default async function SponsorLicensingPage() {
                     alt="Enterprise"
                     width={24}
                     height={24}
-                    className="w-6 h-6 text-blue-600" placeholder="empty" sizes="(max-width: 768px) 100vw, 50vw"
+                    className="w-6 h-6 text-blue-600" placeholder={blurDataURL} sizes="(max-width: 768px) 100vw, 50vw"
                   />
                 </div>
                 <div>
@@ -332,7 +333,7 @@ export default async function SponsorLicensingPage() {
                     alt="Check"
                     width={20}
                     height={20}
-                    className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" placeholder="empty" sizes="(max-width: 768px) 100vw, 50vw"
+                    className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" placeholder={blurDataURL} sizes="(max-width: 768px) 100vw, 50vw"
                   />
                   <span className="text-sm text-black">Everything in Professional</span>
                 </div>
@@ -342,7 +343,7 @@ export default async function SponsorLicensingPage() {
                     alt="Check"
                     width={20}
                     height={20}
-                    className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" placeholder="empty" sizes="(max-width: 768px) 100vw, 50vw"
+                    className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" placeholder={blurDataURL} sizes="(max-width: 768px) 100vw, 50vw"
                   />
                   <span className="text-sm text-black">Multi-state rules engine</span>
                 </div>
@@ -352,7 +353,7 @@ export default async function SponsorLicensingPage() {
                     alt="Check"
                     width={20}
                     height={20}
-                    className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" placeholder="empty" sizes="(max-width: 768px) 100vw, 50vw"
+                    className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" placeholder={blurDataURL} sizes="(max-width: 768px) 100vw, 50vw"
                   />
                   <span className="text-sm text-black">Tenant licensing enforcement</span>
                 </div>
@@ -362,7 +363,7 @@ export default async function SponsorLicensingPage() {
                     alt="Check"
                     width={20}
                     height={20}
-                    className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" placeholder="empty" sizes="(max-width: 768px) 100vw, 50vw"
+                    className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" placeholder={blurDataURL} sizes="(max-width: 768px) 100vw, 50vw"
                   />
                   <span className="text-sm text-black">SOC-style audit controls</span>
                 </div>
@@ -372,7 +373,7 @@ export default async function SponsorLicensingPage() {
                     alt="Check"
                     width={20}
                     height={20}
-                    className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" placeholder="empty" sizes="(max-width: 768px) 100vw, 50vw"
+                    className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" placeholder={blurDataURL} sizes="(max-width: 768px) 100vw, 50vw"
                   />
                   <span className="text-sm text-black">Monitoring response bundles</span>
                 </div>
@@ -382,7 +383,7 @@ export default async function SponsorLicensingPage() {
                     alt="Check"
                     width={20}
                     height={20}
-                    className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" placeholder="empty" sizes="(max-width: 768px) 100vw, 50vw"
+                    className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" placeholder={blurDataURL} sizes="(max-width: 768px) 100vw, 50vw"
                   />
                   <span className="text-sm text-black">Dedicated onboarding + training</span>
                 </div>

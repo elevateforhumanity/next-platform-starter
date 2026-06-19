@@ -6,6 +6,7 @@ import { Shield, Users, Award, Building2 } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 import HostShopSyllabusRequirement from '@/components/programs/beauty/HostShopSyllabusRequirement';
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const metadata: Metadata = {
   title: 'Become a Host Spa | Esthetician Apprenticeship',
@@ -34,7 +35,7 @@ export default function EstheticianHostShopsPage() {
           alt="Professional spa interior with esthetician stations"
           fill sizes="100vw"
           className="object-cover"
-          priority placeholder="empty"
+          priority placeholder={blurDataURL}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-brand-blue-900/70 to-transparent" />
         <div className="absolute bottom-10 left-8 max-w-xl">
@@ -57,7 +58,7 @@ export default function EstheticianHostShopsPage() {
               <Image sizes="100vw"
                 src="/images/pages/cosmetology-hero.webp"
                 alt="Esthetician training apprentice"
-                fill className="object-cover" placeholder="empty"
+                fill className="object-cover" placeholder={blurDataURL}
               />
             </div>
             <div>
@@ -89,7 +90,7 @@ export default function EstheticianHostShopsPage() {
               <Image sizes="100vw"
                 src="/images/pages/cosmetology-hero.webp"
                 alt="DOL compliance documentation"
-                fill className="object-cover" placeholder="empty"
+                fill className="object-cover" placeholder={blurDataURL}
               />
             </div>
           </div>
@@ -99,7 +100,7 @@ export default function EstheticianHostShopsPage() {
               <Image sizes="100vw"
                 src="/images/pages/cosmetology-hero.webp"
                 alt="Esthetician receiving credential"
-                fill className="object-cover" placeholder="empty"
+                fill className="object-cover" placeholder={blurDataURL}
               />
             </div>
             <div>

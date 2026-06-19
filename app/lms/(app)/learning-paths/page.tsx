@@ -7,6 +7,7 @@ import { redirect } from 'next/navigation';
 import Image from 'next/image';
 import { BookOpen, Award, Briefcase } from 'lucide-react';
 import { unstable_cache } from 'next/cache';
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const metadata: Metadata = {
   alternates: {
@@ -126,7 +127,7 @@ export default async function LearningPathsPage() {
           className="object-cover"
           quality={90}
           priority
-          sizes="100vw" placeholder="empty"
+          sizes="100vw" placeholder={blurDataURL}
         />
       </section>
 
@@ -164,7 +165,7 @@ export default async function LearningPathsPage() {
                   fill
                   className="object-cover"
                   quality={90}
-                  sizes="(max-width: 768px) 100vw, 50vw" placeholder="empty"
+                  sizes="(max-width: 768px) 100vw, 50vw" placeholder={blurDataURL}
                 />
               </div>
             </div>

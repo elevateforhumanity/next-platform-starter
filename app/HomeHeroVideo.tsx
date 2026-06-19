@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import Image from 'next/image';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export default function HomeHeroVideo() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -107,7 +108,7 @@ export default function HomeHeroVideo() {
         fill
         priority
         sizes="100vw"
-        className="object-cover z-0" placeholder="empty"
+        className="object-cover z-0" placeholder={blurDataURL}
       />
       <video
         ref={videoRef}

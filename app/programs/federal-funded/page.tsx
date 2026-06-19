@@ -8,6 +8,7 @@ import { createPublicClient } from '@/lib/supabase/server';
 
 import { Shield, CheckCircle, Users, Award } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const metadata: Metadata = {
   title: 'Federal Funded Programs | WIOA & WRG',
@@ -216,7 +217,7 @@ export default async function FederalFundedProgramsPage() {
                     sizes="100vw"
                     className="object-cover group-hover:scale-105 transition-transform duration-300"
                     loading="lazy"
-                    placeholder="empty"
+                    placeholder={blurDataURL}
                   />
                 </div>
                 <div className="p-6">

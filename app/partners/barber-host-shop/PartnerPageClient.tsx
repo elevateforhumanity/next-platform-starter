@@ -6,6 +6,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Image from 'next/image';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 import { InstitutionalLegalNotice } from '@/components/marketing/InstitutionalLegalNotice';
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 const CALENDLY_URL = process.env.NEXT_PUBLIC_CALENDLY_30MIN || 'https://calendly.com/elevate4humanityedu';
 
@@ -33,7 +34,7 @@ export default function PartnerPageClient({ isApproved = false, basePath = '/par
           fill
           className="object-cover object-center"
           priority
-          sizes="100vw" placeholder="empty"
+          sizes="100vw" placeholder={blurDataURL}
         />
       </div>
 
@@ -73,7 +74,7 @@ export default function PartnerPageClient({ isApproved = false, basePath = '/par
           ].map((photo) => (
             <figure key={photo.src} className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
               <div className="relative aspect-[4/3]">
-                <Image src={photo.src} alt={photo.alt} fill className="object-cover" sizes="(max-width: 640px) 100vw, 33vw" placeholder="empty" />
+                <Image src={photo.src} alt={photo.alt} fill className="object-cover" sizes="(max-width: 640px) 100vw, 33vw" placeholder={blurDataURL} />
               </div>
               <figcaption className="px-4 py-3 text-sm font-semibold text-slate-800">{photo.label}</figcaption>
             </figure>

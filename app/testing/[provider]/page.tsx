@@ -19,6 +19,7 @@ import { ProviderExamList } from '@/components/testing/ProviderExamList';
 export const dynamic = 'force-dynamic';
 import { createPublicClient } from '@/lib/supabase/public';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 const LEVEL_COLORS: Record<string, string> = {
   amber: 'bg-amber-50 border-amber-200 text-amber-900',
@@ -123,7 +124,7 @@ export default async function ProviderPage({ params }: Props) {
           alt={provider.name}
           fill
           className="object-cover object-center"
-          priority placeholder="empty"
+          priority placeholder={blurDataURL}
         />
         {/* gradient overlay — bottom only, no text on video rule doesn't apply to static images */}
         <div

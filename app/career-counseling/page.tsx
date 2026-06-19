@@ -6,6 +6,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import AICareerCounseling from '@/components/AICareerCounseling';
 import { ArrowRight, Clock, DollarSign, Award, Phone } from 'lucide-react';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const revalidate = 3600;
 export const metadata: Metadata = {
@@ -49,7 +50,7 @@ export default async function CareerCounselingPage() {
             fill
             sizes="100vw"
             className="object-cover object-center"
-            priority placeholder="empty"
+            priority placeholder={blurDataURL}
           />
         </div>
         <div className="bg-white border-t py-10 text-center px-4">

@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { CAREERS, PARTNER_REQUIREMENTS, PARTNER_BENEFITS } from '../barber-program-data';
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export function BarberPartnership() {
   return (
@@ -8,7 +9,7 @@ export function BarberPartnership() {
       {/* Career Image */}
       <section className="relative h-[200px] sm:h-[280px] md:h-[360px]">
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
-        <Image src="/images/pages/barber-shop-interior.webp" alt="Professional barbershop interior" fill sizes="100vw" className="object-cover" placeholder="empty" />
+        <Image src="/images/pages/barber-shop-interior.webp" alt="Professional barbershop interior" fill sizes="100vw" className="object-cover" placeholder={blurDataURL} />
       </section>
 
       {/* Section 7 — Career Pathways */}

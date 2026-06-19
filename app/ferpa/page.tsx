@@ -7,6 +7,7 @@ import { redirect } from 'next/navigation';
 
 import Link from 'next/link';
 import {
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
   Users,
   FileText,
   Clock,
@@ -80,7 +81,7 @@ export default async function FERPAPortal() {
           fill
           sizes="100vw"
           className="object-cover"
-          priority placeholder="empty"
+          priority placeholder={blurDataURL}
         />
       </section>
       {/* Header */}

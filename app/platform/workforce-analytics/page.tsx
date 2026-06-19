@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 import {
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
   BarChart,
   TrendingUp,
   Users,
@@ -134,7 +135,7 @@ export default function WorkforceAnalyticsPage() {
             fill
             className="object-cover"
             priority
-            sizes="100vw" placeholder="empty"
+            sizes="100vw" placeholder={blurDataURL}
           />
         </div>
         <div className="bg-white py-10">
@@ -227,7 +228,7 @@ export default function WorkforceAnalyticsPage() {
                 alt="Analytics dashboard"
                 fill
                 sizes="100vw"
-                className="object-cover" placeholder="empty"
+                className="object-cover" placeholder={blurDataURL}
               />
             </div>
             <div>

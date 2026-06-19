@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { ArrowLeft, Users } from 'lucide-react';
 import AttendanceRecordForm from './AttendanceRecordForm';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const metadata: Metadata = {
   title: 'Record Attendance | Partner Portal',
@@ -86,7 +87,7 @@ export default async function RecordAttendancePage() {
           fill
           sizes="100vw"
           className="object-cover"
-          priority placeholder="empty"
+          priority placeholder={blurDataURL}
         />
       </section>
       {/* Breadcrumbs */}

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 import {
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
   ClipboardCheck,
   Clock,
   BookOpen,
@@ -71,7 +72,7 @@ export default function CompetencyTestPage() {
             fill
             className="object-cover"
             priority
-            sizes="100vw" placeholder="empty"
+            sizes="100vw" placeholder={blurDataURL}
           />
         </div>
         <div className="bg-white border-t py-10 text-center px-4">
@@ -130,7 +131,7 @@ export default function CompetencyTestPage() {
                 alt="Student completing assessment"
                 fill
                 className="object-cover"
-                sizes="(max-width: 768px) 100vw, 50vw" placeholder="empty"
+                sizes="(max-width: 768px) 100vw, 50vw" placeholder={blurDataURL}
               />
             </div>
           </div>

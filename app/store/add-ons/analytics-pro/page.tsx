@@ -19,6 +19,7 @@ CheckCircle, } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 import { createBrowserClient } from '@supabase/ssr';
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
 const features = [
   {
     icon: LineChart,
@@ -103,7 +104,7 @@ export default function AnalyticsProPage() {
           fill
           className="object-cover"
           priority
-         sizes="100vw" placeholder="empty" />
+         sizes="100vw" placeholder={blurDataURL} />
         
       </section>
 
@@ -148,7 +149,7 @@ export default function AnalyticsProPage() {
                     alt={useCase.title}
                     fill
                     className="object-cover"
-                   sizes="100vw" placeholder="empty" />
+                   sizes="100vw" placeholder={blurDataURL} />
                 </div>
                 <div className="p-6">
                   <h3 className="text-xl font-bold text-slate-900 mb-2">{useCase.title}</h3>

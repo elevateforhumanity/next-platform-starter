@@ -4,6 +4,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 import Link from 'next/link';
 import Image from 'next/image';
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const metadata: Metadata = {
   title: 'Cm',
@@ -27,7 +28,7 @@ export default async function CmPage() {
           className="object-cover"
           quality={90}
           priority
-          sizes="100vw" placeholder="empty"
+          sizes="100vw" placeholder={blurDataURL}
         />
 
         <div className="relative z-10 max-w-4xl mx-auto px-4 text-center">
@@ -119,7 +120,7 @@ export default async function CmPage() {
                   fill
                   className="object-cover"
                   quality={90}
-                  sizes="(max-width: 768px) 100vw, 50vw" placeholder="empty"
+                  sizes="(max-width: 768px) 100vw, 50vw" placeholder={blurDataURL}
                 />
               </div>
             </div>

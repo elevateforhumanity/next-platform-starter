@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import {
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
   ArrowRight,
   ExternalLink,
   GraduationCap,
@@ -98,7 +99,7 @@ export default function ResourcesPage() {
           fill
           sizes="100vw"
           className="object-cover"
-          priority placeholder="empty"
+          priority placeholder={blurDataURL}
         />
       </section>
       <section className="py-14 sm:py-20">

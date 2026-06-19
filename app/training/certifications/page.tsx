@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { ArrowRight, CalendarDays, Clock, DollarSign, MapPin } from 'lucide-react';
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const metadata: Metadata = {
   title: 'Certification Training Programs',
@@ -91,7 +92,7 @@ export default function CertificationsPage() {
           fill
           className="object-cover"
           priority
-          sizes="100vw" placeholder="empty"
+          sizes="100vw" placeholder={blurDataURL}
         />
       </section>
       {/* Key Stats */}
@@ -138,7 +139,7 @@ export default function CertificationsPage() {
                     alt={prog.name}
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-500"
-                    sizes="(max-width: 640px) 50vw, 25vw" placeholder="empty"
+                    sizes="(max-width: 640px) 50vw, 25vw" placeholder={blurDataURL}
                   />
                 </div>
                 <div className="p-4">

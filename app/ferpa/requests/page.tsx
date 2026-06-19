@@ -5,6 +5,7 @@ import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { Metadata } from 'next';
 import {
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
   ChevronRight,
   Plus,
   Clock,
@@ -148,7 +149,7 @@ export default async function FerpaRequestsPage() {
           fill
           sizes="100vw"
           className="object-cover"
-          priority placeholder="empty"
+          priority placeholder={blurDataURL}
         />
       </section>
       {/* Header */}

@@ -21,6 +21,7 @@ import {
 } from '@/lib/data/store-products';
 import { getCatalogProducts, type CatalogProduct } from '@/lib/store/db';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const dynamic = 'force-dynamic';
 
@@ -115,7 +116,7 @@ export default async function LicensesPage() {
           fill
           className="object-cover -z-10"
           priority
-          quality={90} placeholder="empty"
+          quality={90} placeholder={blurDataURL}
         />
         {/* Overlay */}
         <div className="absolute inset-0 bg-gradient-to-r from-zinc-900/95 via-zinc-900/80 to-zinc-900/60" />
@@ -477,7 +478,7 @@ export default async function LicensesPage() {
           src="/images/business/team-4.webp"
           alt="Get started"
           fill
-          className="object-cover" placeholder="empty"
+          className="object-cover" placeholder={blurDataURL}
         />
         <div className="absolute inset-0 bg-zinc-900/90" />
 

@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 
 import FERPATrainingForm from '@/components/compliance/FERPATrainingForm';
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const dynamic = 'force-dynamic';
 
@@ -44,7 +45,7 @@ export default async function CompleteFERPATrainingPage() {
           fill
           sizes="100vw"
           className="object-cover"
-          priority placeholder="empty"
+          priority placeholder={blurDataURL}
         />
       </section>
       <FERPATrainingForm user={profile} existingTraining={existingTraining} />

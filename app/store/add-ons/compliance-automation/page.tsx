@@ -19,6 +19,7 @@ CheckCircle, } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 import { createBrowserClient } from '@supabase/ssr';
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
 const features = [
   {
     icon: ClipboardCheck,
@@ -104,7 +105,7 @@ export default function ComplianceAutomationPage() {
           fill
           className="object-cover"
           priority
-         sizes="100vw" placeholder="empty" />
+         sizes="100vw" placeholder={blurDataURL} />
         
       </section>
 

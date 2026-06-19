@@ -6,6 +6,7 @@ import { Shield, Users, Award, Building2 } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 import HostShopSyllabusRequirement from '@/components/programs/beauty/HostShopSyllabusRequirement';
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const metadata: Metadata = {
   title: 'Become a Host Salon | Cosmetology Apprenticeship',
@@ -36,7 +37,7 @@ export default function CosmetologyHostSalonsPage() {
           fill
           sizes="100vw"
           className="object-cover"
-          priority placeholder="empty"
+          priority placeholder={blurDataURL}
         />
       </section>
 
@@ -56,7 +57,7 @@ export default function CosmetologyHostSalonsPage() {
                 src="/images/pages/cosmetology-apprenticeship-hero.webp"
                 alt="Cosmetology apprentice learning from licensed stylist"
                 fill
-                className="object-cover" placeholder="empty"
+                className="object-cover" placeholder={blurDataURL}
               />
             </div>
             <div>
@@ -111,7 +112,7 @@ export default function CosmetologyHostSalonsPage() {
                 src="/images/pages/cosmetology.webp"
                 alt="Professional cosmetology salon"
                 fill
-                className="object-cover" placeholder="empty"
+                className="object-cover" placeholder={blurDataURL}
               />
             </div>
           </div>
@@ -123,7 +124,7 @@ export default function CosmetologyHostSalonsPage() {
                 src="/images/pages/barber-styling-hair.webp"
                 alt="Stylist working with client"
                 fill
-                className="object-cover" placeholder="empty"
+                className="object-cover" placeholder={blurDataURL}
               />
             </div>
             <div>

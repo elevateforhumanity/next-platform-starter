@@ -5,6 +5,7 @@ import { createPublicClient } from '@/lib/supabase/public';
 import { Briefcase, MapPin, Clock, ExternalLink, BadgeCheck, Zap, Building2, ChevronRight } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const revalidate = 900; // 15 min
 
@@ -236,7 +237,7 @@ export default async function JobBoardPage() {
               width={140}
               height={32}
               sizes="140px"
-              placeholder="empty"
+              placeholder={blurDataURL}
               className="h-8 w-auto"
               unoptimized
             />

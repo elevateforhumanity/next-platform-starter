@@ -8,6 +8,7 @@ import Image from 'next/image';
 export const dynamic = 'force-dynamic';
 
 import { AlertCircle, FileText, Phone, Mail, Upload, CheckCircle } from 'lucide-react';
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const metadata: Metadata = {
   title: 'Verification | Program Holder Portal',
@@ -108,7 +109,7 @@ export default async function VerificationPage() {
           className="object-cover"
           quality={90}
           priority
-          sizes="100vw" placeholder="empty"
+          sizes="100vw" placeholder={blurDataURL}
         />
       </section>
 

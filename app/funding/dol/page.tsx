@@ -6,6 +6,7 @@ import { ArrowRight } from 'lucide-react';
 
 import { createClient } from '@/lib/supabase/server';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
@@ -48,7 +49,7 @@ export default async function DOLFundingPage() {
           fill
           className="object-cover"
           priority
-          sizes="100vw" placeholder="empty"
+          sizes="100vw" placeholder={blurDataURL}
         />
       </section>
       {/* What Is It */}
@@ -83,7 +84,7 @@ export default async function DOLFundingPage() {
                 alt="Hands-on apprenticeship training"
                 fill
                 className="object-cover"
-                sizes="(max-width: 768px) 100vw, 50vw" placeholder="empty"
+                sizes="(max-width: 768px) 100vw, 50vw" placeholder={blurDataURL}
               />
             </div>
           </div>

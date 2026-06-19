@@ -6,6 +6,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 import { loadVerifiedPublicStats } from '@/lib/site-stats-server';
 import {
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
   Users,
   Award,
   DollarSign,
@@ -64,7 +65,7 @@ export default async function EmployersPage() {
           fill
           className="object-cover"
           priority
-          sizes="100vw" placeholder="empty"
+          sizes="100vw" placeholder={blurDataURL}
         />
       </section>
 

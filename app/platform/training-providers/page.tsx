@@ -6,6 +6,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 import { InstitutionalLegalNotice } from '@/components/marketing/InstitutionalLegalNotice';
 import {
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
   GraduationCap,
   DollarSign,
   Users,
@@ -134,7 +135,7 @@ export default function TrainingProvidersPage() {
             fill
             className="object-cover"
             priority
-            sizes="100vw" placeholder="empty"
+            sizes="100vw" placeholder={blurDataURL}
           />
         </div>
         <div className="bg-white py-10">
@@ -244,7 +245,7 @@ export default function TrainingProvidersPage() {
                 alt="Training provider partnership"
                 fill
                 sizes="100vw"
-                className="object-cover" placeholder="empty"
+                className="object-cover" placeholder={blurDataURL}
               />
             </div>
           </div>

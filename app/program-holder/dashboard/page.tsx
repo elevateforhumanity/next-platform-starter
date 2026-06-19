@@ -8,6 +8,7 @@ import {
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { requireProgramHolder } from '@/lib/auth/require-program-holder';
 import { CallListPanel } from '@/components/program-holder/CallListPanel';
+import { blurDataURL } from '@/lib/ui/blur-placeholder';
 
 export const metadata: Metadata = {
   title: 'Program Holder Portal',
@@ -206,7 +207,7 @@ export default async function ProgramHolderDashboardPage() {
       {/* Hero */}
       <div className="relative h-56 sm:h-72 w-full overflow-hidden">
         {/* IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback) */}
-        <Image src="/images/pages/program-holder-page-1.webp" alt="Program Holder Portal" fill className="object-cover object-center" priority sizes="100vw" placeholder="empty" />
+        <Image src="/images/pages/program-holder-page-1.webp" alt="Program Holder Portal" fill className="object-cover object-center" priority sizes="100vw" placeholder={blurDataURL} />
         <div className="absolute inset-0 bg-gradient-to-t from-brand-blue-950/90 via-brand-blue-900/50 to-transparent" />
         <div className="absolute inset-0 flex items-end">
           <div className="max-w-7xl mx-auto w-full px-6 pb-8 flex items-end justify-between gap-4">
@@ -255,7 +256,7 @@ export default async function ProgramHolderDashboardPage() {
           ].map((s) => (
             <Link key={s.label} href={s.href} className="group bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-md transition-shadow">
               <div className="relative h-24 w-full">
-                <Image src={s.img} alt={s.label} fill className="object-cover group-hover:scale-105 transition-transform duration-300" sizes="(max-width:768px) 50vw, 25vw" placeholder="empty" />
+                <Image src={s.img} alt={s.label} fill className="object-cover group-hover:scale-105 transition-transform duration-300" sizes="(max-width:768px) 50vw, 25vw" placeholder={blurDataURL} />
                 <div className="absolute inset-0 bg-brand-blue-950/50" />
                 <div className="absolute inset-0 flex items-center justify-center">
                   <p className="text-4xl font-black text-white drop-shadow-lg">{s.value}</p>
@@ -600,7 +601,7 @@ export default async function ProgramHolderDashboardPage() {
             ].map((action) => (
               <Link key={action.href} href={action.href} className="group flex items-center gap-4 bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-md transition-shadow">
                 <div className="relative w-16 h-16 flex-shrink-0">
-                  <Image src={action.img} alt={action.label} fill className="object-cover group-hover:scale-105 transition-transform duration-300" sizes="64px" placeholder="empty" />
+                  <Image src={action.img} alt={action.label} fill className="object-cover group-hover:scale-105 transition-transform duration-300" sizes="64px" placeholder={blurDataURL} />
                   <div className="absolute inset-0 bg-brand-blue-900/30" />
                 </div>
                 <div className="flex-1 py-3 pr-4 min-w-0">
