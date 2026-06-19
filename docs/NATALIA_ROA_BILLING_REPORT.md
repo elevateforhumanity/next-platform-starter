@@ -78,7 +78,7 @@
 | June 2, 2026 | $151.03 |
 | **TOTAL** | **$1,255.12** |
 
-## ❌ FAILED PAYMENTS (7)
+## ❌ FAILED PAYMENTS (6)
 
 | Date | Amount | Reason |
 |------|--------|--------|
@@ -88,16 +88,23 @@
 | June 15, 2026 | $151.03 | incorrect_zip |
 | June 15, 2026 | $151.03 | incorrect_zip |
 | June 16, 2026 | $151.03 | incorrect_zip |
-| June 19, 2026 | $151.03 | incorrect_zip |
-| **TOTAL** | **$1,205.09** | |
+| **TOTAL** | **$1,053.06** | |
 
 ## 💰 PAYMENT SUMMARY
 
 | | |
 |---|---|
 | Total Successful | $1,255.12 |
-| Total Failed | $1,205.09 |
+| Total Failed | $1,053.06 |
 | **Net Received** | **$1,255.12** |
+
+## ✅ SUBSCRIPTION STATUS
+
+| | |
+|---|---|
+| Stripe Subscription | **CANCELED** |
+| Cancel at period end | true |
+| Reason | Payment failed - ZIP code issue |
 
 ---
 
