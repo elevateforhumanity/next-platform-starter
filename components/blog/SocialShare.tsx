@@ -1,7 +1,7 @@
 'use client';
 import { logger } from '@/lib/logger';
 
-import { Twitter, Link2, Share2, Mail, MessageCircle } from 'lucide-react';
+import { Globe, Link2, Share2, Mail, MessageCircle } from 'lucide-react';
 import { useState } from 'react';
 
 interface SocialShareProps {
@@ -19,7 +19,6 @@ export function SocialShare({ url, title, description }: SocialShareProps) {
 
   const shareLinks = {
     facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
-    twitter: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`,
     linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`,
     email: `mailto:?subject=${encodedTitle}&body=${encodedDesc}%0A%0A${encodedUrl}`,
     whatsapp: `https://wa.me/?text=${encodedTitle}%20${encodedUrl}`,
@@ -46,17 +45,7 @@ export function SocialShare({ url, title, description }: SocialShareProps) {
         className="w-10 h-10 flex items-center justify-center rounded-full bg-brand-blue-600 text-white hover:bg-brand-blue-700 transition"
         aria-label="Share on Facebook"
       >
-        <Share2 className="w-5 h-5" />
-      </a>
-
-      <a
-        href={shareLinks.twitter}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="w-10 h-10 flex items-center justify-center rounded-full bg-sky-500 text-white hover:bg-sky-600 transition"
-        aria-label="Share on Twitter"
-      >
-        <Twitter className="w-5 h-5" />
+        <Globe className="w-5 h-5" />
       </a>
 
       <a
