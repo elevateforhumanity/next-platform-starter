@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { requireAdmin } from '@/lib/auth';
-import { createAdminClient } from '@/lib/supabase/admin';
+import { createAdminClient as getAdminClient } from '@/lib/supabase/admin';
 import { DocumentCenterClient } from './DocumentCenterClient';
 
 export const dynamic = 'force-dynamic';

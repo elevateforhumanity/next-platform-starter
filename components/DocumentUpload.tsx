@@ -99,6 +99,11 @@ export default function DocumentUpload({
       const fileArray = Array.from(newFiles);
 
       fileArray.forEach((file) => {
+        if (files.length >= maxFiles) {
+          setError(`Maximum ${maxFiles} files allowed`);
+          return;
+        }
+
         const validationError = validateFile(file);
 
         if (validationError) {

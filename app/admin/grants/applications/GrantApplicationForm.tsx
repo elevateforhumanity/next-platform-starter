@@ -288,7 +288,7 @@ export default function GrantApplicationForm({
 
       {/* Sections */}
       {SECTIONS.map(section => {
-        const Icon = section.icon;
+        const Icon = section.icon as React.ElementType;
         const isOpen = openSections.has(section.id);
         return (
           <div key={section.id} className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">

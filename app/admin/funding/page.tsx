@@ -39,8 +39,8 @@ export default async function FundingPage() {
         'id, voucher_id, participant_name, wioa_type, fund_stream, service_name, ' +
         'voucher_date, voucher_expire_date, total_voucher_amount, payments_to_date, ' +
         'status, is_final, remittance_email',
-        { count: 'exact' },
       )
+      .count('exact')
       .order('voucher_date', { ascending: false })
       .limit(100),
     db.from('ita_vouchers').select('id', { count: 'exact', head: true }).eq('status', 'approved'),

@@ -72,6 +72,7 @@ const PROGRAMS: Program[] = [
 ];
 
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function ProgramsGrid() {
   return (
@@ -127,9 +128,9 @@ export default function ProgramsGrid() {
           ))}
         </div>
         <div className="mt-8 text-center md:hidden">
-          <a href="/apply" className="btn">
+          <Link href="/apply" className="btn">
             Apply Now
-          </a>
+          </Link>
         </div>
       </div>
     </section>
