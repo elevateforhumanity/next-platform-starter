@@ -8,12 +8,15 @@ import * as Sentry from '@sentry/nextjs';
 // Server Action ID mismatch — happens when production deploys a new build while
 // users still have the old page loaded. The old action IDs don't exist in
 // the new build. Hard reload fetches the new page with new action IDs.
-function isServerActionMismatch(error: Error): boolean {
+function isServerActionMismatch(error: Error & { digest?: string } | null | undefined): boolean {
+  if (!error) return false;
+  const msg = error.message || '';
+  const digest = error.digest || '';
   return (
-    error.message?.includes('Failed to find Server Action') ||
-    error.message?.includes('server-action') ||
-    error.digest?.includes('NEXT_NOT_FOUND') === false &&
-    error.message?.includes('This request might be from an older')
+    msg.includes('Failed to find Server Action') ||
+    msg.includes('server-action') ||
+    msg.includes('This request might be from an older') ||
+    digest.includes('NEXT_NOT_FOUND')
   );
 }
 
@@ -21,34 +24,32 @@ export default function GlobalError({
   error,
   reset,
 }: {
-  error: Error & { digest?: string };
+  error: Error & { digest?: string } | null | undefined;
   reset: () => void;
 }) {
   useEffect(() => {
+    // Log ALL errors to console for debugging (both dev and production)
+    console.error('=== GLOBAL ERROR CAUGHT ===');
+    console.error('Error message:', error?.message || 'No error message');
+    console.error('Error name:', error?.name || 'No error name');
+    console.error('Error stack:', error?.stack || 'No stack trace');
+    console.error('Error digest:', error?.digest || 'No digest');
+    console.error('========================');
+
     // Auto-reload on Server Action ID mismatch (deployment rollover)
     if (isServerActionMismatch(error)) {
+      console.log('Server action mismatch detected, reloading...');
       window.location.reload();
       return;
     }
 
     // Capture error with Sentry
-    Sentry.captureException(error);
-
-    // Log error to console for debugging
-    console.error('=== GLOBAL ERROR CAUGHT ===');
-    console.error('Error message:', error.message);
-    console.error('Error stack:', error.stack);
-    console.error('Error digest:', error.digest);
-    console.error('========================');
-
-    // Send to Sentry if configured
-    if (typeof window !== 'undefined' && window.Sentry) {
-      window.Sentry.captureException(error, {
-        tags: {
-          errorBoundary: 'global',
-        },
-      });
-    }
+    Sentry.captureException(error, {
+      extra: {
+        digest: error?.digest,
+        errorBoundary: 'global',
+      },
+    });
   }, [error]);
 
   return (
