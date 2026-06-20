@@ -159,8 +159,7 @@ const nextConfig = {
 
   // Experimental features for better performance
   experimental: {
-    workerThreads: true,
-    cpus: 4,
+    // workerThreads and cpus options removed - deprecated and cause build issues
     optimizePackageImports: ['lucide-react', 'framer-motion', '@radix-ui/react-'],
     modularizeImports: {
       'lucide-react': {
@@ -177,8 +176,9 @@ const nextConfig = {
       ],
     },
     optimizeCss: false,
-    parallelServerCompiles: true,
-    parallelServerBuildTraces: true,
+    // Disabled: requires worker threads to be enabled and properly configured
+    // parallelServerCompiles: true,
+    // parallelServerBuildTraces: true,
   },
 
   // Suppress middleware deprecation warning (middleware.ts is still correct for our use case)
