@@ -42,7 +42,7 @@ export default async function ContractDetailPage({
     .from('contract_templates')
     .select(`
       id, title, agency_name, source_type, file_name, file_type,
-      file_size, status, extraction_method, page_count, notes,
+      file_size, status, extraction_method, original_file_path, page_count, notes,
       created_at, updated_at,
       contract_template_fields (
         id, label, field_key, field_type, required,
