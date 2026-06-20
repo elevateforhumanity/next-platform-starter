@@ -62,7 +62,7 @@ export default async function GrantWorkflowPage() {
       {/* Hero Section */}
       <section className="relative h-48 md:h-64 overflow-hidden">
         <Image
-          src="/images/pages/admin-grants-workflow-detail.jpg"
+          src="/images/pages/admin-grants-workflow-detail.webp"
           alt="Grant Workflow"
           fill
           className="object-cover"

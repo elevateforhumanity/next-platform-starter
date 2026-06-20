@@ -77,7 +77,7 @@ const AGREEMENT_DEFINITIONS: Record<string, Omit<Agreement, 'type' | 'version'> 
     title: 'Staff Agreement',
     description: 'Terms of employment and confidentiality obligations for {PLATFORM_DEFAULTS.orgName} staff and contractors.',
     documentUrl: '/legal/staff-agreement',
-    img: '/images/pages/admin-signatures-hero.jpg',
+    img: '/images/pages/admin-signatures-hero.webp',
     icon: UserCheck,
   },
   mou: {
@@ -548,7 +548,7 @@ function LegalAgreementsContent() {
         <div className="mt-6 grid grid-cols-3 gap-4">
           {[
             { img: '/images/pages/admin-governance-legal-hero.jpg', label: 'FERPA Compliant' },
-            { img: '/images/pages/admin-signatures-hero.jpg', label: 'Secure E-Signature' },
+            { img: '/images/pages/admin-signatures-hero.webp', label: 'Secure E-Signature' },
             { img: '/images/pages/onboarding-page-2.jpg', label: 'DOL Registered' },
           ].map((badge) => (
             <div key={badge.label} className="relative rounded-xl overflow-hidden border border-slate-200 aspect-[4/3]">

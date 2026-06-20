@@ -41,7 +41,7 @@ export default async function InstructorSettingsPage() {
       {/* Hero Image */}
       <section className="relative h-[160px] sm:h-[220px] md:h-[280px] overflow-hidden">
         <Image
-          src="/images/pages/instructor-page-12.jpg"
+          src="/images/pages/instructor-page-12.webp"
           alt="Instructor portal"
           fill
           sizes="100vw"

@@ -338,7 +338,7 @@ export default function EmailMarketingPage({ stats }: EmailMarketingPageProps) {
                 </div>
                 <div className="relative h-[60vh] min-h-[400px] max-h-[720px] rounded-2xl overflow-hidden shadow-2xl">
                   <Image
-                    src="/images/pages/admin-email-marketing-d2.jpg"
+                    src="/images/pages/admin-email-marketing-d2.webp"
                     alt="Students learning"
                     fill
                     className="object-cover"

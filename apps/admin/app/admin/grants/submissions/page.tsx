@@ -105,7 +105,7 @@ export default async function GrantSubmissionsPage() {
         {/* Hero Section */}
         <section className="relative h-48 md:h-64 overflow-hidden">
           <Image
-            src="/images/pages/admin-grants-submissions-detail.jpg"
+            src="/images/pages/admin-grants-submissions-detail.webp"
             alt="Grant Submissions"
             fill
             className="object-cover"

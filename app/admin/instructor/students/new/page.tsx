@@ -36,7 +36,7 @@ export default async function InstructorAddStudentPage() {
     <div className="container mx-auto px-4 py-8">
       <section className="relative h-[160px] sm:h-[220px] md:h-[280px] overflow-hidden">
         <Image
-          src="/images/pages/instructor-page-13.jpg"
+          src="/images/pages/instructor-page-13.webp"
           alt="Instructor portal"
           fill
           sizes="100vw"
