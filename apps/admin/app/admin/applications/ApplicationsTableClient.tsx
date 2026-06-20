@@ -16,6 +16,7 @@ export interface ApplicationRow {
   zip: string | null;
   program_interest: string | null;
   program_id: string | null;
+  program_slug: string | null;
   support_notes: string | null;
   status: string;
   source: string | null;

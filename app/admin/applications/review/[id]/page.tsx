@@ -61,6 +61,7 @@ type ReviewApplication = {
   program_slug?: string | null;
   source?: string | null;
   support_notes?: string | null;
+  review_notes?: string | null;
   created_at?: string | null;
   updated_at?: string | null;
   revoked_at?: string | null;

@@ -75,10 +75,10 @@ export default function CookieConsent() {
     }
   };
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     // Closing the banner = implicit accept (analytics stay granted by default)
     handleAccept();
-  };
+  }, [handleAccept]);
 
   const bannerRef = useRef<HTMLDivElement>(null);
   const firstFocusRef = useRef<HTMLButtonElement>(null);
@@ -104,7 +104,7 @@ export default function CookieConsent() {
       e.preventDefault();
       first.focus();
     }
-  }, []);
+  }, [handleClose]);
 
   useEffect(() => {
     if (isVisible) {
