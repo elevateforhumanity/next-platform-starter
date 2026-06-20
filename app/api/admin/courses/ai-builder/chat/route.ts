@@ -100,7 +100,9 @@ export async function POST(request: NextRequest) {
     let course = null;
     const jsonMatch = responseText.match(/\{[\s\S]*"modules"[\s\S]*\}/);
     if (jsonMatch) {
-      try { course = JSON.parse(jsonMatch[0]); } catch {}
+      try { course = JSON.parse(jsonMatch[0]); } catch (e) {
+        // Ignore parse errors - course stays null
+      }
     }
 
     // Use TextEncoder to properly encode strings for ReadableStream

@@ -69,12 +69,9 @@ export default async function PrefillReviewPage({
   // Signed preview URL
   let previewUrl: string | null = null;
   try {
-    const { createClient: sc } = await import('@supabase/supabase-js');
-    const sUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const sKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-    if (sUrl && sKey && contract.original_file_path) {
-      const storage = sc(sUrl, sKey, { auth: { persistSession: false } });
-      const { data: signed } = await storage.storage.from('contracts').createSignedUrl(contract.original_file_path, 3600);
+    // Use admin client directly for contract storage
+    if (contract.original_file_path) {
+      const { data: signed } = await db.storage.from('contracts').createSignedUrl(contract.original_file_path, 3600);
       previewUrl = signed?.signedUrl ?? null;
     }
   } catch { /* non-fatal */ }
