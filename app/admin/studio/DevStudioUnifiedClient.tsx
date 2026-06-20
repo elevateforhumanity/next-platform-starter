@@ -84,7 +84,7 @@ const CommandCenterPanel = dynamic(() => import('@/components/studio/CommandCent
 });
 const BottomPane = dynamic(() => import('./panels/BottomPane'), { ssr: false });
 const AICourseBuilderChat = dynamic<CourseBuilderProps>(
-  () => import('../courses/ai-builder/AICourseBuilderChat'),
+  () => import('./courses/ai-builder/AICourseBuilderChat'),
   { ssr: false },
 );
 const IntegrationsPanel = dynamic(
