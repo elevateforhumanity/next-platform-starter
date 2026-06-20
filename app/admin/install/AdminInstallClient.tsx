@@ -37,12 +37,13 @@ export default function AdminInstallClient() {
     return () => window.removeEventListener('beforeinstallprompt', onBeforeInstallPrompt);
   }, []);
 
-  async function handleInstall() {
+  async function handleInstall(): Promise<void> {
     if (!deferredPrompt) return;
     await deferredPrompt.prompt();
     const { outcome } = await deferredPrompt.userChoice;
     if (outcome === 'accepted') setInstalled(true);
     setDeferredPrompt(null);
+    return;
   }
 
   if (isStandalone || installed) {

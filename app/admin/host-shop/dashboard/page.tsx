@@ -305,9 +305,9 @@ export default async function HostShopDashboardPage() {
 
         {/* DOL Competency Tracker */}
         <DOLCompetencyTracker 
+          programSlug="barber"
           userId={user.id}
-          organizationId={profile.organization_id}
-          apprenticeshipProgram="barber"
+          isHostShop={true}
         />
       </div>
     </div>

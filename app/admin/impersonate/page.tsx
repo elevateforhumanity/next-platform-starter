@@ -52,7 +52,6 @@ export default async function ImpersonatePage() {
         <div className="max-w-4xl mx-auto">
           <Breadcrumbs
             items={[{ label: 'Admin', href: '/admin/dashboard' }, { label: 'Impersonate User' }]}
-            dark
           />
           <h1 className="text-xl font-extrabold mt-3">User Impersonation</h1>
           <p className="text-slate-500 text-sm mt-1">

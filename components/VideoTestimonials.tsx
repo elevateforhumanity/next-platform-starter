@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Play, X, ChevronLeft, ChevronRight, Quote } from 'lucide-react';
@@ -377,13 +378,13 @@ export default function VideoTestimonials() {
           className="mt-12 text-center"
         >
           <p className="text-xl text-black mb-6">Ready to write your own success story?</p>
-          <a
+          <Link
             href="/apply"
-            className="inline-flex items-center gap-2 px-8 py-4    text-white rounded-lg font-semibold hover: hover: transition-all shadow-lg hover:shadow-xl text-lg"
+            className="inline-flex items-center gap-2 px-8 py-4 bg-brand-blue-600 text-white rounded-lg font-semibold hover:bg-brand-blue-700 transition-all shadow-lg hover:shadow-xl text-lg"
           >
             Start Your Application
             <ChevronRight className="w-5 h-5" />
-          </a>
+          </Link>
         </motion.div>
       </div>
 
@@ -456,18 +457,18 @@ export default function VideoTestimonials() {
                 </div>
 
                 <div className="mt-6 flex gap-4">
-                  <a
+                  <Link
                     href="/apply"
-                    className="flex-1 px-6 py-3    text-white rounded-lg font-semibold hover: hover: transition-all text-center"
+                    className="flex-1 px-6 py-3 bg-brand-blue-600 text-white rounded-lg font-semibold hover:bg-brand-blue-700 transition-all text-center"
                   >
                     Apply Now
-                  </a>
-                  <a
+                  </Link>
+                  <Link
                     href="/programs"
                     className="flex-1 px-6 py-3 bg-slate-100 text-black rounded-lg font-semibold hover:bg-slate-200 transition-all text-center"
                   >
                     View Programs
-                  </a>
+                  </Link>
                 </div>
               </div>
             </motion.div>
