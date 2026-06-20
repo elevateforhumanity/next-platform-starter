@@ -1,7 +1,7 @@
 'use client';
 import { logger } from '@/lib/logger';
 
-import { Facebook, Twitter, Linkedin, Link2, Mail, MessageCircle } from 'lucide-react';
+import { Twitter, Link2, Share2, Mail, MessageCircle } from 'lucide-react';
 import { useState } from 'react';
 
 interface SocialShareProps {
@@ -46,7 +46,7 @@ export function SocialShare({ url, title, description }: SocialShareProps) {
         className="w-10 h-10 flex items-center justify-center rounded-full bg-brand-blue-600 text-white hover:bg-brand-blue-700 transition"
         aria-label="Share on Facebook"
       >
-        <Facebook className="w-5 h-5" />
+        <Share2 className="w-5 h-5" />
       </a>
 
       <a
@@ -66,7 +66,7 @@ export function SocialShare({ url, title, description }: SocialShareProps) {
         className="w-10 h-10 flex items-center justify-center rounded-full bg-brand-blue-700 text-white hover:bg-brand-blue-800 transition"
         aria-label="Share on LinkedIn"
       >
-        <Linkedin className="w-5 h-5" />
+        <Share2 className="w-5 h-5" />
       </a>
 
       <a

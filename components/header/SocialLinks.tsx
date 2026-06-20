@@ -1,4 +1,4 @@
-import { Facebook, Instagram, Linkedin, Youtube } from 'lucide-react';
+import { Globe, MessageCircle, Share2, Video } from 'lucide-react';
 import { SOCIAL_LINKS } from '@/config/social-links';
 
 export function SocialLinks() {
@@ -11,7 +11,7 @@ export function SocialLinks() {
         className="text-slate-700 hover:text-brand-blue-600 transition"
         aria-label="Facebook"
       >
-        <Facebook className="w-5 h-5" />
+        <Globe className="w-5 h-5" />
       </a>
       <a
         href={SOCIAL_LINKS.instagram}
@@ -20,7 +20,7 @@ export function SocialLinks() {
         className="text-slate-700 hover:text-brand-blue-600 transition"
         aria-label="Instagram"
       >
-        <Instagram className="w-5 h-5" />
+        <MessageCircle className="w-5 h-5" />
       </a>
       <a
         href={SOCIAL_LINKS.linkedin}
@@ -29,7 +29,7 @@ export function SocialLinks() {
         className="text-slate-700 hover:text-brand-blue-600 transition"
         aria-label="LinkedIn"
       >
-        <Linkedin className="w-5 h-5" />
+        <Share2 className="w-5 h-5" />
       </a>
       <a
         href={SOCIAL_LINKS.youtube}
@@ -38,7 +38,7 @@ export function SocialLinks() {
         className="text-slate-700 hover:text-brand-blue-600 transition"
         aria-label="YouTube"
       >
-        <Youtube className="w-5 h-5" />
+        <Video className="w-5 h-5" />
       </a>
     </div>
   );

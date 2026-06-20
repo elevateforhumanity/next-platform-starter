@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { Mail, Linkedin, Award, BookOpen } from 'lucide-react';
+import { Mail, Share2, Award, BookOpen } from 'lucide-react';
 
 interface InstructorBioProps {
   name: string;
