@@ -128,7 +128,34 @@ export const NAV_ITEMS: NavItem[] = [
     ],
   },
 
-  // Testing tab removed - users access via /testing
+  {
+    id: 'testing',
+    name: 'Testing',
+    href: '/testing',
+    subItems: [
+      { name: '— Credential Exams —', href: '/testing', isHeader: true },
+      { name: 'Testing Center overview', href: '/testing' },
+      { name: 'Certiport (MOS, IC3)', href: '/testing/certiport' },
+      { name: 'ACT WorkKeys / NCRC', href: '/testing/workkeys' },
+      { name: 'EPA 608 Universal', href: '/testing/epa608' },
+      { name: 'NHA Certifications', href: '/testing/nha' },
+      { name: 'NRF Rise Up', href: '/testing/riseup' },
+      { name: 'ServSafe / Food Safety', href: '/testing/servsafe' },
+      { name: 'HSI CPR / First Aid', href: '/testing/hsi' },
+      { name: 'OSHA 10 / 30', href: '/testing/osha' },
+      { name: 'All exams & certifications →', href: '/testing', isSectionLink: true },
+      
+      { name: '— Exam info —', href: '/credentials', isHeader: true },
+      { name: 'Credentials & certifications', href: '/credentials' },
+      { name: 'Schedule an exam', href: '/testing/book' },
+      { name: 'Testing policies', href: '/testing#policies' },
+      { name: 'Testing accommodations', href: '/testing/accommodations' },
+      
+      { name: '— For employers —', href: '/testing/for-employers', isHeader: true },
+      { name: 'Bulk testing for employers', href: '/testing/for-employers' },
+      { name: 'Workforce assessments', href: '/testing/assessments' },
+    ],
+  },
 
   {
     id: 'funding',
