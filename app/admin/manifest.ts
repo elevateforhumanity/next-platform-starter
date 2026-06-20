@@ -25,7 +25,6 @@ export default function manifest(): MetadataRoute.Manifest {
       {
         src: '/screenshots/home-wide.jpg',
         sizes: '1920x1080',
-        // @ts-expect-error — form_factor is valid per spec, not yet in Next.js types
         form_factor: 'wide',
         type: 'image/jpeg',
         label: 'Elevate Admin — dashboard overview',

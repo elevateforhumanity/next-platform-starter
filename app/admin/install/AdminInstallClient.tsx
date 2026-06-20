@@ -17,7 +17,8 @@ export default function AdminInstallClient() {
 
   useEffect(() => {
     // Already installed
-    if (window.matchMedia('(display-mode: standalone)').matches) {
+    // @ts-ignore - SSR check
+    if (typeof window !== 'undefined' && window.matchMedia?.('(display-mode: standalone)').matches) {
       setIsStandalone(true);
       return;
     }
@@ -29,11 +30,14 @@ export default function AdminInstallClient() {
     else setPlatform('desktop');
 
     // Capture install prompt (Chrome/Edge/Android)
+    // @ts-ignore - SSR check
     function onBeforeInstallPrompt(e: Event) {
       e.preventDefault();
       setDeferredPrompt(e as DeferredPromptEvent);
     }
+    // @ts-ignore - SSR check
     window.addEventListener('beforeinstallprompt', onBeforeInstallPrompt);
+    // @ts-ignore - SSR check
     return () => window.removeEventListener('beforeinstallprompt', onBeforeInstallPrompt);
   }, []);
 

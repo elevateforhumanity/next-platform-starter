@@ -40,7 +40,7 @@ export default function BeautyProgramPage({ program, campuses = DEFAULT_CAMPUSES
   useEffect(() => {
     const interval = setInterval(() => setActiveTestimonial((prev) => (prev + 1) % testimonials.length), 6000);
     return () => clearInterval(interval);
-  }, []);
+  }, [testimonials.length]);
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 80);
