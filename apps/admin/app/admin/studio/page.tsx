@@ -1,18 +1,8 @@
-import dynamic from 'next/dynamic';
-import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
-import type { Metadata } from 'next';
+'use client';
 
-export const dynamic = 'force-dynamic';
-export const revalidate = 60;
+import nextDynamic from 'next/dynamic';
 
-export const metadata: Metadata = {
-  title: `Dev Studio | Admin | ${PLATFORM_DEFAULTS.orgName}`,
-  description: 'AI-powered course builder and content management.',
-  robots: { index: false, follow: false },
-};
-
-// Lazy load the DevStudioUnifiedClient to avoid SSR issues
-const DevStudioUnifiedClient = dynamic(
+const DevStudioUnifiedClient = nextDynamic(
   () => import('./DevStudioUnifiedClient'),
   { 
     ssr: false,
@@ -24,7 +14,6 @@ const DevStudioUnifiedClient = dynamic(
   }
 );
 
-export default async function StudioPage() {
-  // Auth disabled - Northflank IP whitelist handles admin auth
+export default function StudioPage() {
   return <DevStudioUnifiedClient />;
 }

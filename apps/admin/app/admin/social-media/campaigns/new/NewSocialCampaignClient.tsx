@@ -14,11 +14,11 @@ import {
   ArrowLeft,
   Save,
   Play,
-  Facebook,
-  Linkedin,
-  Instagram,
+  Globe,
+  Share2,
+  MessageCircle,
   Sparkles,
-  Youtube,
+  Video,
   ExternalLink,
 } from 'lucide-react';
 
@@ -251,7 +251,7 @@ export default function NewSocialCampaignPage({ programs = [] }: { programs?: Pr
               <div className="grid grid-cols-2 gap-4">
                 <PlatformButton
                   name="Facebook"
-                  icon={Facebook}
+                  icon={Globe}
                   selected={campaign.platforms.includes('facebook')}
                   onClick={() => togglePlatform('facebook')}
                 />
@@ -262,7 +262,7 @@ export default function NewSocialCampaignPage({ programs = [] }: { programs?: Pr
                   className="flex items-center justify-between p-3 rounded-lg border border-gray-200 hover:border-red-300 hover:bg-red-50 transition-colors group"
                 >
                   <div className="flex items-center gap-2">
-                    <Youtube className="w-5 h-5 text-red-500" />
+                    <Video className="w-5 h-5 text-red-500" />
                     <span className="text-sm font-medium text-gray-700">YouTube</span>
                   </div>
                   <div className="flex items-center gap-1 text-xs text-gray-400 group-hover:text-red-500">
@@ -272,13 +272,13 @@ export default function NewSocialCampaignPage({ programs = [] }: { programs?: Pr
                 </a>
                 <PlatformButton
                   name="LinkedIn"
-                  icon={Linkedin}
+                  icon={Share2}
                   selected={campaign.platforms.includes('linkedin')}
                   onClick={() => togglePlatform('linkedin')}
                 />
                 <PlatformButton
                   name="Instagram"
-                  icon={Instagram}
+                  icon={MessageCircle}
                   selected={campaign.platforms.includes('instagram')}
                   onClick={() => togglePlatform('instagram')}
                 />
