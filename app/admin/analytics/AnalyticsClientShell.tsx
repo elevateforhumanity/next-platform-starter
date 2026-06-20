@@ -19,7 +19,7 @@ const EmployerTalentPipeline = dynamicImport(
 const ExcelChartGenerator = dynamicImport(
   () =>
     import('@/components/ExcelChartGenerator').then((m) => ({
-      default: m.ExcelChartGenerator,
+      default: m.default,
     })),
   { ssr: false },
 );

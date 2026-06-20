@@ -14,6 +14,7 @@ export async function generateMetadata({
 }: {
   params: Promise<{ id: string }>;
 }): Promise<Metadata> {
+  return {};
 }
 
 function Field({ label, value }: { label: string; value: string | null | undefined }) {

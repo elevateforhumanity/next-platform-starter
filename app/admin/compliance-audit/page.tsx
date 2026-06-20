@@ -30,8 +30,7 @@ export default async function ComplianceAuditPage() {
     db.from('compliance_events')
       .select('id, action, created_at, profiles:user_id(full_name, email)')
       .order('created_at', { ascending: false })
-      .limit(20)
-      .catch(() => ({ data: [] })),
+      .limit(20),
   ]);
 
   const stats = [

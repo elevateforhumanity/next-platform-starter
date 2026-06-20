@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import Link from 'next/link';
 import { ShieldCheck, RefreshCw, AlertTriangle, ArrowRight, CheckCircle, XCircle } from 'lucide-react';
 
@@ -49,7 +49,7 @@ export default function ProgramIntegrityPage() {
   const [error, setError] = useState<string | null>(null);
   const [filter, setFilter] = useState<'all' | 'critical' | 'warning' | 'good'>('all');
 
-  async function fetchData() {
+  const fetchData = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
@@ -62,7 +62,7 @@ export default function ProgramIntegrityPage() {
     } finally {
       setLoading(false);
     }
-  }
+  }, []);
 
   useEffect(() => { fetchData(); }, [fetchData]);
 

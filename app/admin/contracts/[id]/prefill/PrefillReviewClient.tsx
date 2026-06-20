@@ -52,8 +52,10 @@ const HUMANIZE_CONTROLS = [
   { value: 'use_founder_voice',          label: 'Founder voice' },
 ];
 
+type SourceBadgeConfig = { label: string; cls: string; Icon: React.ElementType };
+
 function SourceBadge({ source }: { source: string }) {
-  const cfg = SOURCE_BADGE[source] ?? SOURCE_BADGE['needs_admin_input'];
+  const cfg: SourceBadgeConfig = SOURCE_BADGE[source] ?? SOURCE_BADGE['needs_admin_input'] as SourceBadgeConfig;
   const { label, cls, Icon } = cfg;
   return (
     <span className={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-xs font-medium ${cls}`}>
