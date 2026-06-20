@@ -124,6 +124,7 @@ export default function DocumentUpload({
         setFiles((prev) => [...prev, uploadedFile]);
         simulateUpload(uploadedFile.id);
       });
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     },
     [files.length, maxFiles, maxSize, acceptedTypes],
   );
