@@ -94,20 +94,20 @@ export default function GlobalError({
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
               <button
-                onClick={reset}
+                onClick={() => window.location.reload()}
                 className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-brand-orange-600 text-white rounded-lg hover:bg-brand-orange-700 transition-all font-semibold shadow-lg hover:shadow-xl transform hover:scale-105"
               >
                 <RefreshCw className="h-5 w-5" />
                 Try Again
               </button>
 
-              <Link
+              <a
                 href="/"
                 className="inline-flex items-center justify-center gap-2 px-8 py-4 border-2 border-slate-300 text-black rounded-lg hover:bg-white transition-all font-semibold"
               >
                 <Home className="h-5 w-5" />
                 Go to Homepage
-              </Link>
+              </a>
             </div>
 
             <div className="pt-6 border-t border-slate-200">
