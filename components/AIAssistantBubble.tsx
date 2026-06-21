@@ -314,5 +314,3 @@ export function AIAssistantBubble() {
     </>
   );
 }
-
-export default AIAssistantBubble;

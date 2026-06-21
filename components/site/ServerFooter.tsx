@@ -6,7 +6,7 @@ import Image from 'next/image';
 import Logo from '@/components/ui/Logo';
 import LogoImage from '@/components/site/LogoImage';
 import Copyright from '@/components/ui/Copyright';
-import { Globe, MessageCircle, Share2, Video } from 'lucide-react';
+import { Link as LinkIcon, MessageSquare, Share, Video } from 'lucide-react';
 import { SOCIAL_LINKS } from '@/config/social-links';
 import FooterAccordion from '@/components/site/FooterAccordion.client';
 import { canonicalRoutes } from '@/lib/routes/canonical-routes';
@@ -251,7 +251,7 @@ export default function ServerFooter() {
                   href={SOCIAL_LINKS.facebook}
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label="Facebook"
+                  aria-label="Globe"
                   className="text-white hover:text-white transition-colors"
                 >
                   <Globe className="w-5 h-5" />

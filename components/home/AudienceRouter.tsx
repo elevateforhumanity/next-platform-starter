@@ -17,7 +17,7 @@ const AUDIENCES = [
     ctaHref: '/wioa-eligibility',
     secondaryCta: 'Browse Programs',
     secondaryHref: '/programs',
-    image: '/images/pages/comp-home-hero-programs.jpg',
+    image: '/images/pages/admin-dashboard-hero.webp',
     color: 'bg-brand-blue-700',
     accent: 'bg-brand-blue-500',
     stats: [

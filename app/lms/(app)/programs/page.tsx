@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 // are always fresh via the enrollment query.
 export const revalidate = 600;
 
-const DEFAULT_PROGRAM_IMAGE = '/images/pages/comp-home-hero-programs.jpg';
+const DEFAULT_PROGRAM_IMAGE = '/images/pages/admin-dashboard-hero.webp';
 
 export default async function LmsProgramsPage() {
   const supabase = await createClient();

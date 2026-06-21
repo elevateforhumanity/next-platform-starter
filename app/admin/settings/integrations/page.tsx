@@ -28,7 +28,7 @@ export default async function IntegrationSettingsPage() {
     },
     {
       title: 'Social Media Accounts',
-      description: 'Connect Facebook, Instagram, YouTube, and Twitter/X accounts',
+      description: 'Connect Globe, Instagram, YouTube, and Globe/X accounts',
       href: '/admin/settings/social-media',
     },
   ];

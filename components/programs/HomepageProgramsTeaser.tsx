@@ -6,7 +6,7 @@ export function HomepageProgramsTeaser() {
     {
       title: 'Healthcare',
       description: 'CNA, Medical Assistant, Pharmacy Tech, and more',
-      image: '/images/pages/comp-home-hero-programs.jpg',
+      image: '/images/pages/admin-dashboard-hero.webp',
       href: '/programs/cna',
     },
     {

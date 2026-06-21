@@ -172,7 +172,7 @@ export const VIDEO_REGISTRY: Record<string, VideoRecord> = {
     title: 'Getting Started - How to Apply',
     description: 'Step-by-step guide to applying for free career training programs.',
     video_url: '/videos/getting-started-hero.mp4',
-    thumbnail_url: '/images/pages/comp-home-hero.webp',
+    thumbnail_url: '/images/pages/admin-dashboard-hero.webp',
     duration: 'PT35S',
     upload_date: '2025-01-01',
     category: 'How To',

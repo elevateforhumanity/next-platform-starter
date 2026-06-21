@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useCallback } from 'react';
-import { X, Globe, MessageCircle, Share2, Video, ExternalLink } from 'lucide-react';
+import { X, Globe, MessageCircle, Share, Video, ExternalLink } from 'lucide-react';
 import { SOCIAL_LINKS } from '@/config/social-links';
 
 interface SocialLinksModalProps {
@@ -12,7 +12,7 @@ interface SocialLinksModalProps {
 const PLATFORMS = [
   {
     key: 'facebook' as const,
-    label: 'Follow on Facebook',
+    label: 'Follow on Globe',
     icon: Globe,
     color: 'bg-[#1877F2] hover:bg-[#166FE5]',
     textColor: 'text-white',
@@ -29,7 +29,7 @@ const PLATFORMS = [
   {
     key: 'linkedin' as const,
     label: 'Connect on LinkedIn',
-    icon: Share2,
+    icon: Share,
     color: 'bg-[#0A66C2] hover:bg-[#004182]',
     textColor: 'text-white',
     description: 'Professional network, job opportunities, and employer connections',

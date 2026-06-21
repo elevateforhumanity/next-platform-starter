@@ -62,7 +62,7 @@ export const homepageVisuals: PageVisualConfig = {
         'Every pathway is tied to credential partners like HSI, CareerSafe, Certiport, Rise, National Drug, and JRI.',
         'Short, focused training that leads into employer connections, WEX, and OJT opportunities.',
       ],
-      imageSrc: '/images/pages/comp-home-hero-programs.jpg',
+      imageSrc: '/images/pages/admin-dashboard-hero.webp',
       imageAlt: 'Students learning practical career skills in training programs.',
     },
     {
@@ -84,7 +84,7 @@ export const homepageVisuals: PageVisualConfig = {
         'WEX placements and OJT wage reimbursement to make it easier for employers to hire you.',
         'Stories of students who moved from stress and instability into stable income and career paths.',
       ],
-      imageSrc: '/images/pages/comp-home-hero-programs.jpg',
+      imageSrc: '/images/pages/admin-dashboard-hero.webp',
       imageAlt: 'Students engaged in hands-on career training.',
     },
   ],

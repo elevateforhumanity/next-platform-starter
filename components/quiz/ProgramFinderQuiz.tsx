@@ -41,7 +41,7 @@ const steps: QuizStep[] = [
       {
         id: 'healthcare',
         label: 'Healthcare',
-        image: '/images/pages/comp-home-hero.webp',
+        image: '/images/pages/admin-dashboard-hero.webp',
         description: 'Help people heal and stay healthy',
       },
       {

@@ -80,7 +80,7 @@ export default async function AdminSettingsPage() {
       href: '/admin/settings/social-media',
       fields: [
         {
-          label: 'Facebook',
+          label: 'Globe',
           value: settings['social_facebook_connected'] === 'true' ? 'Connected' : 'Not connected',
         },
         {
@@ -92,7 +92,7 @@ export default async function AdminSettingsPage() {
           value: settings['social_youtube_connected'] === 'true' ? 'Connected' : 'Not connected',
         },
         {
-          label: 'Twitter / X',
+          label: 'Globe / X',
           value: settings['social_twitter_connected'] === 'true' ? 'Connected' : 'Not connected',
         },
       ],

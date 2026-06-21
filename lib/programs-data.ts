@@ -45,7 +45,7 @@ export const PROGRAMS: ProgramData[] = [
       'DOL Federally Registered Apprenticeship! Earn OSHA 10, CPR, and Emergency Medical Responder (EMR) certifications in 4 weeks. Prepare for life-saving response roles in schools, workplaces, and emergency settings. Hybrid program with 80 instructional hours.',
     funding: 'WIOA • WRG • Apprenticeship',
     duration: '4 Weeks • 80 Hours',
-    image: '/images/pages/comp-home-hero.webp',
+    image: '/images/pages/admin-dashboard-hero.webp',
     etplApproved: true,
     syllabusUrl: '/docs/syllabi/emergency-health-safety-tech.md',
   },
@@ -56,7 +56,7 @@ export const PROGRAMS: ProgramData[] = [
       'DOL Federally Registered Apprenticeship! Master skincare, facial treatments, hair removal, and client services in 5 weeks. Earn OSHA 10, Customer Service, and Business of Retail certifications. Hands-on training in professional spa setting with career readiness and business startup support.',
     funding: 'WIOA • WRG • Apprenticeship',
     duration: '5 Weeks • 60 Hours',
-    image: '/images/pages/comp-home-hero.webp',
+    image: '/images/pages/admin-dashboard-hero.webp',
     etplApproved: true,
   },
   {
@@ -66,7 +66,7 @@ export const PROGRAMS: ProgramData[] = [
       'Make a difference in recovery! Train to provide peer support services in behavioral health, addiction recovery, and mental health settings. Learn trauma-informed care, crisis intervention, and recovery coaching. No prior healthcare experience required.',
     funding: 'WIOA • JRI',
     duration: '6-8 Weeks',
-    image: '/images/pages/comp-home-hero.webp',
+    image: '/images/pages/admin-dashboard-hero.webp',
     etplApproved: true,
   },
   {
@@ -76,7 +76,7 @@ export const PROGRAMS: ProgramData[] = [
       'Support individuals in addiction recovery! Become a Certified Peer Recovery Coach and help others navigate their recovery journey. Learn motivational interviewing, relapse prevention, and community resources. Justice-involved individuals welcome.',
     funding: 'WIOA • JRI',
     duration: '45 Days • 180 Hours',
-    image: '/images/pages/comp-home-hero.webp',
+    image: '/images/pages/admin-dashboard-hero.webp',
     etplApproved: true,
   },
   {
@@ -86,7 +86,7 @@ export const PROGRAMS: ProgramData[] = [
       'Life-saving skills for everyone! Earn American Heart Association CPR/AED and First Aid certifications. Perfect for healthcare workers, teachers, childcare providers, and anyone who wants to be prepared for emergencies. Classes available day, evening, and weekend.',
     funding: 'Self-Pay • Employer Sponsored',
     duration: '1 Day • 4-8 Hours',
-    image: '/images/pages/comp-home-hero.webp',
+    image: '/images/pages/admin-dashboard-hero.webp',
     etplApproved: false,
   },
   {
@@ -96,7 +96,7 @@ export const PROGRAMS: ProgramData[] = [
       "Train for a healthcare career in just 16-24 weeks! Learn vital signs, EKG, phlebotomy, medical records, and patient care through hands-on clinical practice. Our hybrid program combines online coursework with real clinic experience, preparing you for immediate employment in doctors' offices, hospitals, and urgent care centers. ETPL-approved and WRG/WIOA funded.",
     funding: 'WRG • WIOA • Workforce Grants',
     duration: '16–24 Weeks • Hybrid (Online + Clinical)',
-    image: '/images/pages/comp-home-hero.webp',
+    image: '/images/pages/admin-dashboard-hero.webp',
     etplApproved: true,
   },
   {
@@ -106,7 +106,7 @@ export const PROGRAMS: ProgramData[] = [
       "Earn while you learn! This state-approved apprenticeship places you in real barbershops where you'll master fades, tapers, razor work, and client service while building your hours toward Indiana barber licensure. Perfect for career changers and re-entry participants. Get paid on-the-job training, business coaching, and a clear path to owning your own chair or shop.",
     funding: 'Registered Apprenticeship • WIOA • WRG',
     duration: '12–18 Months • Barbershop + Classroom',
-    image: '/images/pages/comp-home-hero.webp',
+    image: '/images/pages/admin-dashboard-hero.webp',
     etplApproved: true,
   },
   {
@@ -126,7 +126,7 @@ export const PROGRAMS: ProgramData[] = [
       'Become the go-to person who keeps buildings running! Learn plumbing basics, electrical repairs, HVAC maintenance, carpentry, and safety systems through hands-on training. This 4-9 month program prepares you for steady employment with property management companies, schools, hospitals, and commercial buildings. Perfect for those who like variety and problem-solving.',
     funding: 'Workforce Grants • Apprenticeship • WIOA',
     duration: '4–9 Months • Hands-On Training',
-    image: '/images/pages/comp-home-hero.webp',
+    image: '/images/pages/admin-dashboard-hero.webp',
     etplApproved: true,
   },
   {
@@ -136,7 +136,7 @@ export const PROGRAMS: ProgramData[] = [
       "Get your Commercial Driver's License in just 4-6 weeks! Our 160-hour program includes classroom instruction, range practice, and real road experience. Learn pre-trip inspections, backing maneuvers, highway driving, and DOT regulations. Graduate with your CDL Class A and immediate job placement assistance with trucking companies offering $50K+ starting salaries.",
     funding: 'Workforce Grants • Employer Sponsors • WIOA',
     duration: '4–6 Weeks (160 Hours) • Range + Road',
-    image: '/images/pages/comp-home-hero.webp',
+    image: '/images/pages/admin-dashboard-hero.webp',
     etplApproved: true,
   },
   {
@@ -146,7 +146,7 @@ export const PROGRAMS: ProgramData[] = [
       "Rebuild your career with confidence! Whether you're re-entering after incarceration, overcoming gaps in work history, or starting fresh, this 4-12 week program provides resume building, interview coaching, workplace skills, and direct connections to employers who hire second-chance candidates. Includes support with transportation, childcare, and work clothing.",
     funding: 'Support Services • Referrals • Case Management',
     duration: '4–12 Weeks • Flexible Coaching + Workshops',
-    image: '/images/pages/comp-home-hero.webp',
+    image: '/images/pages/admin-dashboard-hero.webp',
     etplApproved: false,
   },
   {
@@ -156,7 +156,7 @@ export const PROGRAMS: ProgramData[] = [
       'Launch your healthcare career in just 4-8 weeks! Learn proper blood draw techniques, patient interaction, lab safety, and specimen handling. Our hands-on program includes clinical rotations at real healthcare facilities. Graduate ready for immediate employment in hospitals, clinics, blood banks, and diagnostic labs with national certification.',
     funding: 'WRG • WIOA • Workforce Grants',
     duration: '4–8 Weeks • Clinical Rotations Included',
-    image: '/images/pages/comp-home-hero.webp',
+    image: '/images/pages/admin-dashboard-hero.webp',
     etplApproved: true,
   },
   {
@@ -166,7 +166,7 @@ export const PROGRAMS: ProgramData[] = [
       'Master a high-demand skilled trade! Learn MIG, TIG, stick welding, blueprint reading, and metal fabrication through intensive hands-on training. Our 12-24 week program prepares you for AWS certification and immediate employment in manufacturing, construction, automotive, and industrial settings. Welders earn $40K-$60K+ starting.',
     funding: 'Workforce Grants • Apprenticeship • WIOA',
     duration: '12–24 Weeks • Hands-On Lab Training',
-    image: '/images/pages/comp-home-hero.webp',
+    image: '/images/pages/admin-dashboard-hero.webp',
     etplApproved: true,
   },
   {
@@ -206,7 +206,7 @@ export const PROGRAMS: ProgramData[] = [
       'Enter the growing pharmacy field in 12-16 weeks! Learn medication dispensing, prescription processing, inventory management, insurance billing, and patient service. Our program includes externship at retail or hospital pharmacies. Graduate ready for national PTCB certification and employment at CVS, Walgreens, hospitals, and clinics.',
     funding: 'WRG • WIOA • Workforce Grants',
     duration: '12–16 Weeks • Externship Included',
-    image: '/images/pages/comp-home-hero.webp',
+    image: '/images/pages/admin-dashboard-hero.webp',
     etplApproved: true,
   },
   {
@@ -216,7 +216,7 @@ export const PROGRAMS: ProgramData[] = [
       'Launch your tech career with Certiport IT Specialist certification. Learn computer hardware, software, networking, troubleshooting, and customer service. Our 8-week program prepares you for help desk, desktop support, and IT technician roles. No prior experience needed. Tech jobs start at $40K+ with room for growth.',
     funding: 'Workforce Grants • WIOA • Employer Sponsors',
     duration: '12–20 Weeks • Online + Hands-On Labs',
-    image: '/images/pages/comp-home-hero.webp',
+    image: '/images/pages/admin-dashboard-hero.webp',
     etplApproved: true,
   },
   {
@@ -226,7 +226,7 @@ export const PROGRAMS: ProgramData[] = [
       'Turn your passion for cooking into a career through our Registered Apprenticeship! Earn while you learn in professional kitchens. Master food preparation, kitchen safety, menu planning, nutrition, and restaurant operations through hands-on training. Graduate ready for line cook, prep cook, or food service management positions in restaurants, hotels, and catering.',
     funding: 'Registered Apprenticeship • WIOA • WRG',
     duration: '12–18 Months • Earn While You Learn',
-    image: '/images/pages/comp-home-hero.webp',
+    image: '/images/pages/admin-dashboard-hero.webp',
     etplApproved: true,
   },
 ];

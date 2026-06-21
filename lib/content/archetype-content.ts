@@ -478,7 +478,7 @@ export const marketingInformationalContent: LocalizedContent = {
     hero: {
       title: 'About This Platform',
       purpose: 'Learn about our mission, programs, and how to get involved.',
-      image: '/images/pages/comp-home-hero-programs.jpg',
+      image: '/images/pages/admin-dashboard-hero.webp',
       imageAlt: 'Platform overview',
     },
     sections: {
@@ -506,7 +506,7 @@ export const marketingInformationalContent: LocalizedContent = {
     hero: {
       title: 'Acerca de esta plataforma',
       purpose: 'Conoce nuestra misión, programas y cómo participar.',
-      image: '/images/pages/comp-home-hero-programs.jpg',
+      image: '/images/pages/admin-dashboard-hero.webp',
       imageAlt: 'Resumen de la plataforma',
     },
     sections: {},

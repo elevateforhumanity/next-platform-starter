@@ -159,7 +159,7 @@ export default function GrantProgramsPage() {
                     src={
                       program.hero_image_url ||
                       program.image_url ||
-                      '/images/pages/comp-home-hero-programs.jpg'
+                      '/images/pages/admin-dashboard-hero.webp'
                     }
                     alt={`${program.title} program`}
                     fill
