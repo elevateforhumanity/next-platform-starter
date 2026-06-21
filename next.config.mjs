@@ -888,7 +888,6 @@ const nextConfig = {
       // ============================================
       { source: '/student-portal', destination: '/learner/dashboard', permanent: true },
       { source: '/admin-portal', destination: '/login', permanent: true },
-      { source: '/partner-portal', destination: '/partner/dashboard', permanent: true },
 
       // Marketing redirects
       // /success-stories has a real 419-line page — no redirect needed
