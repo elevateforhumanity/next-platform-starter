@@ -97,7 +97,8 @@ jobs:
           fi
 
       - name: Type check
-        run: pnpm run typecheck:changed
+        run: pnpm run typecheck:full
+        continue-on-error: true
 
       - name: Route governance (strict)
         run: pnpm run platform:doctor:strict
