@@ -88,7 +88,7 @@ export default function SupportContactPage() {
             fill
             className="object-cover"
             priority
-            sizes="100vw" placeholder="blur"
+            sizes="100vw" 
           />
         </div>
         <div className="bg-white py-10">

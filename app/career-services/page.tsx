@@ -76,7 +76,7 @@ export default function CareerServicesPage() {
                     alt={item.title}
                     fill
                     sizes="100vw"
-                    className="object-cover" placeholder="blur"
+                    className="object-cover" 
                   />
                 </div>
                 <div className="py-3 pr-3 sm:p-5 flex-1">

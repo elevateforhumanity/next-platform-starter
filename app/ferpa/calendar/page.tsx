@@ -123,7 +123,7 @@ export default async function FerpaCalendarPage() {
           fill
           sizes="100vw"
           className="object-cover"
-          priority placeholder="blur"
+          priority 
         />
       </section>
       <div className="bg-white border-b border-slate-200">
