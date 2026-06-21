@@ -26,7 +26,7 @@ export interface NavItem {
 
 export const NAV_ITEMS: NavItem[] = [
   {
-    id: 'platform-os',
+    id: 'platform-operating-system',
     name: 'Platform',
     href: '/platform/overview',
     subItems: [
@@ -40,7 +40,7 @@ export const NAV_ITEMS: NavItem[] = [
     ],
   },
   {
-    id: 'testing',
+    id: 'testing-center',
     name: 'Testing',
     href: '/testing',
     subItems: [
@@ -51,8 +51,9 @@ export const NAV_ITEMS: NavItem[] = [
     ],
   },
   {
-    id: 'partner-solutions',
+    id: 'partner-ecosystem',
     name: 'Solutions',
+
     href: '/partners',
     subItems: [
       { name: '— Ecosystem Solutions —', href: '/partners', isHeader: true },

@@ -57,7 +57,7 @@ function PathwayCard({ prog, priority }: { prog: ProgramSchema; priority?: boole
       {/* Image */}
       <div className={card.programImage}>
         <Image
-          src={prog.heroImage}
+          src={prog.heroImage || '/logo.png'}
           alt={prog.heroImageAlt || prog.title}
           fill
           className={card.programImageFill}
