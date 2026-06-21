@@ -442,18 +442,18 @@
   },
   "pnpm": {
     "onlyBuiltDependencies": [
-      "@swc/core",
-      "sharp",
-      "esbuild",
-      "@sentry/cli",
-      "protobufjs",
-      "canvas",
-      "core-js",
       "@ffmpeg-installer/linux-x64",
       "@ffprobe-installer/linux-x64",
-      "workerd",
+      "@sentry/cli",
+      "@swc/core",
+      "canvas",
+      "core-js",
+      "esbuild",
+      "protobufjs",
+      "sharp",
+      "unrs-resolver",
       "vue-demi",
-      "unrs-resolver"
+      "workerd"
     ],
     "_buildScriptNotes": {
       "ffmpeg-static": "GPL-3.0. Used only as a webpack external (never imported directly). Binary path resolved via @ffmpeg-installer/ffmpeg (LGPL-2.1) at runtime. SaaS deployment — no distribution obligation triggered.",
