@@ -8,7 +8,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowRight, CreditCard } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { ALL_PROGRAMS } from '@/data/programs/catalog';
 import type { ProgramSchema } from '@/lib/programs/program-schema';
 import { loadVerifiedPublicStats } from '@/lib/site-stats-server';
@@ -52,17 +52,13 @@ function PathwayCard({ prog, priority }: { prog: ProgramSchema; priority?: boole
     prog.slug === 'welding' ||
     prog.slug === 'culinary-apprenticeship';
 
-  // Safe Image Source - Prevents build crashes on null sources
-  const imageSrc = prog.heroImage || '/logo.png';
-  
   return (
-    <article className="group flex flex-col h-full bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden hover:shadow-md transition-all duration-300">
+    <article className="group flex flex-col rounded-2xl overflow-hidden bg-white border border-slate-200 hover:border-brand-red-300 hover:shadow-lg transition-all hover:-translate-y-0.5">
       {/* Image */}
       <div className={card.programImage}>
         <Image
-          src={imageSrc}
+          src={prog.heroImage}
           alt={prog.heroImageAlt || prog.title}
-
           fill
           className={card.programImageFill}
           sizes={IMAGE_SIZES.programCard}
@@ -121,8 +117,6 @@ function PathwayCard({ prog, priority }: { prog: ProgramSchema; priority?: boole
 
         {/* CTAs */}
         <div className="flex flex-col gap-2 mt-auto pt-2">
-            </div>
-          )}
           <div className="flex gap-2">
             <Link
               href={prog.cta?.applyHref || `/apply?program=${prog.slug}`}
