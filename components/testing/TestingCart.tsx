@@ -10,8 +10,7 @@
  */
 
 import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
-import { ShoppingCart, X, Trash2, Loader2, ChevronDown, ChevronUp, CreditCard } from 'lucide-react';
-import { getProvidersForAmount } from '@/lib/bnpl-config';
+import { ShoppingCart, X, Trash2, Loader2, ChevronDown, ChevronUp } from 'lucide-react';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -264,21 +263,6 @@ function TestingCartBar() {
             )}
           </button>
         </div>
-
-        {/* Error */}
-        {error && (
-          <div className="bg-red-900/80 px-4 py-2 text-red-200 text-xs text-center">{error}</div>
-        )}
-      </div>
-    </div>
-  );
-}
-py-1 text-[10px] text-center text-slate-300 flex items-center justify-center gap-2">
-              <CreditCard className="w-3 h-3 text-brand-red-400" />
-              <span>Split this payment with {bnpl.map(p => p.name).join(', ')}</span>
-            </div>
-          );
-        })()}
 
         {/* Error */}
         {error && (
