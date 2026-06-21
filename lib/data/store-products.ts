@@ -176,7 +176,7 @@ export const STORE_PRODUCTS: StoreProduct[] = [
     description: 'White-label license for schools, nonprofits, and workforce providers.',
     longDescription:
       'Full platform access with white-labeling, partner dashboard, case management, and compliance tools. Perfect for schools and training providers serving multiple programs and funding sources.',
-    price: 15000,
+    price: 7500,
     billingType: 'one_time',
     licenseType: 'school',
     appsIncluded: [
@@ -223,7 +223,7 @@ export const STORE_PRODUCTS: StoreProduct[] = [
       'Full enterprise deployment with employer portal, AI tutor, and custom integrations.',
     longDescription:
       'The complete workforce ecosystem with employer partnerships, AI-powered learning, custom integrations, and dedicated support. Built for large-scale workforce initiatives.',
-    price: 50000,
+    price: 75000,
     billingType: 'one_time',
     licenseType: 'enterprise',
     appsIncluded: [
@@ -420,7 +420,7 @@ export const CLONE_LICENSES: StoreProduct[] = [
     description: 'Single site license with 1 year updates and email support.',
     longDescription:
       'Get the complete Elevate LMS codebase for a single site deployment. Includes 1 year of updates and email support.',
-    price: 299,
+    price: 750,
     billingType: 'one_time',
     licenseType: 'single',
     appsIncluded: ['lms', 'enrollment', 'admin', 'mobile-app'],
@@ -443,7 +443,7 @@ export const CLONE_LICENSES: StoreProduct[] = [
     description: 'Multi-site license with lifetime updates and Dev Studio.',
     longDescription:
       'Deploy on multiple sites with lifetime updates, priority support, and access to the Dev Studio for customization.',
-    price: 999,
+    price: 7500,
     billingType: 'one_time',
     licenseType: 'school',
     appsIncluded: ['lms', 'enrollment', 'admin', 'payments', 'partner-dashboard', 'mobile-app'],
@@ -471,7 +471,7 @@ export const CLONE_LICENSES: StoreProduct[] = [
     description: 'Unlimited sites, white-label, dedicated support, and custom features.',
     longDescription:
       'Full enterprise deployment rights with unlimited sites, white-label branding, dedicated support, and custom feature development.',
-    price: 5000,
+    price: 75000,
     billingType: 'one_time',
     licenseType: 'enterprise',
     appsIncluded: [
