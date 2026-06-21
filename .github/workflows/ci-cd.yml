@@ -158,7 +158,7 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
           STRIPE_WEBHOOK_SECRET: ${{ secrets.STRIPE_WEBHOOK_SECRET }}
-        run: pnpm run build
+        run: pnpm run build:lms:phased
 
   # Non-blocking legacy lint.
   # 896k lines, 2500+ files, pre-existing violations across the codebase.
