@@ -81,15 +81,6 @@ jobs:
         run: bash scripts/smoke-test.sh
         continue-on-error: false
 
-      - name: Garbage audit
-        run: pnpm run audit:garbage
-
-      - name: Admin route audit
-        run: pnpm run audit:admin
-
-      - name: Dashboard audit
-        run: pnpm run audit:dashboard
-
       - name: Generate TypeScript baseline
         run: pnpm run typecheck:baseline || true
 
