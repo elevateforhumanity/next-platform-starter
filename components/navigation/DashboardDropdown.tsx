@@ -17,8 +17,8 @@ import {
   ChevronDown,
   Sparkles,
   Loader2,
-  LucideIcon,
 } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 
 interface Dashboard {
   id: string;

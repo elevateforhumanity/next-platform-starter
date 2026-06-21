@@ -1,7 +1,7 @@
 'use client';
 import { logger } from '@/lib/logger';
 
-import { Globe, Link2, Share, Mail, MessageCircle } from 'lucide-react';
+import { Globe, Link2, Share2, Mail, MessageCircle } from 'lucide-react';
 import { useState } from 'react';
 
 interface SocialShareProps {

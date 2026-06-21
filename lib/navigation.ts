@@ -51,6 +51,16 @@ export const NAV_ITEMS: NavItem[] = [
     ],
   },
   {
+    name: 'Advanced Tools',
+    href: '/admin/advanced-tools',
+    id: 'advanced-tools-admin',
+  },
+  {
+    name: 'Admin Autopilot',
+    href: '/admin/autopilot',
+    id: 'autopilot-admin',
+  },
+  {
     name: 'The Bosses (VR)',
     href: '/admin/staff-portal/vr',
     id: 'vr-os',

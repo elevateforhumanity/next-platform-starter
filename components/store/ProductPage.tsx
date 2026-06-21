@@ -63,8 +63,8 @@ import {
   Award,
   BookOpen,
   Briefcase,
-  type LucideIcon,
 } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 
 // Icon map for serialization from server components
 const iconMap: Record<string, LucideIcon> = {

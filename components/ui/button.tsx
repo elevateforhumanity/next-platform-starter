@@ -1,2 +1,3 @@
-export { Button } from './Button';
-export type { ButtonProps } from './Button';
+import { Button } from './design-system/Button';
+export type { ButtonProps } from './design-system/Button';
+export { Button };

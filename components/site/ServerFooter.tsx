@@ -6,7 +6,7 @@ import Image from 'next/image';
 import Logo from '@/components/ui/Logo';
 import LogoImage from '@/components/site/LogoImage';
 import Copyright from '@/components/ui/Copyright';
-import { Link as LinkIcon, MessageSquare, Share, Video } from 'lucide-react';
+import { Globe, MessageCircle, Share2, Video } from 'lucide-react';
 import { SOCIAL_LINKS } from '@/config/social-links';
 import FooterAccordion from '@/components/site/FooterAccordion.client';
 import { canonicalRoutes } from '@/lib/routes/canonical-routes';

@@ -62,10 +62,11 @@ interface CourseBuilderProps {
   initialProgramId?: string;
 }
 
-type Workspace = 'studio' | 'command' | 'deploy' | 'files' | 'environments' | 'health' | 'secrets' | 'integrations' | 'the-bosses' | 'force-deploy';
+type Workspace = 'studio' | 'autopilot' | 'command' | 'deploy' | 'files' | 'environments' | 'health' | 'secrets' | 'integrations' | 'the-bosses' | 'force-deploy';
 
 const WORKSPACES: { id: Workspace; label: string; Icon: ElementType<{ className?: string }> }[] = [
   { id: 'studio', label: 'Studio', Icon: Bot },
+  { id: 'autopilot', label: 'Autopilot', Icon: Zap },
   { id: 'the-bosses', label: 'The Bosses (VR)', Icon: Globe },
   { id: 'force-deploy', label: 'Nuclear Deploy', Icon: Zap },
   { id: 'command', label: 'Command', Icon: LayoutDashboard },
@@ -171,6 +172,20 @@ export default function DevStudioUnifiedClient({
             <p className="text-slate-400 max-w-md mb-8 leading-relaxed">
               Bypass all linting, type-checks, and Husky gates to force production live. 
               Use only for critical deployment recovery before a pitch.
+            </p>
+            <button 
+              onClick={() => window.alert('Force deployment initiated. Bypassing 912 TypeScript errors...')}
+              className="bg-red-600 hover:bg-red-700 text-white font-bold py-4 px-12 rounded-full shadow-2xl shadow-red-500/20 transition-all active:scale-95"
+            >
+              EXECUTE FORCE DEPLOY →
+            </button>
+          </div>
+        )}
+      </main>
+    </div>
+  );
+}
+            Use only for critical deployment recovery before a pitch.
             </p>
             <button 
               onClick={() => window.alert('Force deployment initiated. Bypassing 912 TypeScript errors...')}
