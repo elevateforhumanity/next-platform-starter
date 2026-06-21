@@ -560,25 +560,30 @@ function BookingForm() {
       </div>
 
       <div className="max-w-3xl mx-auto px-4 sm:px-6 py-6 sm:py-10">
-        {/* Calendly quick-schedule option */}
-        <div className="bg-brand-blue-50 border border-brand-blue-200 rounded-2xl p-5 mb-8 flex flex-col sm:flex-row items-start sm:items-center gap-4">
-          <div className="flex-1">
-            <p className="font-bold text-brand-blue-900 text-sm mb-1">
-              Schedule directly on our calendar
-            </p>
-            <p className="text-brand-blue-700 text-xs leading-relaxed">
-              Pick a date and time that works for you. We'll confirm your exam and send
-              instructions.
+        {/* Calendly embedded scheduling */}
+        <div className="bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-lg mb-12">
+          <div className="bg-brand-blue-700 px-6 py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div>
+              <p className="text-brand-blue-100 text-xs font-bold uppercase tracking-widest mb-1">
+                Step 1: Reserve Your Time
+              </p>
+              <h2 className="text-white font-extrabold text-lg">Official Testing Center Calendar</h2>
+            </div>
+            <p className="text-white/80 text-xs sm:text-right max-w-xs leading-relaxed">
+              Pick a date and time first, then complete the payment form below to confirm your seat.
             </p>
           </div>
-          <a
-            href={CALENDLY_CONFIG.testingUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="shrink-0 inline-flex items-center gap-2 bg-brand-blue-700 hover:bg-brand-blue-800 text-white font-bold px-5 py-3 rounded-xl transition-colors text-sm whitespace-nowrap"
-          >
-            Open Calendar →
-          </a>
+          
+          <div className="w-full min-h-[700px] bg-slate-50 relative">
+            <iframe
+              src={`${CALENDLY_CONFIG.testingUrl}?hide_landing_page_details=1&hide_gdpr_banner=1&primary_color=b91c1c`}
+              width="100%"
+              height="700"
+              frameBorder="0"
+              title="Schedule Testing Session"
+              className="w-full h-full"
+            />
+          </div>
         </div>
 
         <div className="flex items-center gap-3 mb-8">

@@ -100,8 +100,10 @@ export async function POST(request: NextRequest) {
     let course = null;
     const jsonMatch = responseText.match(/\{[\s\S]*"modules"[\s\S]*\}/);
     if (jsonMatch) {
-      try { course = JSON.parse(jsonMatch[0]); } catch (e) {
-        // Ignore parse errors - course stays null
+      try {
+        course = JSON.parse(jsonMatch[0]);
+      } catch (e) {
+        logger.warn('[course-builder/chat] Failed to parse course JSON from AI response', { error: e, text: jsonMatch[0] });
       }
     }
 

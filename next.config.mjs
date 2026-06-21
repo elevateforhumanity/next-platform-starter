@@ -338,11 +338,11 @@ const nextConfig = {
       // ============================================
       // UNIFIED STUDIO — new LMS-hosted studio page
       // ============================================
-      { source: '/studio(.*)', destination: '/studio$1', permanent: false },
+      { source: '/studio(.*)', destination: '/admin/studio$1', permanent: false },
       // ============================================
       // UNIFIED ADMIN DASHBOARD — new LMS-hosted admin dashboard
       // ============================================
-      { source: '/admin-dashboard', destination: '/admin-dashboard', permanent: false },
+      { source: '/admin-dashboard', destination: '/admin/dashboard', permanent: true },
       // ============================================
       // OLD URL ALIASES → CORRECT EXISTING PAGES
       // ============================================

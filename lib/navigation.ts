@@ -40,6 +40,17 @@ export const NAV_ITEMS: NavItem[] = [
     ],
   },
   {
+    id: 'testing',
+    name: 'Testing',
+    href: '/testing',
+    subItems: [
+      { name: '— Credential Exams —', href: '/testing', isHeader: true },
+      { name: 'Testing Center overview', href: '/testing' },
+      { name: 'Schedule an exam', href: '/testing/book' },
+      { name: 'All exams & certifications →', href: '/testing', isSectionLink: true },
+    ],
+  },
+  {
     id: 'partner-solutions',
     name: 'Solutions',
     href: '/partners',
