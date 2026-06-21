@@ -176,7 +176,7 @@ export const STORE_PRODUCTS: StoreProduct[] = [
     description: 'White-label license for schools, nonprofits, and workforce providers.',
     longDescription:
       'Full platform access with white-labeling, partner dashboard, case management, and compliance tools. Perfect for schools and training providers serving multiple programs and funding sources.',
-    price: 7500,
+    price: 15000,
     billingType: 'one_time',
     licenseType: 'school',
     appsIncluded: [
@@ -420,7 +420,7 @@ export const CLONE_LICENSES: StoreProduct[] = [
     description: 'Single site license with 1 year updates and email support.',
     longDescription:
       'Get the complete Elevate LMS codebase for a single site deployment. Includes 1 year of updates and email support.',
-    price: 750,
+    price: 299,
     billingType: 'one_time',
     licenseType: 'single',
     appsIncluded: ['lms', 'enrollment', 'admin', 'mobile-app'],
@@ -430,6 +430,7 @@ export const CLONE_LICENSES: StoreProduct[] = [
       '1 year of updates',
       'Email support',
       'Documentation access',
+      'AI Workforce Assistant (Core)',
     ],
     idealFor: ['Individual developers', 'Small training providers', 'Proof of concept projects'],
     requiresApproval: false,
@@ -443,7 +444,7 @@ export const CLONE_LICENSES: StoreProduct[] = [
     description: 'Multi-site license with lifetime updates and Dev Studio.',
     longDescription:
       'Deploy on multiple sites with lifetime updates, priority support, and access to the Dev Studio for customization.',
-    price: 7500,
+    price: 999,
     billingType: 'one_time',
     licenseType: 'school',
     appsIncluded: ['lms', 'enrollment', 'admin', 'payments', 'partner-dashboard', 'mobile-app'],
@@ -453,6 +454,8 @@ export const CLONE_LICENSES: StoreProduct[] = [
       'Lifetime updates',
       'Priority support',
       'Dev Studio included',
+      'AI Course Builder & Instructor Suite',
+      'The Bosses (VR) - Training Demos',
       'API documentation',
     ],
     idealFor: [
@@ -490,6 +493,8 @@ export const CLONE_LICENSES: StoreProduct[] = [
       'Complete Next.js codebase',
       'Unlimited site deployments',
       'White-label rights',
+      'The Bosses (VR) - Enterprise Suite & Custom Personas',
+      'Enterprise AI Agents',
       'Dedicated support channel',
       'Custom feature development',
       'Architecture consultation',

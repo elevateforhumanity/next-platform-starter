@@ -61,40 +61,13 @@ interface CourseBuilderProps {
   initialProgramId?: string;
 }
 
-type Workspace = 'studio' | 'command' | 'deploy' | 'files' | 'environments' | 'health' | 'secrets' | 'integrations';
-type StudioMode = 'ask' | 'run' | 'courses';
-
-const UnifiedEllieChat = dynamic(() => import('@/components/studio/UnifiedEllieChat'), {
-  ssr: false,
-});
-const DevStudioEditorWorkspace = dynamic(
-  () => import('@/components/studio/DevStudioEditorWorkspace'),
-  { ssr: false },
-);
-const DeployPanel = dynamic(() => import('@/components/studio/DeployPanel'), { ssr: false });
-const DevContainerPanel = dynamic(() => import('@/components/studio/DevContainerPanel'), {
-  ssr: false,
-});
-const ServicesPanel = dynamic(() => import('@/components/studio/ServicesPanel'), {
-  ssr: false,
-});
-const SecretsPanel = dynamic(() => import('@/components/studio/SecretsPanel'), { ssr: false });
-const CommandCenterPanel = dynamic(() => import('@/components/studio/CommandCenterPanel'), {
-  ssr: false,
-});
-const BottomPane = dynamic(() => import('./panels/BottomPane'), { ssr: false });
-const AICourseBuilderChat = dynamic<CourseBuilderProps>(
-  () => import('./courses/ai-builder/AICourseBuilderChat'),
-  { ssr: false },
-);
-const IntegrationsPanel = dynamic(
-  () => import('@/components/studio/IntegrationsPanel'),
-  { ssr: false },
-);
+type Workspace = 'studio' | 'command' | 'deploy' | 'files' | 'environments' | 'health' | 'secrets' | 'integrations' | 'the-bosses';
 
 const WORKSPACES: { id: Workspace; label: string; Icon: ElementType<{ className?: string }> }[] = [
   { id: 'studio', label: 'Studio', Icon: Bot },
+  { id: 'the-bosses', label: 'The Bosses (VR)', Icon: Globe },
   { id: 'command', label: 'Command', Icon: LayoutDashboard },
+
   { id: 'deploy', label: 'Deploy', Icon: Rocket },
   { id: 'files', label: 'Files', Icon: FolderOpen },
   { id: 'environments', label: 'Container', Icon: Box },
@@ -121,6 +94,7 @@ function normalizeWorkspace(tab: string | null): { workspace: Workspace; mode: S
   if (tab === 'health') return { workspace: 'health', mode: 'ask' };
   if (tab === 'secrets') return { workspace: 'secrets', mode: 'ask' };
   if (tab === 'integrations') return { workspace: 'integrations', mode: 'ask' };
+  if (tab === 'the-bosses' || tab === 'vr') return { workspace: 'the-bosses', mode: 'ask' };
   if (tab === 'command-center' || tab === 'os') return { workspace: 'command', mode: 'ask' };
   if (tab === 'command' || tab === 'terminal') return { workspace: 'studio', mode: 'run' };
   if (tab === 'courses' || tab === 'course') return { workspace: 'studio', mode: 'courses' };
@@ -425,8 +399,24 @@ export default function DevStudioUnifiedClient({
               ) : (
                 <HealthPanel health={health} onRefresh={() => window.location.reload()} />
               ))}
-            {workspace === 'integrations' && <IntegrationsPanel />}
-          </main>
+             {workspace === 'integrations' && <IntegrationsPanel />}
+             {workspace === 'the-bosses' && (
+               <div className="flex h-full flex-col bg-[#1e1e1e]">
+                 <div className="flex h-10 items-center border-b border-[#3c3c3c] bg-[#2d2d2d] px-4">
+                   <span className="text-[11px] font-bold uppercase tracking-widest text-[#858585]">
+                     Virtual Reality Operating System — The Bosses
+                   </span>
+                 </div>
+                 <iframe
+                   src="/admin/staff-portal/vr"
+                   className="min-h-0 flex-1 border-0"
+                   title="The Bosses VR System"
+                 />
+               </div>
+             )}
+           </main>
+
+
 
           <section className="hidden w-[38vw] min-w-[340px] max-w-[560px] shrink-0 flex-col border-l border-[#3c3c3c] bg-[#1e1e1e] lg:flex">
             <div className="flex h-10 shrink-0 items-center gap-1.5 border-b border-[#3c3c3c] bg-[#2d2d2d] px-2">
