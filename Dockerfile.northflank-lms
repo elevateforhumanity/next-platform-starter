@@ -3,6 +3,10 @@
 
 FROM node:22-bookworm AS builder
 
+# Cache busting - change date to invalidate layers
+ARG CACHE_BUST=2026-06-21
+ENV CACHE_BUST=$CACHE_BUST
+
 # Install system deps for native modules (sharp, canvas, pdf)
 RUN apt-get update && apt-get install -y --no-install-recommends \
     python3 \
@@ -39,8 +43,7 @@ ENV CI=true
 ENV DISABLE_WEBPACK_FILESYSTEM_CACHE=1
 
 # Install dependencies
-# Using --no-frozen-lockfile because lockfile may not match overrides in CI
-RUN pnpm install --no-frozen-lockfile
+RUN pnpm install --frozen-lockfile
 
 # Build Next.js
 ARG NEXT_PUBLIC_SITE_URL=https://www.elevateforhumanity.org
