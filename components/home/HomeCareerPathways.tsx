@@ -14,7 +14,6 @@ import type { ProgramSchema } from '@/lib/programs/program-schema';
 import { loadVerifiedPublicStats } from '@/lib/site-stats-server';
 import { IMAGE_SIZES } from '@/lib/images/media-dimensions';
 import { card, grid, layout } from '@/lib/page-design-tokens';
-import { calculatePaymentPlan } from '@/lib/payments/payment-plan';
 
 // Featured programs shown on homepage - ordered by demand/visibility
 const FEATURED_SLUGS = [
@@ -122,10 +121,6 @@ function PathwayCard({ prog, priority }: { prog: ProgramSchema; priority?: boole
 
         {/* CTAs */}
         <div className="flex flex-col gap-2 mt-auto pt-2">
-          {paymentPlan && (
-            <div className="text-[10px] font-bold text-slate-500 uppercase tracking-tighter flex justify-between items-center px-1">
-              <span>Payment Plan</span>
-              <span className="text-brand-red-600">Starting at ${paymentPlan.weeklyPayment}/week</span>
             </div>
           )}
           <div className="flex gap-2">

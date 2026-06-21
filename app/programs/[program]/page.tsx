@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
+import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 // On-demand rendering only - prevents memory spikes on 1,000+ variants
 export const dynamic = 'force-dynamic';
