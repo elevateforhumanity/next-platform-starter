@@ -159,8 +159,7 @@ const nextConfig = {
 
   // Experimental features for better performance
   experimental: {
-    workerThreads: false,
-    cpus: 4,
+    // workerThreads and cpus options removed - deprecated and cause build issues
     optimizePackageImports: ['lucide-react', 'framer-motion', '@radix-ui/react-'],
     modularizeImports: {
       'lucide-react': {
@@ -172,14 +171,16 @@ const nextConfig = {
       allowedOrigins: [
         'www.elevateforhumanity.org',
         'elevateforhumanity.org',
-        'admin.elevateforhumanity.org',
         'app.elevateforhumanity.org',
-        '*.app.elevateforhumanity.org',
+        'admin.elevateforhumanity.org',
+        '*.elevateforhumanity.org',
+        '*.northflank.app',
       ],
     },
     optimizeCss: false,
-    parallelServerCompiles: false,
-    parallelServerBuildTraces: false,
+    // Disabled: requires worker threads to be enabled and properly configured
+    // parallelServerCompiles: true,
+    // parallelServerBuildTraces: true,
   },
 
   // Suppress middleware deprecation warning (middleware.ts is still correct for our use case)
@@ -294,9 +295,8 @@ const nextConfig = {
         destination: 'https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/barber-hero.mp4',
         permanent: false, // 307 so we can swap the asset later without cache lock-in
       },
-      // ============================================
-      // LEGACY PREVIEW/COURSE PATHS — redirect to canonical program pages
-      // ============================================
+      // Course path redirects
+
       { source: '/preview/business-program', destination: '/programs/business', permanent: true },
       { source: '/preview/esthetician-orientation', destination: '/programs/esthetician-apprenticeship/orientation', permanent: true },
       { source: '/preview/curriculum', destination: '/programs/hvac-technician/curriculum', permanent: true },
@@ -309,14 +309,11 @@ const nextConfig = {
       { source: '/partners/nail-host-shop', destination: '/programs/nail-technician-apprenticeship/host-shops', permanent: true },
       { source: '/schools/mesmerized-by-beauty', destination: '/programs', permanent: true },
 
-      // ============================================
-      // LEGACY ADMIN PATH CONSOLIDATION (moved from proxy.ts)
-      // Case-insensitive matching handled by Next.js redirect engine.
-      // ============================================
+      // Admin path redirects
+
       { source: '/admin/applicants', destination: '/admin/applications', permanent: true },
       { source: '/admin/leads', destination: '/admin/crm/leads', permanent: true },
       { source: '/admin/leads/new', destination: '/admin/crm/leads/new', permanent: true },
-      { source: '/admin/course-generator', destination: '/admin/studio', permanent: true },
       { source: '/admin/syllabus-generator', destination: '/admin/studio', permanent: true },
       { source: '/admin/course-templates', destination: '/admin/studio', permanent: true },
       { source: '/admin/courses/manage', destination: '/admin/courses', permanent: true },
@@ -342,11 +339,11 @@ const nextConfig = {
       // ============================================
       // UNIFIED STUDIO — new LMS-hosted studio page
       // ============================================
-      { source: '/studio(.*)', destination: '/studio$1', permanent: false },
+      { source: '/studio(.*)', destination: '/admin/studio$1', permanent: false },
       // ============================================
       // UNIFIED ADMIN DASHBOARD — new LMS-hosted admin dashboard
       // ============================================
-      { source: '/admin-dashboard', destination: '/admin-dashboard', permanent: false },
+      { source: '/admin-dashboard', destination: '/admin/dashboard', permanent: true },
       // ============================================
       // OLD URL ALIASES → CORRECT EXISTING PAGES
       // ============================================
@@ -415,8 +412,7 @@ const nextConfig = {
 
       // LMS
       { source: '/lms/catalog', destination: '/lms/courses', permanent: true },
-      // Studio consolidation — old standalone pages redirect to studio
-      // /admin/copilot, /admin/course-builder, /admin/video-manager moved to LEGACY ADMIN PATH CONSOLIDATION block above (permanent: true)
+
       { source: '/admin/curriculum',        destination: '/admin/studio', permanent: true },
       { source: '/admin/media-studio',      destination: '/admin/studio', permanent: true },
       { source: '/admin/video-generator',   destination: '/admin/studio', permanent: true },
@@ -436,29 +432,29 @@ const nextConfig = {
       // Portal — exact match before wildcard
       {
         source: '/portal/staff/dashboard',
-        destination: 'https://admin.elevateforhumanity.org/admin/staff-portal/dashboard',
+        destination: '/admin/staff-portal/dashboard',
         permanent: true,
       },
 
       // Instructor + staff portals live on admin host — fix www deep links at source
       {
         source: '/instructor',
-        destination: 'https://admin.elevateforhumanity.org/admin/instructor/dashboard',
+        destination: '/admin/instructor/dashboard',
         permanent: true,
       },
       {
         source: '/instructor/:path*',
-        destination: 'https://admin.elevateforhumanity.org/admin/instructor/:path*',
+        destination: '/admin/instructor/:path*',
         permanent: true,
       },
       {
         source: '/staff-portal',
-        destination: 'https://admin.elevateforhumanity.org/admin/staff-portal/dashboard',
+        destination: '/admin/staff-portal/dashboard',
         permanent: true,
       },
       {
-        source: '/staff-portal/:path*',
-        destination: 'https://admin.elevateforhumanity.org/admin/staff-portal/:path*',
+        source: '/staff-portal/dashboard',
+        destination: '/admin/staff-portal/dashboard',
         permanent: true,
       },
 
@@ -530,9 +526,8 @@ const nextConfig = {
         permanent: true,
       },
 
-      // ============================================
-      // LEGACY / FRAMEWORK REDIRECTS
-      // ============================================
+      // Framework redirects
+
 
       // Normalize "Institute" style routes into the infrastructure model
       { source: '/institute', destination: '/', permanent: true },
@@ -774,7 +769,7 @@ const nextConfig = {
       // /alumni/page.tsx exists (182 lines) — do not redirect away from it
       // { source: '/alumni/:path*', destination: '/about', permanent: true },
       // /board → /admin and /delegate → /admin are internal routes.
-      { source: '/receptionist/:path*', destination: 'https://admin.elevateforhumanity.org/admin/staff-portal/:path*', permanent: true },
+      { source: '/receptionist/:path*', destination: '/admin/staff-portal/:path*', permanent: true },
       { source: '/forum/:path*', destination: '/blog', permanent: true },
       // /news/page.tsx exists (137 lines) — do not redirect away from it
       // { source: '/news/:path*', destination: '/blog/:path*', permanent: true },
@@ -888,119 +883,12 @@ const nextConfig = {
       // LMS redirects
       { source: '/lms/my-courses', destination: '/lms/courses', permanent: true },
 
-      // Student portal redirects
-      // Legacy student and student-portal trees are fully consolidated under /learner/dashboard
+      // ============================================
+      // CANONICAL PORTAL REDIRECTS
+      // ============================================
       { source: '/student-portal', destination: '/learner/dashboard', permanent: true },
-      { source: '/student-portal/:path*', destination: '/learner/dashboard', permanent: true },
-      { source: '/student', destination: '/learner/dashboard', permanent: true },
-      { source: '/student/:path*', destination: '/learner/dashboard', permanent: true },
-      // my-dashboard → canonical learner dashboard (legacy portal consolidation)
-      { source: '/my-dashboard', destination: '/learner/dashboard', permanent: true },
-      ...canonicalAliasRedirects,
-
-      // ── Stub page consolidation (2026-06) ────────────────────────────────────
-      // External tax platform
-      { source: '/tax', destination: 'https://www.supersonicfastermoney.com/tax', permanent: true },
-      { source: '/tax-self-prep', destination: 'https://www.supersonicfastermoney.com/tax-self-prep', permanent: true },
-
-      // programs/admin/* → program-holder/*
-      { source: '/programs/admin', destination: '/program-holder/dashboard', permanent: true },
-      { source: '/programs/admin/:path*', destination: '/program-holder/:path*', permanent: true },
-
-      // (partner)/partners/* → /partner/* (route group stubs removed)
-      { source: '/partners/dashboard', destination: '/partner/dashboard', permanent: true },
-      { source: '/partners/portal', destination: '/partner/dashboard', permanent: true },
-      { source: '/partners/hours', destination: '/partner/hours', permanent: true },
-      { source: '/partners/attendance', destination: '/partner/attendance', permanent: true },
-      { source: '/partners/documents', destination: '/partner/documents', permanent: true },
-      { source: '/partners/students', destination: '/partner/students', permanent: true },
-      { source: '/partners/register', destination: '/partner/apply', permanent: true },
-      // /partners/login → /partner/login already covered above
-      // These were permanentRedirect() page files. Redirects moved here;
-      // page files deleted. Run `pnpm route:audit` to verify no stubs remain.
-
-      // Portals
-      { source: '/admin-portal', destination: 'https://admin.elevateforhumanity.org/login', permanent: true },
-      { source: '/admin-login', destination: 'https://admin.elevateforhumanity.org/login', permanent: false },
-      { source: '/lms-portal', destination: '/lms/dashboard', permanent: true },
-
-      // Apply flow aliases
-      { source: '/apply/fssa', destination: '/apply', permanent: true },
-      { source: '/apply/fssa/success', destination: '/apply', permanent: true },
-      { source: '/apply/full', destination: '/apply/student', permanent: true },
-      { source: '/apply/impact', destination: '/apply', permanent: true },
-      { source: '/apply/quick', destination: '/apply', permanent: true },
-      { source: '/apply/start', destination: '/apply', permanent: true },
-      { source: '/intake', destination: '/apply', permanent: true },
-
-      // Program aliases
-      { source: '/barber-apprenticeship', destination: '/programs/barber-apprenticeship', permanent: true },
-      {
-        source: '/programs/barber-apprenticeship/inquiry',
-        destination: '/programs/barber-apprenticeship/request-info',
-        permanent: true,
-      },
-      { source: '/programs/drug-collector', destination: '/programs/drug-alcohol-specimen-collector', permanent: true },
-      { source: '/programs/building-services-technician/apply', destination: '/apply?program=building-services-technician', permanent: true },
-      { source: '/programs/cna/apply', destination: '/apply?program=cna', permanent: true },
-      { source: '/programs/qma/apply', destination: '/apply?program=qma', permanent: true },
-
-      // Checkout aliases
-      { source: '/checkout/barber-apprenticeship', destination: '/programs/barber-apprenticeship/payment-setup', permanent: true },
-
-      // Legal / policy consolidation
-      // /policies/:path* wildcard at pos 110 already catches all /policies/* → /legal/disclosures
-      { source: '/acceptable-use-policy', destination: '/legal/acceptable-use', permanent: true },
-      { source: '/enrollment-agreement', destination: '/legal/enrollment-agreement', permanent: true },
-      { source: '/governance', destination: '/legal/governance', permanent: true },
-      { source: '/student-handbook', destination: '/legal/student-handbook', permanent: true },
-
-      // Store licensing → store/licenses
-      // /store/licensing, /store/licensing/enterprise, /store/licensing/managed already covered above
-      { source: '/store/licensing/partnerships', destination: '/store/licenses', permanent: true },
-      { source: '/store/licensing/success', destination: '/store/licenses/success', permanent: true },
-
-      // Partner aliases
-      { source: '/partner-with-us', destination: '/for-providers', permanent: true },
-      { source: '/partners/join', destination: '/partners/apply', permanent: true },
-      { source: '/partners/training', destination: '/for-providers', permanent: true },
-      { source: '/partners/training-provider', destination: '/for-providers', permanent: true },
-      { source: '/partners/barber-host-shop/onboarding', destination: '/login?redirect=/partners/barber-host-shop/forms', permanent: true },
-      // /partner/programs/barber covered by existing /partner/:path* wildcard
-      { source: '/pathways/partners', destination: '/for-providers', permanent: true },
-      { source: '/platform/partners', destination: '/for-providers', permanent: true },
-      // /platform/program-holders and /platform/providers already point to /for-providers (consolidated below)
-      { source: '/platform/program-holders', destination: '/for-providers', permanent: true },
-      { source: '/platform/providers', destination: '/for-providers', permanent: true },
-
-      // Help / support aliases
-      { source: '/support/documentation', destination: '/support/help', permanent: true },
-
-      // Misc aliases
-      { source: '/ai-chat-standalone', destination: '/ai-chat', permanent: true },
-      { source: '/case-manager', destination: '/case-manager/dashboard', permanent: true },
-      // /client-portal/demo covered by existing /client-portal/:path* wildcard → /start
-      { source: '/ebook/barber-theory', destination: '/lms/courses', permanent: true },
-      { source: '/fssa-impact', destination: '/snap/snap-et', permanent: true },
-      { source: '/fssa-partnership-request', destination: '/snap/snap-et', permanent: true },
-      // /mentor → /mentor/dashboard already covered above
-      { source: '/onboarding/barber-apprenticeship', destination: '/programs/barber-apprenticeship/orientation', permanent: true },
-      { source: '/rise', destination: 'https://www.supersonicfastermoney.com/tax', permanent: true },
-      { source: '/snap', destination: '/snap/snap-et', permanent: true },
-      { source: '/training-providers', destination: '/for-providers', permanent: true },
-      { source: '/pwa/barber', destination: '/pwa/barber/onboarding', permanent: true },
-      { source: '/pwa/barber/profile', destination: '/account/profile', permanent: true },
-      { source: '/pwa/barber/training', destination: '/lms/courses/3fb5ce19-1cde-434c-a8c6-f138d7d7aa17', permanent: true },
-
-      // /student-portal/settings → /lms/settings handled by middleware (Rule B)
-
-      // Partner portal redirects
-      // NOTE: /partner/dashboard is the canonical partner dashboard page.
-      // /partner/page.tsx redirects TO /partner/dashboard, so do NOT redirect /partner/dashboard back.
-      // Removed legacy redirects for partner dashboard/courses/students to preserve canonical partner dashboard routes.
-
-      // AI redirects
-      { source: '/ai-instructor', destination: '/ai-tutor', permanent: true },
+      { source: '/admin-portal', destination: '/login', permanent: true },
+      { source: '/partner-portal', destination: '/partner/dashboard', permanent: true },
 
       // Marketing redirects
       // /success-stories has a real 419-line page — no redirect needed
@@ -1193,7 +1081,7 @@ const nextConfig = {
           "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
           "img-src 'self' data: blob: https://*.supabase.co https://images.unsplash.com https://images.pexels.com https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev https://cms-artifacts.artlist.io https://*.r2.dev https://cdn.elevatelms.com https://*.githubusercontent.com https://cdn1.affirm.com",
           "font-src 'self' data: https://fonts.gstatic.com",
-          "connect-src 'self' https://*.supabase.co https://api.stripe.com wss://*.supabase.co https://us06web.zoom.us https://*.sentry.io https://o4504*.ingest.sentry.io https://www.google-analytics.com https://region1.google-analytics.com",
+          "connect-src 'self' https://*.supabase.co https://api.stripe.com wss://*.supabase.co https://us06web.zoom.us https://*.sentry.io https://www.google-analytics.com https://region1.google-analytics.com",
           "frame-src 'self' https://www.youtube.com https://player.vimeo.com https://js.stripe.com https://us06web.zoom.us https://challenges.cloudflare.com https://*.cloudflarestream.com",
           "media-src 'self' data: blob: https://*.supabase.co https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev https://cms-artifacts.artlist.io https://*.r2.dev https://cdn.elevatelms.com https://*.cloudflarestream.com",
           "worker-src 'self' blob:",
