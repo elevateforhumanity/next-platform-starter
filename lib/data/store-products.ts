@@ -386,3 +386,6 @@ export const GRANT_CONTRACT_ADDONS: StoreProduct[] = [
     requiresApproval: false,
   },
 ];
+// Aliases for backwards compatibility
+export const ALL_PRODUCTS = [...PLATFORM_APPS];
+export const STORE_PRODUCTS = [...WORKFORCE_PLATFORM_PLANS];
