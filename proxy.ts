@@ -28,6 +28,21 @@ const WEBHOOK_PATHS = [
   '/api/csp-report',
 ];
 
+const CANONICAL_ADMIN_HOST = 'admin.elevateforhumanity.org';
+
+/** Canonical admin hostname for redirects. */
+function resolveCanonicalAdminHost(): string {
+  const fromEnv = (process.env.NEXT_PUBLIC_ADMIN_URL || '').trim();
+  if (fromEnv) {
+    try {
+      return new URL(fromEnv).host.toLowerCase();
+    } catch {
+      /* fall through */
+    }
+  }
+  return CANONICAL_ADMIN_HOST;
+}
+
 // Role-gated routes: key = path prefix, value = allowed roles.
 // Consolidated - use wildcard /prefix/ for group routes instead of individual paths.
 const PROTECTED_ROUTES: Record<string, string[]> = {
@@ -284,6 +299,7 @@ export async function middleware(request: NextRequest) {
   const host = (request.headers.get('host') || '').toLowerCase();
   const hostWithoutPort = host.split(':')[0];
   const { pathname, search } = request.nextUrl;
+  const canonicalAdminHost = resolveCanonicalAdminHost();
 
   const requestHeaders = new Headers(request.headers);
 
