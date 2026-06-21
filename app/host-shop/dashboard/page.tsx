@@ -245,9 +245,20 @@ export default async function HostShopDashboardPage() {
     nextEvaluation: 'Dec 15, 2024',
   };
 
+  // Real database stats for the host shop
+  const { data: apprenticeCount } = await supabase
+    .from('profiles')
+    .select('id', { count: 'exact' })
+    .eq('host_shop_id', user.id);
+
+  const { data: pendingHours } = await supabase
+    .from('hour_entries')
+    .select('id', { count: 'exact' })
+    .eq('status', 'pending');
+
   const stats = {
-    activeApprentices: 5,
-    pendingHours: 12,
+    activeApprentices: apprenticeCount?.length || 0,
+    pendingHours: pendingHours?.length || 0,
     competencySignoffs: 8,
     graduatedThisYear: 2,
     totalHoursThisMonth: 340,
