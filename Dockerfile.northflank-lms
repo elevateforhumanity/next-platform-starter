@@ -39,7 +39,8 @@ ENV CI=true
 ENV DISABLE_WEBPACK_FILESYSTEM_CACHE=1
 
 # Install dependencies
-RUN pnpm install --frozen-lockfile
+# Using --no-frozen-lockfile because lockfile may not match overrides in CI
+RUN pnpm install --no-frozen-lockfile
 
 # Build Next.js
 ARG NEXT_PUBLIC_SITE_URL=https://www.elevateforhumanity.org
