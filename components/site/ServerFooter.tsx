@@ -251,10 +251,10 @@ export default function ServerFooter() {
                   href={SOCIAL_LINKS.facebook}
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label="Globe"
+                  aria-label="Facebook"
                   className="text-white hover:text-white transition-colors"
                 >
-                  <Globe className="w-5 h-5" />
+                  <Facebook className="w-5 h-5" />
                 </a>
               )}
               {SOCIAL_LINKS.instagram && (
@@ -265,7 +265,7 @@ export default function ServerFooter() {
                   aria-label="Instagram"
                   className="text-white hover:text-white transition-colors"
                 >
-                  <MessageCircle className="w-5 h-5" />
+                  <Instagram className="w-5 h-5" />
                 </a>
               )}
               {SOCIAL_LINKS.linkedin && (
@@ -276,7 +276,7 @@ export default function ServerFooter() {
                   aria-label="LinkedIn"
                   className="text-white hover:text-white transition-colors"
                 >
-                  <Share2 className="w-5 h-5" />
+                  <Linkedin className="w-5 h-5" />
                 </a>
               )}
               {SOCIAL_LINKS.youtube && (
@@ -287,7 +287,7 @@ export default function ServerFooter() {
                   aria-label="YouTube"
                   className="text-white hover:text-white transition-colors"
                 >
-                  <Video className="w-5 h-5" />
+                  <Youtube className="w-5 h-5" />
                 </a>
               )}
             </div>
@@ -342,3 +342,4 @@ export default function ServerFooter() {
     </footer>
   );
 }
+

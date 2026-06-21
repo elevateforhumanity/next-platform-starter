@@ -1,7 +1,8 @@
 'use client';
 
 import { useEffect, useRef, useCallback } from 'react';
-import { X, Globe, MessageCircle, Share, Video, ExternalLink } from 'lucide-react';
+import { X, ExternalLink } from 'lucide-react';
+import { Facebook, Instagram, Linkedin, Youtube } from '../ui/BrandIcons';
 import { SOCIAL_LINKS } from '@/config/social-links';
 
 interface SocialLinksModalProps {
@@ -12,8 +13,8 @@ interface SocialLinksModalProps {
 const PLATFORMS = [
   {
     key: 'facebook' as const,
-    label: 'Follow on Globe',
-    icon: Globe,
+    label: 'Follow on Facebook',
+    icon: Facebook,
     color: 'bg-[#1877F2] hover:bg-[#166FE5]',
     textColor: 'text-white',
     description: 'Daily updates, success stories, and community events',
@@ -21,7 +22,7 @@ const PLATFORMS = [
   {
     key: 'instagram' as const,
     label: 'Follow on Instagram',
-    icon: MessageCircle,
+    icon: Instagram,
     color: 'bg-gradient-to-br from-[#833AB4] via-[#FD1D1D] to-[#FCAF45] hover:opacity-90',
     textColor: 'text-white',
     description: 'Behind-the-scenes training and student spotlights',
@@ -29,7 +30,7 @@ const PLATFORMS = [
   {
     key: 'linkedin' as const,
     label: 'Connect on LinkedIn',
-    icon: Share,
+    icon: Linkedin,
     color: 'bg-[#0A66C2] hover:bg-[#004182]',
     textColor: 'text-white',
     description: 'Professional network, job opportunities, and employer connections',
@@ -37,7 +38,7 @@ const PLATFORMS = [
   {
     key: 'youtube' as const,
     label: 'Subscribe on YouTube',
-    icon: Video,
+    icon: Youtube,
     color: 'bg-[#FF0000] hover:bg-[#CC0000]',
     textColor: 'text-white',
     description: 'Training videos, program walkthroughs, and graduate stories',
