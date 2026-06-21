@@ -119,7 +119,7 @@ export default function DataSharingPage() {
           agreementType="data_sharing"
           agreementVersion="1.0"
           buttonLabel="Sign Data Sharing Consent"
-          nextUrl="/student-portal/onboarding"
+          nextUrl="/onboarding/learner"
         />
       </DocumentPage>
     </>

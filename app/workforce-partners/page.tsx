@@ -37,7 +37,7 @@ export default function WorkforcePartnersPage() {
             'ETPL-listed programs eligible for WIOA Individual Training Accounts',
             'DOL Registered Apprenticeship programs for OJT funding',
             'Workforce Ready Grant approved programs',
-            'JRI and FSSA IMPACT program co-enrollment support',
+            'JRI and  program co-enrollment support',
             'Real-time enrollment and progress reporting for case managers',
             'Dedicated partner liaison for referral coordination',
             'Flexible start dates and cohort scheduling',

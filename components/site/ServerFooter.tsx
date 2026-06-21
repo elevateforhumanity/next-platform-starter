@@ -33,7 +33,7 @@ const footerLinks = {
   funding: [
     { name: 'Check My Eligibility', href: '/check-eligibility' },
     { name: 'WIOA / WorkOne', href: '/funding/wioa' },
-    { name: 'SNAP E&T Partner', href: '/snap-et-partner' },
+    { name: 'Gov Portal Partner', href: '/snap-et-partner' },
     { name: 'Consumer Education', href: '/consumer-education' },
     { name: 'Tuition & Fees', href: '/tuition-fees' },
   ],

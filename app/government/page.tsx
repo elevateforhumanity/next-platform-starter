@@ -547,7 +547,7 @@ export default async function GovernmentPage() {
                 image: '/images/pages/funding-impact-1.webp',
               },
               {
-                name: 'SNAP E&T',
+                name: '',
                 desc: 'Employment and Training funding for SNAP recipients pursuing job-ready credentials.',
                 icon: Users,
                 image: '/images/pages/funding-impact-2.jpg',

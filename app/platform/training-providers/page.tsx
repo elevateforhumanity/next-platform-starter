@@ -43,7 +43,7 @@ const benefits = [
     icon: Users,
     title: 'Reach More Students',
     description:
-      'Access our network of funded learners through WIOA, SNAP E&T, and other workforce programs.',
+      'Access our network of funded learners through WIOA, , and other workforce programs.',
   },
   {
     icon: DollarSign,

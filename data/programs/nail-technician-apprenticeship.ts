@@ -259,6 +259,6 @@ export const NAIL_TECH: ProgramSchema = {
     fssa_eligible: true,
     wrg_eligible: false,
     jobReadyIndyEligible: false,
-    fundingNotes: 'DOL Registered Apprenticeship. FSSA IMPACT may be available. WIOA apprenticeship funding eligibility determined by Indiana DWD.',
+    fundingNotes: 'DOL Registered Apprenticeship. FSSA Gov Portal may be available. WIOA apprenticeship funding eligibility determined by Indiana DWD.',
   },
 };

@@ -148,7 +148,7 @@ export default function GrantReportingPage() {
               { name: 'WIOA Title I', desc: 'Adult, Dislocated Worker, Youth' },
               { name: 'WIOA Title II', desc: 'Adult Education and Literacy' },
               { name: 'Perkins V', desc: 'Career and Technical Education' },
-              { name: 'SNAP E&T', desc: 'Employment and Training' },
+              { name: '', desc: 'Employment and Training' },
               { name: 'TANF', desc: 'Temporary Assistance' },
               { name: 'DOL Grants', desc: 'Competitive grants' },
               { name: 'State Grants', desc: 'State workforce funding' },

@@ -32,7 +32,7 @@ const FUNDING_TYPES = [
     href: '/funding/how-it-works',
   },
   {
-    name: 'FSSA / SNAP E&T',
+    name: 'FSSA / ',
     full: 'IMPACT Program',
     who: 'SNAP recipients referred through FSSA or WorkOne',
     covers: 'Training, support services, transportation assistance',

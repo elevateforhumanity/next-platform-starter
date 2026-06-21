@@ -153,7 +153,7 @@ export default function EnrollmentAgreementPage() {
           agreementType="enrollment"
           agreementVersion="1.0"
           buttonLabel="Sign Enrollment Agreement"
-          nextUrl="/student-portal/onboarding"
+          nextUrl="/onboarding/learner"
         />
       </DocumentPage>
     </>

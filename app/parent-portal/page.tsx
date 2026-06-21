@@ -31,37 +31,37 @@ const FEATURES = [
     icon: Eye,
     title: 'Monitor Progress',
     desc: 'View lesson completion, quiz scores, and credential milestones in real time.',
-    image: '/images/pages/student-portal-page-2.webp',
+    image: '/images/pages/learner/dashboard-page-2.webp',
   },
   {
     icon: Calendar,
     title: 'Track Attendance',
     desc: 'See daily attendance records and receive alerts for absences or tardiness.',
-    image: '/images/pages/student-portal-page-3.webp',
+    image: '/images/pages/learner/dashboard-page-3.webp',
   },
   {
     icon: MessageSquare,
     title: 'Message Instructors',
     desc: "Send and receive messages directly with your student's instructors and advisors.",
-    image: '/images/pages/student-portal-page-4.jpg',
+    image: '/images/pages/learner/dashboard-page-4.jpg',
   },
   {
     icon: Bell,
     title: 'Notifications',
     desc: 'Get alerts for grades, attendance events, upcoming exams, and program announcements.',
-    image: '/images/pages/student-portal-page-5.webp',
+    image: '/images/pages/learner/dashboard-page-5.webp',
   },
   {
     icon: BarChart3,
     title: 'Progress Reports',
     desc: 'Download detailed progress and performance reports at any time.',
-    image: '/images/pages/student-portal-page-6.webp',
+    image: '/images/pages/learner/dashboard-page-6.webp',
   },
   {
     icon: Shield,
     title: 'Secure & Private',
     desc: "FERPA-compliant access. Your student's data is protected and never shared.",
-    image: '/images/pages/student-portal-page-7.webp',
+    image: '/images/pages/learner/dashboard-page-7.webp',
   },
 ];
 

@@ -613,7 +613,7 @@ async function _POST(req: Request) {
       const fundingLabel: Record<string, string> = {
         wioa: 'WIOA (Workforce Innovation and Opportunity Act)',
         wrg: 'Workforce Ready Grant / Next Level Jobs',
-        fssa: 'FSSA IMPACT',
+        fssa: '',
       };
       const fundingName = fundingType ? fundingLabel[fundingType] || fundingType : null;
 

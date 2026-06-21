@@ -47,7 +47,7 @@ const CREDENTIALS = [
   'ETPL Approved — Indiana DWD',
   'DOL Registered Apprenticeship Sponsor',
   'WIOA / WRG / JRI Approved',
-  'FSSA IMPACT Participating Provider',
+  ' Participating Provider',
   'IRS VITA Free Tax Prep Site',
   'SAM.gov Registered — CAGE: 0Q856',
   'Certiport Authorized Testing Center',
@@ -103,7 +103,7 @@ export default function MissionPage() {
               they lack access.
             </p>
             <p className="text-slate-600 mb-4 leading-relaxed">
-              We close that gap. Through WIOA, Workforce Ready Grant, FSSA IMPACT, and JRI funding,
+              We close that gap. Through WIOA, Workforce Ready Grant, , and JRI funding,
               we make career training free or low-cost for the people who need it most. Every
               program ends with a recognized credential or state license — not just a certificate of
               completion.
@@ -164,7 +164,7 @@ export default function MissionPage() {
                 'Adults seeking a career change or first career',
                 'Dislocated workers and laid-off employees',
                 'Justice-involved individuals re-entering the workforce',
-                'SNAP and TANF recipients through FSSA IMPACT',
+                'SNAP and TANF recipients through ',
                 'Veterans transitioning to civilian careers',
                 'Community members who need wraparound support',
               ].map((item) => (

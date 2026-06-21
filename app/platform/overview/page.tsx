@@ -191,7 +191,7 @@ export default function PlatformLicensingPage() {
                 <div className="flex items-start gap-2">
                   <span className="text-black flex-shrink-0">•</span>
                   <div>
-                    <div className="font-semibold">SNAP E&T Partner</div>
+                    <div className="font-semibold"> Partner</div>
                     <div className="text-black">SNAP recipients</div>
                   </div>
                 </div>
@@ -268,7 +268,7 @@ export default function PlatformLicensingPage() {
                   </div>
                   <div>
                     <span className="text-black flex-shrink-0">•</span> WIOA, WRG, Job Ready Indy,
-                    WorkOne, SNAP E&T
+                    WorkOne, 
                   </div>
                 </div>
               </div>

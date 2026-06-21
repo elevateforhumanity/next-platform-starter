@@ -224,7 +224,7 @@ export default function JRIPage() {
               <div className="mt-8 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
                 <p className="text-yellow-800 text-sm">
                   <strong>Note:</strong> Even if you don&apos;t meet all criteria, you may qualify
-                  for other funding programs like WIOA or SNAP E&T.
+                  for other funding programs like WIOA or .
                 </p>
               </div>
             </div>
@@ -433,7 +433,7 @@ export default function JRIPage() {
               },
               {
                 q: "What if I don't qualify for Job Ready Indy?",
-                a: 'You may still qualify for other funding programs like WIOA or SNAP E&T. Our team will help identify all available options for you.',
+                a: 'You may still qualify for other funding programs like WIOA or . Our team will help identify all available options for you.',
               },
               {
                 q: 'Will employers hire me with a record?',

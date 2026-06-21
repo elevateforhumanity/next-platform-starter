@@ -26,7 +26,7 @@ const FUNDING_SOURCES = [
     badgeColor: 'bg-amber-100 text-amber-700',
   },
   {
-    name: 'FSSA IMPACT',
+    name: '',
     full: 'Family & Social Services Administration',
     desc: 'Training support for SNAP and TANF participants.',
     badge: 'State',

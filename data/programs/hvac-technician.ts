@@ -277,6 +277,6 @@ export const HVAC_TECHNICIAN: ProgramSchema = {
     fssa_eligible: true,
     wrg_eligible: true,
     jobReadyIndyEligible: true,
-    fundingNotes: 'Indiana ETPL-listed. WIOA, WRG, and FSSA IMPACT funding available. NHA EPA 608 certification program.',
+    fundingNotes: 'Indiana ETPL-listed. WIOA, WRG, and FSSA Gov Portal funding available. NHA EPA 608 certification program.',
   },
 };

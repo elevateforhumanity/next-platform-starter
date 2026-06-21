@@ -65,7 +65,7 @@ const PROGRAMS = [
 
 const FUNDING_SOURCES = [
   'WIOA Title I Adult & Dislocated Worker',
-  'FSSA IMPACT Program',
+  ' Program',
   'Workforce Ready Grant',
   'DOL Registered Apprenticeship',
   'EmployIndy',

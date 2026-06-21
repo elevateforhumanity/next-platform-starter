@@ -473,7 +473,7 @@ export default function WorkOnePartnerPacketPage() {
                     'WIOA Title I (DW)',
                     'WIOA Title I (Youth)',
                     'WRG (Workforce Ready Grant)',
-                    'SNAP E&T',
+                    '',
                     'TANF',
                     'TAA',
                     'Veterans Benefits',

@@ -69,7 +69,7 @@ export const mediaConfig: MediaConfigItem[] = [
   // Healthcare Programs
   {
     slot: 'program_cna_hero',
-    imageSrc: '/media/programs/cna-hd.jpg',
+    imageSrc: '/images/programs/efh-cna-hero.jpg',
     alt: 'CNA student providing compassionate care to elderly patient',
     category: 'healthcare',
   },
@@ -91,7 +91,7 @@ export const mediaConfig: MediaConfigItem[] = [
   // Skilled Trades
   {
     slot: 'program_hvac_hero',
-    imageSrc: '/media/programs/hvac-hd.jpg',
+    imageSrc: '/images/programs/efh-hvac-hero.jpg',
     alt: 'HVAC technician working on rooftop air conditioning unit',
     category: 'trades',
   },

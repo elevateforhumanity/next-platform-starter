@@ -14,7 +14,7 @@ import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 const PROGRAM_INFO = {
   barber: 'DOL Registered Apprenticeship. 2,000 hours for barber, 1,500 for cosmetology. Earn while learning. State-licensed. WIOA-fundable.',
-  cna: 'Certified Nursing Assistant. 4-6 weeks. High demand in Indianapolis hospitals. $16-20/hour starting. FSSA IMPACT funded for eligible participants. Self-pay: $1,800.',
+  cna: 'Certified Nursing Assistant. 4-6 weeks. High demand in Indianapolis hospitals. $16-20/hour starting.  funded for eligible participants. Self-pay: $1,800.',
   cdl: "Commercial Driver's License Class A. 4-6 weeks. $50K-70K/year. High demand. WIOA-funded.",
   hvac: 'HVAC Technician. EPA 608 certification. 6-12 months. $45K-65K/year. ETPL-approved.',
   welding: 'Welding Certification (AWS). 6-12 months. $40K-60K/year. High demand in manufacturing.',

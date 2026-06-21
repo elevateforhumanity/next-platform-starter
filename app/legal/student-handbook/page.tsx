@@ -276,7 +276,7 @@ export default function StudentHandbookPage() {
           agreementType="handbook"
           agreementVersion="2.0"
           buttonLabel="Acknowledge Student Handbook"
-          nextUrl="/student-portal/onboarding"
+          nextUrl="/onboarding/learner"
         />
       </DocumentPage>
     </>

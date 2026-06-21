@@ -215,6 +215,6 @@ export const ESTHETICIAN_APPRENTICESHIP: ProgramSchema = {
     wrg_eligible: false,
     jobReadyIndyEligible: false,
     fundingNotes:
-      'DOL Registered Apprenticeship. FSSA IMPACT may be available. WIOA eligibility determined by Indiana DWD.',
+      'DOL Registered Apprenticeship. FSSA Gov Portal may be available. WIOA eligibility determined by Indiana DWD.',
   },
 };

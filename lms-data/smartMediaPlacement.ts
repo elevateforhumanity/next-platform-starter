@@ -58,7 +58,7 @@ export const smartImageMappings: SmartImageMapping[] = [
   // Program-Specific Images
   {
     slot: 'program_cna_hero',
-    primaryImage: '/media/programs/cna-hd.jpg',
+    primaryImage: '/images/programs/efh-cna-hero.jpg',
     fallbackImages: [
       '/media/program-cna.jpg',
       '/media/programs/cna-training-video-thumbnail.jpg',
@@ -81,7 +81,7 @@ export const smartImageMappings: SmartImageMapping[] = [
   },
   {
     slot: 'program_hvac_hero',
-    primaryImage: '/media/programs/hvac-hd.jpg',
+    primaryImage: '/images/programs/efh-hvac-hero.jpg',
     fallbackImages: ['/media/program-hvac.jpg', '/media/programs/webp/hvac.webp'],
     keywords: ['hvac', 'heating', 'cooling', 'air', 'conditioning', 'technician'],
     description: 'HVAC program - technician working on HVAC unit',

@@ -116,7 +116,7 @@ export default function ParticipationAgreementPage() {
           agreementType="participation"
           agreementVersion="1.0"
           buttonLabel="Sign Participation Agreement"
-          nextUrl="/student-portal/onboarding"
+          nextUrl="/onboarding/learner"
         />
       </DocumentPage>
     </>

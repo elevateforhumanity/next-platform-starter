@@ -41,9 +41,9 @@ const fundingOptions: FundingOption[] = [
   },
   {
     id: 'impact',
-    name: 'FSSA IMPACT',
+    name: '',
     icon: <Users className="w-8 h-8" />,
-    description: 'Indiana\'s SNAP E&T program for recipients of SNAP, TANF, or other public assistance.',
+    description: 'Indiana\'s  program for recipients of SNAP, TANF, or other public assistance.',
     eligible: ['SNAP recipients', 'TANF recipients', 'Cash assistance recipients'],
     color: 'bg-green-500',
     details: [

@@ -241,7 +241,7 @@ export default function CredentialsPage() {
                 color: 'bg-slate-600',
                 title: 'Partnerships & Affiliations',
                 detail:
-                  'EmployIndy · IRS VITA · Government Contractor · Reentry Partner · SNAP E&T',
+                  'EmployIndy · IRS VITA · Government Contractor · Reentry Partner · ',
               },
             ].map((t) => (
               <div

@@ -456,6 +456,6 @@ export const PHARMACY_TECHNICIAN: ProgramSchema = {
     fssa_eligible: true,
     wrg_eligible: true,
     jobReadyIndyEligible: true,
-    fundingNotes: 'Indiana ETPL-listed. FSSA IMPACT and WIOA Title I funding available for eligible Indiana residents.',
+    fundingNotes: 'Indiana ETPL-listed. FSSA Gov Portal and WIOA Title I funding available for eligible Indiana residents.',
   },
 };

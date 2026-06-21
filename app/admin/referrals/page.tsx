@@ -40,7 +40,7 @@ const AGENCY_LABELS: Record<string, string> = {
   vocational_rehabilitation: 'Vocational Rehabilitation',
   wioa:                     'WIOA',
   jri:                      'JRI',
-  snap_et:                  'SNAP E&T',
+  snap_et:                  '',
   fssa:                     'FSSA',
   other:                    'Other',
 };

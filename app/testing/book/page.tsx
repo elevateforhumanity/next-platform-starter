@@ -1180,7 +1180,7 @@ function BookingForm() {
                   Workforce-funded in Indiana? Your fees may be covered.
                 </p>
                 <p className="text-xs text-brand-green-700 mb-2">
-                  Indiana participants using WIOA, WorkOne, SNAP E&T, or employer sponsorship may
+                  Indiana participants using WIOA, WorkOne, , or employer sponsorship may
                   qualify for fee coverage. We are expanding to additional regions. If funding is
                   not available yet, you can continue with self-pay checkout.
                 </p>
