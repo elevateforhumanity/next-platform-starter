@@ -1,15 +1,6 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 
-import ProgramDetailPageComponent from '@/components/programs/ProgramDetailPage';
-import CdlEnrollmentOpenBanner from '@/components/programs/CdlEnrollmentOpenBanner';
-import { ProgramStructuredData } from '@/components/seo/CourseStructuredData';
-import { OnetLaborData } from '@/components/programs/onet/OnetLaborData';
-import { getProgramOgImageUrl } from '@/lib/programs/og-images';
-import heroBanners from '@/content/heroBanners';
-import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
-import { loadProgramForPage, loadProgramMetadataSource } from '@/lib/programs/load-program-page';
-
 // On-demand rendering only - prevents memory spikes on 1,000+ variants
 export const dynamic = 'force-dynamic';
 
