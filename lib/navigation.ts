@@ -26,6 +26,33 @@ export interface NavItem {
 
 export const NAV_ITEMS: NavItem[] = [
   {
+    id: 'platform',
+    name: 'Platform',
+    href: '/platform/overview',
+    subItems: [
+      { name: '— The Workforce OS —', href: '/platform/overview', isHeader: true },
+      { name: 'Platform Overview', href: '/platform/overview' },
+      { name: 'AI Career Navigator', href: '/ai' },
+      { name: 'Apprenticeship Technology', href: '/apprenticeships' },
+      { name: 'Compliance Automation', href: '/store/add-ons/compliance-automation' },
+      { name: 'Blockchain Credentials', href: '/platform/verification' },
+      { name: 'Analytics & Reporting', href: '/platform/workforce-analytics' },
+    ],
+  },
+  {
+    id: 'partners',
+    name: 'For Employers & Agencies',
+    href: '/partners',
+    subItems: [
+      { name: '— Solutions —', href: '/partners', isHeader: true },
+      { name: 'Employer Solutions', href: '/for-employers' },
+      { name: 'Workforce Agencies', href: '/for-agencies' },
+      { name: 'Government Partners', href: '/government' },
+      { name: 'Training Providers', href: '/for-providers' },
+      { name: 'Host Shop Network', href: '/partners/barber-host-shop' },
+    ],
+  },
+  {
     id: 'programs',
     name: 'Programs',
     href: '/programs',

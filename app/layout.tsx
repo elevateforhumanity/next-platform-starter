@@ -42,12 +42,12 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
 
   title: {
-    default: `${PLATFORM_DEFAULTS.orgName} | Career Training at No Cost for Eligible Participants`,
+    default: `${PLATFORM_DEFAULTS.orgName} | The AI-Powered Workforce Operating System`,
     template: `%s | ${PLATFORM_DEFAULTS.orgName}`,
   },
 
   description:
-    'Nonprofit workforce development institute in Indianapolis. Career training in healthcare, skilled trades, CDL, technology, and business at no cost to eligible Indiana residents through WIOA and state funding. Enroll today.',
+    'The unified operating system for workforce development, apprenticeship tracking, and verified credentialing. Empowering employers, agencies, and learners through AI-driven career navigation.',
 
   // Homepage canonical - child pages should override with their own
   alternates: {

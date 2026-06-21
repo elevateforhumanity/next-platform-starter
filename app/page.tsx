@@ -14,20 +14,16 @@ import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export const revalidate = 300;
 
 export const metadata: Metadata = {
-  title: `${PLATFORM_DEFAULTS.orgName} | Workforce Training, Apprenticeships & Funding — Indianapolis`,
+  title: `${PLATFORM_DEFAULTS.orgName} | The AI-Powered Workforce Operating System`,
   description:
-    'DOL-registered apprenticeship sponsor and WIOA-approved training provider. Training in healthcare, skilled trades, CDL, technology, and more — many programs can be FREE if you qualify. Apply today.',
+    'A unified platform for recruitment, apprenticeship tracking, and verified credentialing. Empowering employers and agencies to build talent pipelines at scale through AI automation.',
   keywords: [
-    'workforce training Indianapolis',
-    'WIOA training Indiana',
-    'DOL registered apprenticeship',
-    'ETPL approved training provider',
-    'funded career training Indiana',
-    'apprenticeship programs Indianapolis',
-    'HVAC training Indianapolis',
-    'CNA training Indianapolis',
-    'CDL training Indiana',
-    'free job training Marion County',
+    'AI workforce development',
+    'workforce operating system',
+    'apprenticeship management software',
+    'automated compliance tracking',
+    'blockchain verified credentials',
+    'WIOA training platform',
     PLATFORM_DEFAULTS.orgName,
   ],
   alternates: {

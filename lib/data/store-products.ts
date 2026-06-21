@@ -240,14 +240,13 @@ export const STORE_PRODUCTS: StoreProduct[] = [
     ],
     features: [
       'Everything in School License',
+      'AI Career Navigator included',
+      'Automated Compliance Engine',
+      'Blockchain-Verified Credentials',
       'Employer portal and job matching',
       'AI tutor and personalized learning',
-      'Custom integrations (API access)',
       'Multi-tenant architecture',
       'Dedicated account manager',
-      'Custom training and onboarding',
-      'SLA with 99.9% uptime',
-      'Lifetime updates and priority support',
     ],
     idealFor: [
       'State workforce agencies',
