@@ -258,6 +258,7 @@ export const NAV_ITEMS: NavItem[] = [
       
       { name: '— Administration —', href: '/admin/dashboard', isHeader: true },
       { name: 'Admin Control Center', href: '/admin/dashboard' },
+      { name: 'Staff Portal', href: '/staff' },
       { name: 'Instructor Portal', href: '/instructor' },
       { name: 'Case Manager Dashboard', href: '/case-manager/dashboard' },
       { name: 'Field Mentor Portal', href: '/mentor/dashboard' },
