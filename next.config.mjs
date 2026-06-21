@@ -882,119 +882,12 @@ const nextConfig = {
       // LMS redirects
       { source: '/lms/my-courses', destination: '/lms/courses', permanent: true },
 
-      // Student portal redirects
-      // Legacy student and student-portal trees are fully consolidated under /learner/dashboard
+      // ============================================
+      // CANONICAL PORTAL REDIRECTS
+      // ============================================
       { source: '/student-portal', destination: '/learner/dashboard', permanent: true },
-      { source: '/student-portal/:path*', destination: '/learner/dashboard', permanent: true },
-      { source: '/student', destination: '/learner/dashboard', permanent: true },
-      { source: '/student/:path*', destination: '/learner/dashboard', permanent: true },
-      // my-dashboard → canonical learner dashboard (legacy portal consolidation)
-      { source: '/my-dashboard', destination: '/learner/dashboard', permanent: true },
-      ...canonicalAliasRedirects,
-
-      // ── Stub page consolidation (2026-06) ────────────────────────────────────
-      // External tax platform
-      { source: '/tax', destination: 'https://www.supersonicfastermoney.com/tax', permanent: true },
-      { source: '/tax-self-prep', destination: 'https://www.supersonicfastermoney.com/tax-self-prep', permanent: true },
-
-      // programs/admin/* → program-holder/*
-      { source: '/programs/admin', destination: '/program-holder/dashboard', permanent: true },
-      { source: '/programs/admin/:path*', destination: '/program-holder/:path*', permanent: true },
-
-      // (partner)/partners/* → /partner/* (route group stubs removed)
-      { source: '/partners/dashboard', destination: '/partner/dashboard', permanent: true },
-      { source: '/partners/portal', destination: '/partner/dashboard', permanent: true },
-      { source: '/partners/hours', destination: '/partner/hours', permanent: true },
-      { source: '/partners/attendance', destination: '/partner/attendance', permanent: true },
-      { source: '/partners/documents', destination: '/partner/documents', permanent: true },
-      { source: '/partners/students', destination: '/partner/students', permanent: true },
-      { source: '/partners/register', destination: '/partner/apply', permanent: true },
-      // /partners/login → /partner/login already covered above
-      // These were permanentRedirect() page files. Redirects moved here;
-      // page files deleted. Run `pnpm route:audit` to verify no stubs remain.
-
-      // Portals
       { source: '/admin-portal', destination: '/login', permanent: true },
-      { source: '/admin-login', destination: '/login', permanent: false },
-      { source: '/lms-portal', destination: '/lms/dashboard', permanent: true },
-
-      // Apply flow aliases
-      { source: '/apply/fssa', destination: '/apply', permanent: true },
-      { source: '/apply/fssa/success', destination: '/apply', permanent: true },
-      { source: '/apply/full', destination: '/apply/student', permanent: true },
-      { source: '/apply/impact', destination: '/apply', permanent: true },
-      { source: '/apply/quick', destination: '/apply', permanent: true },
-      { source: '/apply/start', destination: '/apply', permanent: true },
-      { source: '/intake', destination: '/apply', permanent: true },
-
-      // Program aliases
-      { source: '/barber-apprenticeship', destination: '/programs/barber-apprenticeship', permanent: true },
-      {
-        source: '/programs/barber-apprenticeship/inquiry',
-        destination: '/programs/barber-apprenticeship/request-info',
-        permanent: true,
-      },
-      { source: '/programs/drug-collector', destination: '/programs/drug-alcohol-specimen-collector', permanent: true },
-      { source: '/programs/building-services-technician/apply', destination: '/apply?program=building-services-technician', permanent: true },
-      { source: '/programs/cna/apply', destination: '/apply?program=cna', permanent: true },
-      { source: '/programs/qma/apply', destination: '/apply?program=qma', permanent: true },
-
-      // Checkout aliases
-      { source: '/checkout/barber-apprenticeship', destination: '/programs/barber-apprenticeship/payment-setup', permanent: true },
-
-      // Legal / policy consolidation
-      // /policies/:path* wildcard at pos 110 already catches all /policies/* → /legal/disclosures
-      { source: '/acceptable-use-policy', destination: '/legal/acceptable-use', permanent: true },
-      { source: '/enrollment-agreement', destination: '/legal/enrollment-agreement', permanent: true },
-      { source: '/governance', destination: '/legal/governance', permanent: true },
-      { source: '/student-handbook', destination: '/legal/student-handbook', permanent: true },
-
-      // Store licensing → store/licenses
-      // /store/licensing, /store/licensing/enterprise, /store/licensing/managed already covered above
-      { source: '/store/licensing/partnerships', destination: '/store/licenses', permanent: true },
-      { source: '/store/licensing/success', destination: '/store/licenses/success', permanent: true },
-
-      // Partner aliases
-      { source: '/partner-with-us', destination: '/for-providers', permanent: true },
-      { source: '/partners/join', destination: '/partners/apply', permanent: true },
-      { source: '/partners/training', destination: '/for-providers', permanent: true },
-      { source: '/partners/training-provider', destination: '/for-providers', permanent: true },
-      { source: '/partners/barber-host-shop/onboarding', destination: '/login?redirect=/partners/barber-host-shop/forms', permanent: true },
-      // /partner/programs/barber covered by existing /partner/:path* wildcard
-      { source: '/pathways/partners', destination: '/for-providers', permanent: true },
-      { source: '/platform/partners', destination: '/for-providers', permanent: true },
-      // /platform/program-holders and /platform/providers already point to /for-providers (consolidated below)
-      { source: '/platform/program-holders', destination: '/for-providers', permanent: true },
-      { source: '/platform/providers', destination: '/for-providers', permanent: true },
-
-      // Help / support aliases
-      { source: '/support/documentation', destination: '/support/help', permanent: true },
-
-      // Misc aliases
-      { source: '/ai-chat-standalone', destination: '/ai-chat', permanent: true },
-      { source: '/case-manager', destination: '/case-manager/dashboard', permanent: true },
-      // /client-portal/demo covered by existing /client-portal/:path* wildcard → /start
-      { source: '/ebook/barber-theory', destination: '/lms/courses', permanent: true },
-      { source: '/fssa-impact', destination: '/snap/snap-et', permanent: true },
-      { source: '/fssa-partnership-request', destination: '/snap/snap-et', permanent: true },
-      // /mentor → /mentor/dashboard already covered above
-      { source: '/onboarding/barber-apprenticeship', destination: '/programs/barber-apprenticeship/orientation', permanent: true },
-      { source: '/rise', destination: 'https://www.supersonicfastermoney.com/tax', permanent: true },
-      { source: '/snap', destination: '/snap/snap-et', permanent: true },
-      { source: '/training-providers', destination: '/for-providers', permanent: true },
-      { source: '/pwa/barber', destination: '/pwa/barber/onboarding', permanent: true },
-      { source: '/pwa/barber/profile', destination: '/account/profile', permanent: true },
-      { source: '/pwa/barber/training', destination: '/lms/courses/3fb5ce19-1cde-434c-a8c6-f138d7d7aa17', permanent: true },
-
-      // /student-portal/settings → /lms/settings handled by middleware (Rule B)
-
-      // Partner portal redirects
-      // NOTE: /partner/dashboard is the canonical partner dashboard page.
-      // /partner/page.tsx redirects TO /partner/dashboard, so do NOT redirect /partner/dashboard back.
-      // Removed legacy redirects for partner dashboard/courses/students to preserve canonical partner dashboard routes.
-
-      // AI redirects
-      { source: '/ai-instructor', destination: '/ai-tutor', permanent: true },
+      { source: '/partner-portal', destination: '/partner/dashboard', permanent: true },
 
       // Marketing redirects
       // /success-stories has a real 419-line page — no redirect needed
