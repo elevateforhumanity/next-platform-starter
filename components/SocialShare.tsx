@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Share2, Facebook, Linkedin, Mail, Check, Link as LinkIcon } from 'lucide-react';
+import { Share2, Linkedin, Mail, Check, Link as LinkIcon } from 'lucide-react';
+import { Facebook } from '@/components/ui/BrandIcons';
 
 interface SocialShareProps {
   url: string;

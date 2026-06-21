@@ -8,7 +8,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowRight, CreditCard } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { ALL_PROGRAMS } from '@/data/programs/catalog';
 import type { ProgramSchema } from '@/lib/programs/program-schema';
 import { loadVerifiedPublicStats } from '@/lib/site-stats-server';
@@ -60,13 +60,12 @@ function PathwayCard({ prog, priority }: { prog: ProgramSchema; priority?: boole
   const paymentPlan = getProgramPaymentPlan(prog.slug);
   
   return (
-    <article className="group flex flex-col h-full bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden hover:shadow-md transition-all duration-300">
+    <article className="group flex flex-col rounded-2xl overflow-hidden bg-white border border-slate-200 hover:border-brand-red-300 hover:shadow-lg transition-all hover:-translate-y-0.5">
       {/* Image */}
       <div className={card.programImage}>
         <Image
           src={imageSrc}
           alt={prog.heroImageAlt || prog.title}
-
           fill
           className={card.programImageFill}
           sizes={IMAGE_SIZES.programCard}
