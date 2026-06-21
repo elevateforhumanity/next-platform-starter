@@ -197,7 +197,7 @@ async function printFailureDiagnostics(
 async function main() {
   const serviceId = process.argv[2];
   if (!serviceId || serviceId.startsWith('--')) {
-    console.error('Usage: pnpm tsx scripts/northflank/wait-service.ts <service-id> [--timeout-ms 900000] [--sha <commit>]');
+    console.error('Usage: pnpm tsx scripts/northflank/wait-service.ts <service-id> [--timeout-ms 900000] [--build-id <id>]');
     process.exit(1);
   }
 
@@ -208,75 +208,96 @@ async function main() {
   }
 
   const timeoutMs = Number(argValue('--timeout-ms') || 900_000);
-  const targetSha = argValue('--sha');
+  const targetBuildId = argValue('--build-id');
   const start = Date.now();
   let last = '';
   let lastService: ServiceStatus | undefined;
+  let lastBuild: ServiceBuild | undefined;
 
-  console.log(`${serviceId}: Waiting for deployment (sha=${targetSha ?? 'latest'})...`);
+  console.log(`${serviceId}: Waiting for ${targetBuildId ? `build ${targetBuildId}` : 'service'}...`);
 
   while (Date.now() - start < timeoutMs) {
-    const service = await nfFetch<ServiceStatus>(projectApiPath(projectId, `/services/${serviceId}`));
-    lastService = service;
+    // If tracking a specific build, fetch its status
+    if (targetBuildId) {
+      const build = await nfFetch<ServiceBuild>(
+        projectApiPath(projectId, `/services/${serviceId}/build/${targetBuildId}`),
+      ).catch(() => undefined);
+      lastBuild = build;
 
-    const buildStatus = service.status?.build?.status ?? service.buildStatus;
-    const deploy = service.status?.deployment?.status ?? service.deploymentStatus?.status;
-    const deployedSha = (service as { deployedSHA?: string }).deployedSHA;
-    const phase = resolveServicePhase(service);
-    const label = buildStatus && deploy && buildStatus !== deploy
-      ? `${buildStatus} (deploy: ${deploy})`
-      : buildStatus ?? phase;
+      if (build) {
+        const buildStatus = build.status;
+        const buildSuccess = build.success;
 
-    if (label !== last) {
-      console.log(`${serviceId}: ${label}`);
-      last = label;
-    }
+        if (buildStatus !== last) {
+          console.log(`${serviceId} build: ${buildStatus}`);
+          last = buildStatus ?? '';
+        }
 
-    const deployReady = deploy && DEPLOY_READY_STATUSES.has(deploy);
-    const buildDone = !buildStatus || BUILD_DONE_STATUSES.has(buildStatus);
+        // Build completed successfully
+        if (BUILD_DONE_STATUSES.has(buildStatus ?? '')) {
+          if (buildSuccess === true) {
+            console.log(`${serviceId}: build ${targetBuildId} completed successfully ✅`);
+            return;
+          }
+          // Build done but failed
+          console.error(`${serviceId}: build ${targetBuildId} ${buildStatus} (failed)`);
+          await printBuildLogs(projectId, serviceId, targetBuildId);
+          process.exit(1);
+        }
 
-    // If we have a target SHA, check if it's deployed
-    if (targetSha && deployReady) {
-      const shaMatch = deployedSha?.toLowerCase().startsWith(targetSha.toLowerCase().slice(0, 7));
-      if (shaMatch) {
-        console.log(`${serviceId}: SHA ${targetSha.slice(0, 12)}... deployed ✅`);
+        // Build still in progress - wait
+        if (BUILD_FAILURE_STATUSES.has(buildStatus ?? '')) {
+          console.error(`${serviceId}: build failed with status ${buildStatus}`);
+          await printBuildLogs(projectId, serviceId, targetBuildId);
+          process.exit(1);
+        }
+      }
+    } else {
+      // Not tracking specific build - just wait for deployment
+      const service = await nfFetch<ServiceStatus>(projectApiPath(projectId, `/services/${serviceId}`));
+      lastService = service;
+
+      const buildStatus = service.status?.build?.status ?? service.buildStatus;
+      const deploy = service.status?.deployment?.status ?? service.deploymentStatus?.status;
+
+      if (buildStatus !== last) {
+        console.log(`${serviceId}: build=${buildStatus} deploy=${deploy}`);
+        last = buildStatus ?? '';
+      }
+
+      const deployReady = deploy && DEPLOY_READY_STATUSES.has(deploy);
+      const buildDone = !buildStatus || BUILD_DONE_STATUSES.has(buildStatus);
+
+      // If build failed but deployment is RUNNING/COMPLETED, the old deployment is still live
+      if (BUILD_FAILURE_STATUSES.has(buildStatus ?? '')) {
+        if (deployReady) {
+          console.log(`${serviceId}: build failed (${buildStatus}) but deployment healthy (${deploy})`);
+          return;
+        }
+        console.error(`${serviceId}: build failed (${buildStatus}) and deployment not ready`);
+        process.exit(1);
+      }
+
+      if (buildDone && deployReady) {
+        console.log(`${serviceId}: service ready ✅`);
         return;
       }
-    }
 
-    // If build failed but deployment is RUNNING/COMPLETED, the old deployment is still live
-    // Don't fail - we can still serve traffic with the previous image
-    if (BUILD_FAILURE_STATUSES.has(buildStatus ?? '')) {
-      if (deployReady) {
-        console.log(`${serviceId}: build failed (${buildStatus}) but deployment is healthy (${deploy}) - using previous image`);
-        return;
+      if (DEPLOY_FAILURE_STATUSES.has(deploy ?? '')) {
+        console.error(`${serviceId}: deployment failed (${deploy})`);
+        process.exit(1);
       }
-      console.error(`${serviceId} build failed (${buildStatus}) and deployment not ready (${deploy})`);
-      await printFailureDiagnostics(projectId, serviceId, undefined, service);
-      process.exit(1);
-    }
-
-    if (buildDone && deployReady) {
-      // If no target SHA, just check build and deploy are done
-      if (!targetSha) {
-        console.log(`${serviceId}: build=${buildStatus} deploy=${deploy} ✅`);
-        return;
-      }
-      // If target SHA but doesn't match yet, keep waiting
-    }
-
-    if (DEPLOY_FAILURE_STATUSES.has(deploy ?? '')) {
-      console.error(`${serviceId} deployment failed (${deploy})`);
-      await printFailureDiagnostics(projectId, serviceId, undefined, service);
-      process.exit(1);
     }
 
     await new Promise((resolve) => setTimeout(resolve, 15_000));
   }
 
-  console.error(`${serviceId} did not settle within ${timeoutMs}ms`);
+  console.error(`${serviceId}: timeout after ${timeoutMs}ms`);
+  if (lastBuild) {
+    console.error('Last build:', JSON.stringify(lastBuild, null, 2));
+  }
   if (lastService) {
-    await printFailureDiagnostics(projectId, serviceId, undefined, lastService);
+    console.error('Last service status:', JSON.stringify(lastService, null, 2));
   }
   process.exit(1);
 }
