@@ -6,7 +6,7 @@
  *
  *   pnpm tsx scripts/northflank/trigger-deployment.ts elevate-admin
  *   pnpm tsx scripts/northflank/trigger-deployment.ts elevate-admin --sha 9291b43c...
- *   pnpm tsx scripts/northflank/trigger-deployment.ts elevate-lms --build-id abc123
+ *   pnpm tsx scripts/northflank/trigger-deployment.ts elevate-lms --sha $(git rev-parse HEAD)
  */
 
 import { nfFetch, projectApiPath, resolveProjectId } from './lib';
@@ -19,7 +19,7 @@ function argValue(name: string): string | undefined {
 async function main() {
   const serviceId = process.argv[2];
   if (!serviceId || serviceId.startsWith('--')) {
-    console.error('Usage: pnpm tsx scripts/northflank/trigger-deployment.ts <service-id> [--sha <commit>] [--build-id <id>]');
+    console.error('Usage: pnpm tsx scripts/northflank/trigger-deployment.ts <service-id> [--sha <commit>]');
     process.exit(1);
   }
 
@@ -30,7 +30,6 @@ async function main() {
   }
 
   const sha = argValue('--sha');
-  const buildId = argValue('--build-id');
   const branch = process.env.DEPLOY_BRANCH || 'main';
 
   const payload: Record<string, unknown> = {
@@ -41,14 +40,13 @@ async function main() {
     docker: { configType: 'default' as const },
   };
 
-  // Prefer specific build ID, then SHA, then fallback to latest
-  if (buildId) {
-    (payload.internal as Record<string, unknown>).buildId = buildId;
-    console.log(`Deploying specific build: ${buildId}`);
-  } else if (sha) {
+  // Use specific SHA, or fallback to latest
+  if (sha) {
     (payload.internal as Record<string, unknown>).buildSHA = sha;
+    console.log(`Deploying build for SHA: ${sha.slice(0, 12)}...`);
   } else {
     (payload.internal as Record<string, unknown>).buildSHA = 'latest';
+    console.log('Deploying latest build');
   }
 
   await nfFetch(projectApiPath(projectId, `/services/${serviceId}/deployment`), {
@@ -57,7 +55,7 @@ async function main() {
   });
 
   console.log(
-    `Triggered deployment for ${serviceId} (branch=${branch}, buildId=${buildId ?? 'latest'})`,
+    `Triggered deployment for ${serviceId} (branch=${branch}, buildSHA=${sha ?? 'latest'})`,
   );
 }
 
