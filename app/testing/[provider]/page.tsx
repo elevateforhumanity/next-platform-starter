@@ -123,7 +123,7 @@ export default async function ProviderPage({ params }: Props) {
           alt={provider.name}
           fill
           className="object-cover object-center"
-          priority placeholder="blur"
+          priority
         />
         {/* gradient overlay — bottom only, no text on video rule doesn't apply to static images */}
         <div
