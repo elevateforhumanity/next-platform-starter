@@ -26,7 +26,7 @@ export interface NavItem {
 
 export const NAV_ITEMS: NavItem[] = [
   {
-    id: 'platform',
+    id: 'platform-os',
     name: 'Platform',
     href: '/platform/overview',
     subItems: [
@@ -40,11 +40,11 @@ export const NAV_ITEMS: NavItem[] = [
     ],
   },
   {
-    id: 'partners',
-    name: 'For Employers & Agencies',
+    id: 'partner-solutions',
+    name: 'Solutions',
     href: '/partners',
     subItems: [
-      { name: '— Solutions —', href: '/partners', isHeader: true },
+      { name: '— Ecosystem Solutions —', href: '/partners', isHeader: true },
       { name: 'Employer Solutions', href: '/for-employers' },
       { name: 'Workforce Agencies', href: '/for-agencies' },
       { name: 'Government Partners', href: '/government' },
