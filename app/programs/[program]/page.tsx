@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 import { loadProgramForPage, loadProgramMetadataSource } from '@/lib/programs/load-program-page';
+import heroBanners from '@/content/heroBanners';
 
 // On-demand rendering only - prevents memory spikes on 1,000+ variants
 export const dynamic = 'force-dynamic';
