@@ -25,7 +25,7 @@ export default async function CreateCoursePage() {
     .eq('id', user.id)
     .maybeSingle();
 
-  if (!['admin', 'super_admin', 'org_admin', 'instructor'].includes(profile?.role || '')) {
+  if (!['admin', 'org_admin', 'instructor'].includes(profile?.role || '')) {
     redirect('/unauthorized');
   }
 

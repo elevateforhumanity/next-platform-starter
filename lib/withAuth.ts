@@ -2,7 +2,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 
-type Role = 'student' | 'staff' | 'admin' | 'super_admin' | 'partner';
+type Role = 'student' | 'staff' | 'admin' | 'admin' | 'partner';
 
 interface AuthedContext {
   params?: any;

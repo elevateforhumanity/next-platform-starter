@@ -149,7 +149,7 @@ function LegalAgreementsContent() {
         employer: [{ type: 'employer_agreement', version: '1.0' }],
         staff: [{ type: 'staff_agreement', version: '1.0' }],
         admin: [{ type: 'staff_agreement', version: '1.0' }],
-        super_admin: [{ type: 'staff_agreement', version: '1.0' }],
+        admin: [{ type: 'staff_agreement', version: '1.0' }],
         partner: [{ type: 'program_holder_mou', version: '1.0' }],
       };
 

@@ -33,7 +33,7 @@ export default async function TransferVerifyPage() {
     .eq('id', user.id)
     .single();
 
-  if (!profile || !['admin', 'super_admin'].includes(profile.role)) {
+  if (!profile || !['admin'].includes(profile.role)) {
     redirect('/');
   }
 

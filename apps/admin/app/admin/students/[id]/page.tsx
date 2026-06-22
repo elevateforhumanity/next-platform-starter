@@ -92,7 +92,7 @@ export default async function StudentDetailPage({ params }: { params: Promise<{ 
     .select('role')
     .eq('id', user.id)
     .maybeSingle();
-  if (!['admin', 'super_admin', 'staff'].includes(adminProfile?.role ?? ''))
+  if (!['admin', 'staff'].includes(adminProfile?.role ?? ''))
     redirect('/unauthorized');
 
   // Load student profile

@@ -27,7 +27,7 @@ export default async function ImpersonatePage() {
     .eq('id', user.id)
     .maybeSingle();
 
-  // Impersonation is restricted to super_admin — admin role can view audit log only.
+  // Impersonation is restricted to admin — admin role can view audit log only.
   if (!hasPermission(profile?.role as UserRole, 'impersonate_users')) {
     redirect('/unauthorized');
   }

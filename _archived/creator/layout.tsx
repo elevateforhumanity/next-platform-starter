@@ -10,6 +10,6 @@ export const metadata: Metadata = {
 };
 
 export default async function CreatorLayout({ children }: { children: React.ReactNode }) {
-  await requireRole(['creator', 'admin', 'super_admin']);
+  await requireRole(['creator', 'admin']);
   return <>{children}</>;
 }

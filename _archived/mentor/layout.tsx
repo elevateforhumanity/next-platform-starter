@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   description: 'Manage your mentees, schedule sessions, and track mentoring progress.',
 };
 
-const ALLOWED_ROLES = ['mentor', 'admin', 'super_admin'];
+const ALLOWED_ROLES = ['mentor', 'admin'];
 
 const NAV_ITEMS = [
   { href: '/mentor/dashboard', label: 'Dashboard' },

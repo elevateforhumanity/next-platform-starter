@@ -141,7 +141,7 @@ export default function AdminOfficeDetailPage() {
         .eq('id', user.id)
         .maybeSingle();
 
-      if (profile?.role !== 'super_admin' && profile?.role !== 'franchise_admin') {
+      if (profile?.role !== 'admin' && profile?.role !== 'franchise_admin') {
         setAuthorized(false);
         setLoading(false);
         return;

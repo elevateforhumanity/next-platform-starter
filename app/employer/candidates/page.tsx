@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export const dynamic = 'force-dynamic';
 
 export default async function CandidatesPage() {
-  const { user } = await requireRole(['employer', 'admin', 'super_admin']);
+  const { user } = await requireRole(['employer', 'admin']);
   const supabase = await createClient();
 
   // Get completed/graduated candidates only — not all students

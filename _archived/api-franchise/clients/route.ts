@@ -37,7 +37,7 @@ export async function GET(request: NextRequest) {
       .eq('id', user.id)
       .maybeSingle();
 
-    const isAdmin = profile?.role === 'super_admin' || profile?.role === 'franchise_admin';
+    const isAdmin = profile?.role === 'admin' || profile?.role === 'franchise_admin';
 
     if (!isAdmin) {
       // Check if user owns the office or is a preparer there
@@ -113,7 +113,7 @@ export async function POST(request: NextRequest) {
       .eq('id', user.id)
       .maybeSingle();
 
-    const isAdmin = profile?.role === 'super_admin' || profile?.role === 'franchise_admin';
+    const isAdmin = profile?.role === 'admin' || profile?.role === 'franchise_admin';
 
     if (!isAdmin) {
       const { data: office } = await supabase

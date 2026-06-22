@@ -30,7 +30,7 @@ export default async function AdminGradebookPage({
     .eq('id', user.id)
     .maybeSingle();
 
-  if (!['admin', 'super_admin', 'instructor'].includes(profile?.role || '')) {
+  if (!['admin', 'instructor'].includes(profile?.role || '')) {
     redirect('/unauthorized');
   }
 

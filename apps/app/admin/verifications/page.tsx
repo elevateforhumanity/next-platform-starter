@@ -30,7 +30,7 @@ export default async function VerificationsPage() {
     .select('role')
     .eq('id', user.id)
     .maybeSingle();
-  if (!['admin', 'super_admin', 'staff'].includes(profile?.role ?? '')) redirect('/unauthorized');
+  if (!['admin', 'staff'].includes(profile?.role ?? '')) redirect('/unauthorized');
 
   const [
     { data: verifications, count: total },

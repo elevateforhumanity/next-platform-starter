@@ -49,7 +49,7 @@ export default async function ProviderDetailPage({
     .eq('id', user.id)
     .maybeSingle();
 
-  if (!profile || !['admin', 'super_admin'].includes(profile.role)) {
+  if (!profile || !['admin'].includes(profile.role)) {
     redirect('/unauthorized');
   }
 

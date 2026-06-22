@@ -34,7 +34,7 @@ async function _GET(
       .eq('id', user.id)
       .maybeSingle();
 
-    const isAdmin = profile?.role === 'super_admin' || profile?.role === 'franchise_admin';
+    const isAdmin = profile?.role === 'admin' || profile?.role === 'franchise_admin';
     const isSelf = preparer.user_id === user.id;
 
     // Check if user owns the office

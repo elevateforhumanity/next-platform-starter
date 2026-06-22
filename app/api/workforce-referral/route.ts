@@ -39,7 +39,7 @@ async function _GET(request: NextRequest) {
     .eq('id', user.id)
     .maybeSingle();
 
-  if (!profile?.role || !['admin', 'advisor', 'super_admin'].includes(profile.role)) {
+  if (!profile?.role || !['admin', 'advisor', 'admin'].includes(profile.role)) {
     return NextResponse.json({ error: 'Staff access required' }, { status: 403 });
   }
 
@@ -175,7 +175,7 @@ async function _PATCH(request: NextRequest) {
     .eq('id', user.id)
     .maybeSingle();
 
-  if (!profile?.role || !['admin', 'advisor', 'super_admin'].includes(profile.role)) {
+  if (!profile?.role || !['admin', 'advisor', 'admin'].includes(profile.role)) {
     return NextResponse.json({ error: 'Staff access required' }, { status: 403 });
   }
 

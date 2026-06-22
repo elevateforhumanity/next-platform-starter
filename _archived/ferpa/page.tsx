@@ -50,7 +50,7 @@ export default async function FERPAPortal() {
   // Check if user has FERPA access
   const allowedRoles = [
     'admin',
-    'super_admin',
+    'admin',
     'ferpa_officer',
     'registrar',
     'staff',

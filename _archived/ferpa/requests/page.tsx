@@ -80,7 +80,7 @@ export default async function FerpaRequestsPage() {
     .eq('id', user.id)
     .maybeSingle();
 
-  const allowedRoles = ['admin', 'super_admin', 'ferpa_officer', 'registrar', 'staff'];
+  const allowedRoles = ['admin', 'ferpa_officer', 'registrar', 'staff'];
   if (!profile || !allowedRoles.includes(profile.role)) {
     redirect('/unauthorized');
   }

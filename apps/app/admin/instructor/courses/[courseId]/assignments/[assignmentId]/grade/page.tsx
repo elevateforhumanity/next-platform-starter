@@ -28,7 +28,7 @@ export default async function SpeedGraderPage({ params }: { params: Params }) {
     .eq('id', user.id)
     .maybeSingle();
 
-  if (!profile || !['admin', 'super_admin', 'staff', 'instructor'].includes(profile.role)) {
+  if (!profile || !['admin', 'staff', 'instructor'].includes(profile.role)) {
     redirect('/learner/dashboard');
   }
 

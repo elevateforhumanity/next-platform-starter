@@ -30,7 +30,7 @@ async function _GET(request: NextRequest) {
       .eq('id', user.id)
       .maybeSingle();
 
-    const isAdmin = profile?.role === 'super_admin' || profile?.role === 'franchise_admin';
+    const isAdmin = profile?.role === 'admin' || profile?.role === 'franchise_admin';
 
     const result = await officeService.listOffices({
       status,
@@ -68,7 +68,7 @@ async function _POST(request: NextRequest) {
       .eq('id', user.id)
       .maybeSingle();
 
-    if (profile?.role !== 'super_admin' && profile?.role !== 'franchise_admin') {
+    if (profile?.role !== 'admin' && profile?.role !== 'franchise_admin') {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 

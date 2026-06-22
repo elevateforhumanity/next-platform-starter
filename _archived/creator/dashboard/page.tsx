@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 export const dynamic = 'force-dynamic';
 
 export default async function CreatorDashboardPage() {
-  const { user } = await requireRole(['creator', 'admin', 'super_admin']);
+  const { user } = await requireRole(['creator', 'admin']);
   const supabase = await createClient();
 
   // Fetch courses created by this user with lesson counts

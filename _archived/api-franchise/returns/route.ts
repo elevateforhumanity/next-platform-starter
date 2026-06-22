@@ -34,7 +34,7 @@ async function _GET(request: NextRequest) {
       .eq('id', user.id)
       .maybeSingle();
 
-    const isAdmin = profile?.role === 'super_admin' || profile?.role === 'franchise_admin';
+    const isAdmin = profile?.role === 'admin' || profile?.role === 'franchise_admin';
 
     // Non-admins must specify an office they own or be a preparer
     if (!isAdmin && !officeId && !preparerId) {
@@ -167,7 +167,7 @@ async function _POST(request: NextRequest) {
       .eq('id', user.id)
       .maybeSingle();
 
-    const isAdmin = profile?.role === 'super_admin' || profile?.role === 'franchise_admin';
+    const isAdmin = profile?.role === 'admin' || profile?.role === 'franchise_admin';
 
     if (!isAdmin) {
       // Check if user is the preparer

@@ -31,7 +31,7 @@ async function _GET(request: NextRequest) {
       .eq('id', user.id)
       .maybeSingle();
 
-    const isAdmin = profile?.role === 'super_admin' || profile?.role === 'franchise_admin';
+    const isAdmin = profile?.role === 'admin' || profile?.role === 'franchise_admin';
 
     if (!isAdmin) {
       const { data: office } = await supabase
@@ -90,7 +90,7 @@ async function _POST(request: NextRequest) {
       .eq('id', user.id)
       .maybeSingle();
 
-    const isAdmin = profile?.role === 'super_admin' || profile?.role === 'franchise_admin';
+    const isAdmin = profile?.role === 'admin' || profile?.role === 'franchise_admin';
 
     if (!isAdmin) {
       const { data: office } = await supabase

@@ -44,7 +44,7 @@ async function _GET(
       .eq('id', user.id)
       .maybeSingle();
 
-    const isAdmin = profile?.role === 'super_admin' || profile?.role === 'franchise_admin';
+    const isAdmin = profile?.role === 'admin' || profile?.role === 'franchise_admin';
 
     if (!isAdmin) {
       // Check if user is office owner
@@ -104,7 +104,7 @@ async function _PATCH(
       .eq('id', user.id)
       .maybeSingle();
 
-    const isAdmin = profile?.role === 'super_admin' || profile?.role === 'franchise_admin';
+    const isAdmin = profile?.role === 'admin' || profile?.role === 'franchise_admin';
     const isOwner = submission.office?.owner_id === user.id;
 
     if (!isAdmin && !isOwner) {

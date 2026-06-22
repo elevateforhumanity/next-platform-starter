@@ -34,7 +34,7 @@ async function _GET(
       .eq('id', user.id)
       .maybeSingle();
 
-    const isAdmin = profile?.role === 'super_admin' || profile?.role === 'franchise_admin';
+    const isAdmin = profile?.role === 'admin' || profile?.role === 'franchise_admin';
     const isSelf = preparer.user_id === user.id;
 
     // Check if user owns the office
@@ -91,7 +91,7 @@ async function _PATCH(
       .eq('id', user.id)
       .maybeSingle();
 
-    const isAdmin = profile?.role === 'super_admin' || profile?.role === 'franchise_admin';
+    const isAdmin = profile?.role === 'admin' || profile?.role === 'franchise_admin';
 
     // Check if user owns the office
     let isOwner = false;
@@ -167,7 +167,7 @@ async function _DELETE(
       .eq('id', user.id)
       .maybeSingle();
 
-    const isAdmin = profile?.role === 'super_admin' || profile?.role === 'franchise_admin';
+    const isAdmin = profile?.role === 'admin' || profile?.role === 'franchise_admin';
 
     // Check if user owns the office
     let isOwner = false;

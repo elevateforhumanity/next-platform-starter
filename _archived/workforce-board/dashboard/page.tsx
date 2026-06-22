@@ -54,8 +54,8 @@ export default async function WorkforceBoardDashboard() {
     .eq('id', user.id)
     .single();
 
-  // Allow workforce_board, admin, or super_admin roles
-  const allowedRoles = ['workforce_board', 'admin', 'super_admin', 'org_admin'];
+  // Allow workforce_board, admin, or admin roles
+  const allowedRoles = ['workforce_board', 'admin', 'org_admin'];
   if (!profile || !allowedRoles.includes(profile.role)) {
     redirect('/unauthorized');
   }

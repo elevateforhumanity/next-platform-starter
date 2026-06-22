@@ -30,7 +30,7 @@ export default async function PartnerAttendancePage() {
     .select('role')
     .eq('id', user.id)
     .maybeSingle();
-  if (!profile || !['partner', 'admin', 'super_admin', 'staff'].includes(profile.role))
+  if (!profile || !['partner', 'admin', 'staff'].includes(profile.role))
     redirect('/unauthorized');
 
   let sessions: any[] = [];

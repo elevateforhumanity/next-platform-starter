@@ -34,7 +34,7 @@ async function _GET(
       .eq('id', user.id)
       .maybeSingle();
 
-    const isAdmin = profile?.role === 'super_admin' || profile?.role === 'franchise_admin';
+    const isAdmin = profile?.role === 'admin' || profile?.role === 'franchise_admin';
     const isOwner = office.owner_id === user.id;
 
     if (!isAdmin && !isOwner) {
@@ -80,7 +80,7 @@ async function _PATCH(
       .eq('id', user.id)
       .maybeSingle();
 
-    const isAdmin = profile?.role === 'super_admin' || profile?.role === 'franchise_admin';
+    const isAdmin = profile?.role === 'admin' || profile?.role === 'franchise_admin';
     const isOwner = office.owner_id === user.id;
 
     if (!isAdmin && !isOwner) {
@@ -135,7 +135,7 @@ async function _DELETE(
       .eq('id', user.id)
       .maybeSingle();
 
-    if (profile?.role !== 'super_admin') {
+    if (profile?.role !== 'admin') {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 

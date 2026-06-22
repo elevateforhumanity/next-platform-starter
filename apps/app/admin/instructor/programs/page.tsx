@@ -25,7 +25,7 @@ export default async function InstructorProgramsPage() {
     .eq('id', user.id)
     .maybeSingle();
 
-  if (!profile || !['instructor', 'admin', 'super_admin'].includes(profile.role)) {
+  if (!profile || !['instructor', 'admin'].includes(profile.role)) {
     redirect('/');
   }
 
