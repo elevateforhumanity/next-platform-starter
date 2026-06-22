@@ -145,5 +145,5 @@ export async function hasRole(requiredRole: string): Promise<boolean> {
 
   if (!profile?.role) return false;
   const expandedAllowedRoles = expandAllowedRoles([requiredRole]);
-  return expandedAllowedRoles.includes(profile.role) || profile.role === 'admin' || profile.role === 'admin';
+  return expandedAllowedRoles.includes(profile.role);
 }

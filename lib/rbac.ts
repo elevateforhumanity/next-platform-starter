@@ -4,22 +4,11 @@ import { createClient } from '@/lib/supabase/server';
  * RBAC Helper - Role-Based Access Control
  *
  * Enforces role-based permissions at the API layer
- *
- * Roles:
- * - admin: Full system access
- * - hr_admin: HR and payroll management
- * - super_admin: Super admin access
- * - marketing_admin: Marketing campaigns and contacts
- * - manager: Team management
- * - provider_admin: Program holder admin
- * - delegate: Case management
- * - student: Student portal access
  */
 
 export type AppRole =
   | 'admin'
   | 'hr_admin'
-  | 'super_admin'
   | 'delegate'
   | 'program_holder'
   | 'student'
@@ -85,7 +74,7 @@ export async function getCurrentUserWithRole(): Promise<{
  * Require that the current user has at least one of the allowed roles.
  * Throws an Error if not authorized.
  */
-export async function requireAdmin(allowedRoles: AppRole[] = ['admin', 'hr_admin', 'super_admin']) {
+export async function requireAdmin(allowedRoles: AppRole[] = ['admin', 'hr_admin']) {
   const { user, profile } = await getCurrentUserWithRole();
 
   if (!user || !profile) {

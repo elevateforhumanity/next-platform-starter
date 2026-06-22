@@ -11,7 +11,9 @@ export type UserRole =
   | 'program_holder'
   | 'delegate'
   | 'creator'
-  | 'instructor';
+  | 'instructor'
+  | 'case_manager'
+  | 'provider_admin';
 
 export interface User {
   id: string;
