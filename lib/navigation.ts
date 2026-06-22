@@ -1,11 +1,7 @@
-// Single source of truth for public marketing site navigation.
-//
-// Rules:
-// - Each URL appears under ONE top-level section only (no cross-menu duplicates).
-// - Top-level = horizontal main menu (tablet/desktop); subItems = dropdown / mobile accordion.
-// - Application *forms* live under Apply; employer/partner *pages* under Partners; sign-in under Portals.
-//
-// Consumed by: components/site/Header.tsx → HeaderMainNav (horizontal + dropdowns on md+, mobile hamburger)
+// ============================================================
+// CLEANED UP NAVIGATION - June 2026
+// Target: Programs | Funding | Students | Employers | Partners | Testing | Store | About | Apply
+// ============================================================
 
 import { canonicalRoutes } from '@/lib/routes/canonical-routes';
 
