@@ -200,15 +200,13 @@ const nextConfig = {
       };
     }
 
-    // Limit parallelism to 1 on all builds — this is a 2,670-file app and
-    // webpack holds all in-flight module graphs in memory simultaneously.
-    // 2 workers doubles peak heap; 1 worker keeps it manageable.
-    config.parallelism = 1;
+    // Allow webpack to use its default parallelism.
+    // On 16GB+ builds, the default parallelism is safe and faster.
+    // Remove config.parallelism = 1 to let webpack scale naturally.
 
-    // Northflank's allowed ephemeral build storage is not large enough for
-    // Next's production webpack filesystem cache on this app. Disable only in
-    // container builds; local builds keep the cache for faster iteration.
-    if (process.env.DISABLE_WEBPACK_FILESYSTEM_CACHE === '1') {
+    // Only disable webpack cache in CI/container builds where persistent cache is unavailable.
+    // Local builds should use the cache for faster incremental builds.
+    if (process.env.DISABLE_WEBPACK_FILESYSTEM_CACHE === '1' || process.env.CI === 'true') {
       config.cache = false;
     }
 
