@@ -18,6 +18,15 @@ The production memory issue is **NOT primarily caused by data stored in Supabase
 
 ---
 
+## 🚨 YES - LMS IS IN THE BUILD
+
+The entire `app/` directory (including `app/lms/`) is compiled during every build because:
+- `tsconfig.json` includes: `"app/**/*.ts", "app/**/*.tsx"`
+- No route groups to isolate builds
+- All 1,057 pages in `app/` are eagerly compiled
+
+---
+
 ## Critical Findings
 
 ### 1. API Route Count: 1,357 ⚠️ CRITICAL
@@ -120,16 +129,42 @@ The production memory issue is **NOT primarily caused by data stored in Supabase
 | data/state-licensing.ts | 274 | 26 states |
 | Various program data files | ~13,000 | ~300+ programs |
 
-### 4. Duplicate Code 🔴 MEDIUM
+---
 
-Both `apps/app` and `apps/admin` contain:
-- API routes with identical logic
-- Shared components copied instead of imported
-- Duplicate lib utilities
+## ⚠️ DUPLICATE ROUTES: 451 routes exist 3 times
 
-### 5. Barrel Exports 🔴 MEDIUM
+| Duplicate Category | Count | Problem |
+|--------------------|-------|---------|
+| admin/* | 316 | Same route in apps/admin AND apps/app |
+| devstudio/* | 45 | Duplicated |
+| cron/* | 38 | Duplicated |
+| analytics/* | 18 | Duplicated |
+| staff/* | 10 | Duplicated |
+| reports/* | 5 | Duplicated |
+| **TOTAL** | **451** | **Each compiled 3x = 1,353 instances** |
 
-Files like `lib/navigation.ts`, `lib/routes/*`, and `lib/config/*` export everything eagerly.
+**Sample Duplicates:**
+- `apps/admin/api/admin/courses/route.ts` AND `apps/app/api/admin/courses/route.ts`
+- `apps/admin/api/admin/programs/route.ts` AND `apps/app/api/admin/programs/route.ts`
+- 316 admin routes duplicated across both apps
+
+---
+
+## ⚠️ HARDCODED DATA SHOULD BE IN SUPABASE
+
+| Data File | Lines | Records | Currently |
+|-----------|-------|---------|-----------|
+| app/data/courses.ts | 718 | 20 courses | HARDCODED ❌ |
+| app/data/programs.ts | 2,378 | 44 programs | HARDCODED ❌ |
+| app/data/curriculum-modules.ts | 1,353 | 94 modules | HARDCODED ❌ |
+
+**Supabase courses tables EXIST but not used for page rendering:**
+- `career_courses` - exists in DB
+- `partner_courses` - exists in DB  
+- `lms_courses` - exists in DB
+- `program_courses` - exists in DB
+
+**Problem:** API routes query DB (`supabase.from('lms_courses')`) but `app/data/courses.ts` is still hardcoded for page rendering.
 
 ---
 
@@ -159,12 +194,14 @@ Files like `lib/navigation.ts`, `lib/routes/*`, and `lib/config/*` export everyt
 2. [ ] Identify dead routes (created but never called)
 3. [ ] Archive unused routes instead of deleting
 4. [ ] Consider route groups for separate builds
+5. [ ] **Eliminate 451 duplicate routes** - remove from one app
 
 ### Phase 3: Data Migration (2 weeks)
 1. [x] Programs data → Supabase (in progress)
 2. [ ] Curriculum modules → Supabase
 3. [ ] State licensing → Supabase
 4. [ ] Product catalog → Supabase
+5. [ ] **Migrate courses.ts to use lms_courses table**
 
 ### Phase 4: Architecture (Ongoing)
 1. [ ] Create shared packages for common code
