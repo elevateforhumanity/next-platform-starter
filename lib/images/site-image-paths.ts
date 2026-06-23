@@ -14,6 +14,10 @@ const SITE_IMAGE_ALIASES: Record<string, string> = {
   '/images/pages/how-it-works-hero.jpg': '/images/pages/how-it-works-hero.webp',
   '/images/alberta-davis.jpg': '/images/alberta-davis.webp',
   '/images/facilities-new/facility-2.jpg': '/images/facilities-new/facility-1.webp',
+  // Missing JPG references → existing WebP versions
+  '/images/barber-fade-cut.jpg': '/images/pages/barber-fade-cut.webp',
+  '/images/barber-shop-wide.jpg': '/images/pages/barber-apprenticeship-hero.jpg',
+  '/images/marketplace-page-1.jpg': '/images/pages/marketplace-page-1.webp',
   // Broken JPG references → existing WebP versions
   '/images/programs-hq/cdl-trucking.jpg': '/images/programs-hq/cdl-trucking.webp',
   '/images/pages/admin-compliance-hero.jpg': '/images/pages/admin-compliance-hero.webp',
