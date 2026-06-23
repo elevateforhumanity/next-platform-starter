@@ -86,6 +86,11 @@ export default async function StudentDetailPage({ params }: { params: Promise<{ 
     data: { user },
   } = await supabase.auth.getUser();
 
+  // Guard against null user - redirect to login if not authenticated
+  if (!user) {
+    redirect('/login');
+  }
+
   const db = await requireAdminClient();
   const { data: adminProfile } = await db
     .from('profiles')
