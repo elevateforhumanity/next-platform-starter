@@ -87,6 +87,7 @@ export async function applyRateLimit(
     const msg = err instanceof Error ? err.message : String(err);
     const isQuotaExhausted = msg.includes('max requests limit exceeded');
     const isCredential = msg.includes('401') || msg.includes('403') || msg.includes('Unauthorized');
+    const isMalformedResponse = msg.includes('res.map is not a function') || msg.includes('res.filter is not a function') || msg.includes('Cannot read properties of');
 
     if (failClosed) {
       // Only strict tier logs at error — it's actually blocking traffic.
@@ -98,10 +99,12 @@ export async function applyRateLimit(
       // Monthly quota exhausted — log once at warn, not error, to avoid Sentry spam.
       // Failing open: traffic continues normally until quota resets.
       logger.warn('[rate-limit] Upstash monthly quota exhausted — failing open until reset', { tier });
-    } else if (isCredential) {
-      logger.error('[rate-limit] Redis credential error — failing open', undefined, {
+    } else if (isCredential || isMalformedResponse) {
+      // Malformed response often indicates quota exhaustion or API key issues
+      logger.error('[rate-limit] Redis unavailable — failing open', undefined, {
         tier,
-        action: 'Check UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN in runtime env or secret groups.',
+        error: msg,
+        action: 'Check UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN in Northflank secrets.',
       });
     } else {
       logger.warn('[rate-limit] Redis unavailable — failing open', { tier, error: msg });
