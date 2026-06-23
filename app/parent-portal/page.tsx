@@ -49,7 +49,7 @@ const FEATURES = [
     icon: Bell,
     title: 'Notifications',
     desc: 'Get alerts for grades, attendance events, upcoming exams, and program announcements.',
-    image: '/images/pages/learner/dashboard-page-5.webp',
+    image: '/images/pages/learner-page-1.webp',
   },
   {
     icon: BarChart3,

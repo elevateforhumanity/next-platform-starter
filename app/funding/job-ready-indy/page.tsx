@@ -80,7 +80,7 @@ export default function JobReadyIndyPage() {
             </div>
             <div className="relative h-[300px] rounded-2xl overflow-hidden shadow-xl">
               <Image
-                src="/images/pages/learner/dashboard-page-5.webp"
+                src="/images/pages/learner-page-1.webp"
                 alt="Job Ready Indy career training"
                 fill
                 className="object-cover"

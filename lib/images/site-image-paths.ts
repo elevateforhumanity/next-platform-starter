@@ -21,6 +21,16 @@ const SITE_IMAGE_ALIASES: Record<string, string> = {
   '/images/pages/barber-gallery-3.jpg': '/images/pages/barber-gallery-3.webp',
   '/images/pages/career-counseling-page-1.jpg': '/images/pages/career-counseling-page-1.webp',
   '/images/pages/urban-build-crew-page-1.jpg': '/images/pages/urban-build-crew-page-1.webp',
+  // Missing images → fallbacks
+  '/images/pages/learner/dashboard-page-5.webp': '/images/pages/learner-page-1.webp',
+  '/images/pages/learner/dashboard-page-1.webp': '/images/pages/learner-page-1.webp',
+  '/images/pages/learner/dashboard-page-2.webp': '/images/pages/learner-page-1.webp',
+  '/images/pages/learner/dashboard-page-3.webp': '/images/pages/learner-page-1.webp',
+  '/images/pages/learner/dashboard-page-4.webp': '/images/pages/learner-page-1.webp',
+  '/images/pages/learner/dashboard-page-4.jpg': '/images/pages/learner-page-1.webp',
+  '/images/pages/learner/dashboard-page-6.webp': '/images/pages/learner-page-1.webp',
+  '/images/pages/learner/dashboard-page-7.webp': '/images/pages/learner-page-1.webp',
+  '/media/elevate-watermark.png': '/images/certification-badge.png',
 };
 
 /** JPG paths retired after WebP migration — map to existing .webp siblings. */
