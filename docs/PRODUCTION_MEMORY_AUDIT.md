@@ -22,32 +22,93 @@ The production memory issue is **NOT primarily caused by data stored in Supabase
 
 ### 1. API Route Count: 1,357 ⚠️ CRITICAL
 
-```
-apps/app/api/*:         ~800 routes
-apps/admin/api/*:       ~550 routes
-```
+| Category | Count | % of Total |
+|----------|-------|------------|
+| admin/* | 950 | 70% |
+| devstudio/* | 135 | 10% |
+| cron/* | 114 | 8% |
+| analytics/* | 54 | 4% |
+| staff/* | 30 | 2% |
+| reports/* | 15 | 1% |
+| course-builder/* | 12 | 1% |
+| Other | 47 | 4% |
 
-**Problem:** Every API route is eagerly imported and compiled during build, even if unused.
-
-**Recommendations:**
-- [ ] Audit which routes are actually called in production
-- [ ] Implement route-level code splitting
-- [ ] Move admin routes to separate build target if possible
-- [ ] Consider dynamic route registration
+**Admin Sub-category Breakdown (Top 30):**
+| Sub-category | Routes |
+|--------------|--------|
+| courses | 78 |
+| programs | 51 |
+| course-builder | 51 |
+| applications | 51 |
+| program-holders | 24 |
+| enrollments | 24 |
+| monitoring | 18 |
+| grants | 18 |
+| contracts | 18 |
+| fssa | 15 |
+| exam-authorizations | 15 |
+| documents | 15 |
+| creators | 15 |
+| integrations | 12 |
+| certifications | 12 |
+| wioa | 9 |
+| users | 9 |
+| settings | 9 |
+| sendgrid | 9 |
+| next-steps | 9 |
+| lms | 9 |
+| jobs | 9 |
+| external-modules | 9 |
+| export | 9 |
+| crm | 9 |
+| compliance | 9 |
+| cohorts | 9 |
+| catalog | 9 |
+| apprenticeships | 9 |
 
 ### 2. Page Count: 1,057 ⚠️ HIGH
 
-```
-app/*:                  ~390 pages
-apps/app/*:             ~350 pages  
-apps/admin/*:          ~300 pages
-_archived/*:           ~400 pages (not built but still in repo)
-```
+| Location | Count |
+|----------|-------|
+| app/* | 1,057 |
+| apps/admin/* | 385 |
+| apps/app/* | 5 |
+| _archived/* | 534 (not built) |
 
-**Recommendations:**
-- [ ] Verify _archived pages aren't being included in builds
-- [ ] Implement route groups to isolate builds
-- [ ] Audit for duplicate pages between apps
+**Page Breakdown by Category (Top 30):**
+| Category | Pages |
+|----------|-------|
+| admin | 297 |
+| store | 60 |
+| lms | 57 |
+| compliance | 30 |
+| employer | 27 |
+| legal | 26 |
+| onboarding | 23 |
+| staff | 20 |
+| partner | 18 |
+| apprentice | 17 |
+| programs | 15 |
+| apply | 14 |
+| about | 14 |
+| testing | 13 |
+| host-shop | 13 |
+| account | 11 |
+| workforce-board | 10 |
+| funding | 10 |
+| portal | 9 |
+| ferpa | 9 |
+| platform | 8 |
+| apps | 8 |
+| mentor | 7 |
+| career-services | 7 |
+| support | 6 |
+| contracts | 6 |
+| case-manager | 6 |
+| shop | 5 |
+| provider | 5 |
+| license | 5 |
+| help | 5 |
 
 ### 3. Static Data Files: 18,212 lines ⚠️ HIGH
 
@@ -59,12 +120,6 @@ _archived/*:           ~400 pages (not built but still in repo)
 | data/state-licensing.ts | 274 | 26 states |
 | Various program data files | ~13,000 | ~300+ programs |
 
-**Recommendations:**
-- [x] Already addressed: Migrate programs.ts to database-driven (see programs-table branch)
-- [ ] Migrate curriculum-modules to database
-- [ ] Migrate state-licensing to database
-- [ ] Lazy-load program data on detail pages
-
 ### 4. Duplicate Code 🔴 MEDIUM
 
 Both `apps/app` and `apps/admin` contain:
@@ -72,17 +127,9 @@ Both `apps/app` and `apps/admin` contain:
 - Shared components copied instead of imported
 - Duplicate lib utilities
 
-**Recommendations:**
-- [ ] Create shared packages for common code
-- [ ] Use workspace packages for shared types/utils
-
 ### 5. Barrel Exports 🔴 MEDIUM
 
 Files like `lib/navigation.ts`, `lib/routes/*`, and `lib/config/*` export everything eagerly.
-
-**Recommendations:**
-- [ ] Replace with lazy imports
-- [ ] Use `import()` for conditional loading
 
 ---
 
