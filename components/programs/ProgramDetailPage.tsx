@@ -86,6 +86,7 @@ export default function ProgramDetailPage({
   processSlot,
   children,
 }: Props) {
+  
   // Dev-time validation
   if (process.env.NODE_ENV === 'development') {
     const errors = validateProgram(p);
