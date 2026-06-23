@@ -5,6 +5,10 @@
  * - Programs: $15 fee required
  * - Host Shops: $15 fee required  
  * - Apprenticeships: $0 NO FEE
+ * 
+ * Coupon Policy:
+ * - Promo codes ONLY apply to self-pay programs
+ * - NO coupons for: apprenticeships, host shops, funded programs
  */
 
 // Stripe Price ID for $15 application fee
@@ -54,6 +58,21 @@ export const HOST_SHOP_TYPES = [
   'nail-host-shop',
 ];
 
+// Funding program types (coupons NOT allowed)
+export const FUNDING_PROGRAM_TYPES = [
+  'wioa',
+  'workforce',
+  'workone',
+  'wrk',
+  'fssa',
+  'vr',
+  'snap',
+  'jri',
+  'dwd',
+  'grant',
+  'self-pay',
+];
+
 // Check if a program type requires application fee
 export function requiresApplicationFee(programSlug: string): boolean {
   const slug = programSlug.toLowerCase();
@@ -77,6 +96,40 @@ export function requiresApplicationFee(programSlug: string): boolean {
 export function isHostShopApplication(programSlug: string): boolean {
   const slug = programSlug.toLowerCase();
   return HOST_SHOP_TYPES.some(type => slug.includes(type));
+}
+
+// Check if this is an apprenticeship program (no fees, no coupons)
+export function isApprenticeshipProgram(programSlug: string): boolean {
+  const slug = programSlug.toLowerCase();
+  return NO_FEE_PROGRAMS.some(p => slug.includes(p));
+}
+
+// Check if this is a funded program (no coupons)
+export function isFundedProgram(fundingType?: string): boolean {
+  if (!fundingType) return false;
+  const funding = fundingType.toLowerCase();
+  return FUNDING_PROGRAM_TYPES.some(f => funding.includes(f));
+}
+
+// Check if coupons/promos are allowed for this program
+export function couponsAllowed(programSlug: string, fundingType?: string): boolean {
+  // No coupons for apprenticeships
+  if (isApprenticeshipProgram(programSlug)) {
+    return false;
+  }
+  
+  // No coupons for host shops
+  if (isHostShopApplication(programSlug)) {
+    return false;
+  }
+  
+  // No coupons for funded programs
+  if (isFundedProgram(fundingType)) {
+    return false;
+  }
+  
+  // Coupons ONLY for self-pay programs
+  return true;
 }
 
 // Get fee amount for a program
