@@ -10,7 +10,7 @@ export const revalidate = 60;
 export const metadata: Metadata = { title: 'Program Holder Documents | Admin | Elevate For Humanity' };
 
 export default async function ProgramHolderDocumentsPage() {
-  // Auth and admin-role enforcement are handled by apps/admin/app/admin/layout.tsx.
+  // Auth and admin-role enforcement are handled by app/admin/layout.tsx.
   // Avoid re-checking with the anon client here; RLS can block profile reads and
   // incorrectly send valid admins to /unauthorized.
   const db = await getAdminClient();

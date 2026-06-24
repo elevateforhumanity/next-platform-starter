@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   title: 'Admin Dashboard | Elevate For Humanity',
 };
 
-// Auth and role enforcement is handled by apps/admin/app/admin/layout.tsx.
+// Auth and role enforcement is handled by app/admin/layout.tsx.
 export default async function AdminDashboardPage() {
   const data = normalizeAdminDashboardData(await getAdminDashboardData());
 

@@ -99,8 +99,10 @@ export default function DevStudioUnifiedClient({
   // Navigation handling
   useEffect(() => {
     const tab = searchParams.get('tab');
-    if (tab === 'the-bosses') setWorkspace('the-bosses');
-    if (tab === 'force-deploy') setWorkspace('force-deploy');
+    const validTabs: Workspace[] = ['studio', 'autopilot', 'the-bosses', 'force-deploy', 'command', 'deploy', 'files', 'environments', 'health', 'secrets', 'integrations'];
+    if (tab && validTabs.includes(tab as Workspace)) {
+      setWorkspace(tab as Workspace);
+    }
   }, [searchParams]);
 
   return (
@@ -179,6 +181,105 @@ export default function DevStudioUnifiedClient({
             >
               EXECUTE FORCE DEPLOY →
             </button>
+          </div>
+        )}
+
+        {workspace === 'autopilot' && (
+          <div className="flex h-full flex-col bg-[#1e1e1e]">
+            <div className="flex h-10 items-center border-b border-[#3c3c3c] bg-[#2d2d2d] px-4">
+              <span className="text-[11px] font-bold uppercase tracking-widest text-[#858585]">
+                Automation & Autopilot
+              </span>
+            </div>
+            <iframe src="/admin/autopilot" className="min-h-0 flex-1 border-0" title="Autopilot" />
+          </div>
+        )}
+
+        {workspace === 'deploy' && (
+          <div className="flex h-full flex-col bg-[#1e1e1e]">
+            <div className="flex h-10 items-center border-b border-[#3c3c3c] bg-[#2d2d2d] px-4">
+              <span className="text-[11px] font-bold uppercase tracking-widest text-[#858585]">
+                Deployments
+              </span>
+            </div>
+            <iframe src="/admin/studio/deployments" className="min-h-0 flex-1 border-0" title="Deployments" />
+          </div>
+        )}
+
+        {workspace === 'files' && (
+          <div className="flex h-full flex-col bg-[#1e1e1e]">
+            <div className="flex h-10 items-center border-b border-[#3c3c3c] bg-[#2d2d2d] px-4">
+              <span className="text-[11px] font-bold uppercase tracking-widest text-[#858585]">
+                File Manager
+              </span>
+            </div>
+            <iframe src="/admin/files" className="min-h-0 flex-1 border-0" title="File Manager" />
+          </div>
+        )}
+
+        {workspace === 'health' && (
+          <div className="flex h-full flex-col bg-[#1e1e1e]">
+            <div className="flex h-10 items-center border-b border-[#3c3c3c] bg-[#2d2d2d] px-4">
+              <span className="text-[11px] font-bold uppercase tracking-widest text-[#858585]">
+                System Health
+              </span>
+            </div>
+            <iframe src="/admin/system-health" className="min-h-0 flex-1 border-0" title="System Health" />
+          </div>
+        )}
+
+        {workspace === 'integrations' && (
+          <div className="flex h-full flex-col bg-[#1e1e1e]">
+            <div className="flex h-10 items-center border-b border-[#3c3c3c] bg-[#2d2d2d] px-4">
+              <span className="text-[11px] font-bold uppercase tracking-widest text-[#858585]">
+                Integrations
+              </span>
+            </div>
+            <iframe src="/admin/integrations" className="min-h-0 flex-1 border-0" title="Integrations" />
+          </div>
+        )}
+
+        {workspace === 'command' && (
+          <div className="flex h-full flex-col bg-[#1e1e1e]">
+            <div className="flex h-10 items-center border-b border-[#3c3c3c] bg-[#2d2d2d] px-4">
+              <span className="text-[11px] font-bold uppercase tracking-widest text-[#858585]">
+                Command Center
+              </span>
+            </div>
+            <iframe src="/admin/command" className="min-h-0 flex-1 border-0" title="Command Center" />
+          </div>
+        )}
+
+        {workspace === 'environments' && (
+          <div className="flex h-full flex-col bg-[#1e1e1e]">
+            <div className="flex h-10 items-center border-b border-[#3c3c3c] bg-[#2d2d2d] px-4">
+              <span className="text-[11px] font-bold uppercase tracking-widest text-[#858585]">
+                Container Environments
+              </span>
+            </div>
+            <iframe src="/admin/environments" className="min-h-0 flex-1 border-0" title="Environments" />
+          </div>
+        )}
+
+        {workspace === 'secrets' && (
+          <div className="flex h-full flex-col bg-[#1e1e1e]">
+            <div className="flex h-10 items-center border-b border-[#3c3c3c] bg-[#2d2d2d] px-4">
+              <span className="text-[11px] font-bold uppercase tracking-widest text-[#858585]">
+                Secrets Manager
+              </span>
+            </div>
+            <iframe src="/admin/secrets" className="min-h-0 flex-1 border-0" title="Secrets" />
+          </div>
+        )}
+
+        {workspace === 'force-deploy' && (
+          <div className="flex h-full flex-col bg-[#1e1e1e]">
+            <div className="flex h-10 items-center border-b border-[#3c3c3c] bg-[#2d2d2d] px-4">
+              <span className="text-[11px] font-bold uppercase tracking-widest text-[#858585]">
+                Force Deploy
+              </span>
+            </div>
+            <iframe src="/admin/studio/force-deploy" className="min-h-0 flex-1 border-0" title="Force Deploy" />
           </div>
         )}
       </main>

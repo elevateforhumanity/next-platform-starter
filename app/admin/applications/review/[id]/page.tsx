@@ -76,7 +76,7 @@ export default async function ReviewApplicationPage({
 }: {
   params: Promise<{ id: string }>;
 }) {
-  // Auth is enforced by apps/admin/app/admin/layout.tsx — no duplicate requireRole() here.
+  // Auth is enforced by app/admin/layout.tsx — no duplicate requireRole() here.
   const { id } = await params;
   const isUuid = UUID_RE.test(id);
   const isLegacyIntakeId = id.startsWith('intake-');
