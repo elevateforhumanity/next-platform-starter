@@ -160,7 +160,7 @@ export default async function DisclosuresPage() {
               </ul>
               <div className="mt-6 flex gap-4">
                 <Link href="/legal/eula" className="text-brand-green-600 hover:underline">EULA</Link>
-                <Link href="/terms-of-service" className="text-brand-green-600 hover:underline">Terms of Service</Link>
+                <Link href="/legal" className="text-brand-green-600 hover:underline">Terms of Service</Link>
                 <Link href="/legal/acceptable-use" className="text-brand-green-600 hover:underline">Acceptable Use Policy</Link>
               </div>
             </div>

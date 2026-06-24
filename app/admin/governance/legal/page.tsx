@@ -280,7 +280,7 @@ export default async function LegalGovernancePage() {
           <div className="grid sm:grid-cols-2 gap-4">
             {[
               { title: 'Terms of Service', href: '/terms-of-service', desc: 'User agreement for platform access and services' },
-              { title: 'Privacy Policy', href: '/privacy-policy', desc: 'Data collection, use, sharing, and your rights' },
+              { title: 'Privacy Policy', href: '/legal/privacy', desc: 'Data collection, use, sharing, and your rights' },
               { title: 'Security & Data Protection', href: '/admin/governance/security', desc: 'How we protect personal and educational data' },
               { title: 'Accessibility', href: '/accessibility', desc: 'WCAG 2.1 AA compliance and accommodations' },
               { title: 'Outcomes Methodology', href: '/outcomes', desc: 'How we measure and report student outcomes' },

@@ -190,13 +190,13 @@ export default async function GovernancePage() {
               Outcomes Methodology
             </Link>
             <Link
-              href="/privacy-policy"
+              href="/legal/privacy"
               className="px-4 py-2 bg-white border border-slate-200 text-slate-700 rounded-lg text-sm font-medium hover:border-brand-blue-300 hover:text-brand-blue-600 transition-colors"
             >
               Privacy Policy
             </Link>
             <Link
-              href="/terms-of-service"
+              href="/legal"
               className="px-4 py-2 bg-white border border-slate-200 text-slate-700 rounded-lg text-sm font-medium hover:border-brand-blue-300 hover:text-brand-blue-600 transition-colors"
             >
               Terms of Service

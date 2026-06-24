@@ -297,7 +297,7 @@ function LicenseCheckoutPageInner() {
                         className="mt-1 w-4 h-4 text-brand-blue-600 border-slate-300 rounded focus:ring-brand-blue-500"
                       />
                       <span className="text-sm text-slate-700">
-                        I agree to the <Link href="/terms-of-service" className="text-brand-blue-600 hover:underline" target="_blank">Terms of Service</Link>
+                        I agree to the <Link href="/legal" className="text-brand-blue-600 hover:underline" target="_blank">Terms of Service</Link>
                       </span>
                     </label>
 
