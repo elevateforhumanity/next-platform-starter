@@ -82,17 +82,71 @@ context: { tier: "api", error: "res.map is not a function" }
 ```
 
 ### Root Cause
-Redis connection failing, but the rate limiter is set to "fail open" (allow requests through).
+**UPSTASH_REDIS secrets are NOT configured in GitHub Actions.**
+
+### Current Configuration
+
+**Required Environment Variables:**
+```
+UPSTASH_REDIS_REST_URL=https://xxx.upstash.io
+UPSTASH_REDIS_REST_TOKEN=your_token_here
+```
+
+**Files Using Redis:**
+| File | Purpose |
+|------|---------|
+| `lib/rate-limit.ts` | Rate limiting for all API routes |
+| `lib/api/withRateLimit.ts` | Per-request rate limiting |
+| `lib/store/fulfillment-queue.ts` | Order fulfillment queue |
+| `lib/platform/platform-health.ts` | Health check endpoint |
 
 ### Impact
-- No rate limiting on public endpoints
-- Potential abuse vector
-- Spam emails being attempted (SendGrid auth issues)
+- ✅ **Safe**: Rate limiter falls back to in-memory (requests allowed)
+- ⚠️ **Risk**: No distributed rate limiting across containers
+- ⚠️ **Risk**: Abuse vector on public endpoints
 
-### Recommendation
-1. Check Redis connection string in environment
-2. Verify Redis service is running on Northflank
-3. Consider Upstash Redis or managed solution
+### Missing GitHub Secrets
+
+```bash
+gh secret list | grep -i redis
+# Returns: (nothing - secrets not set)
+```
+
+### Fix Required
+
+1. Create Upstash Redis account at https://console.upstash.com
+2. Copy the REST URL and Token
+3. Add to GitHub Secrets:
+   ```bash
+   gh secret set UPSTASH_REDIS_REST_URL --body "https://xxx.upstash.io"
+   gh secret set UPSTASH_REDIS_REST_TOKEN --body "your_token_here"
+   ```
+4. Re-trigger deploy
+
+### Code Analysis
+
+```typescript
+// lib/rate-limit.ts
+function getRedis(): Redis | null {
+  const url = process.env.UPSTASH_REDIS_REST_URL;
+  const token = process.env.UPSTASH_REDIS_REST_TOKEN;
+  if (!url || !token || !url.startsWith('https://')) {
+    return null;  // ← Returns null, fallback to in-memory
+  }
+  ...
+}
+```
+
+### Rate Limit Tiers
+
+| Tier | Limit | Window | Redis Command |
+|------|-------|--------|--------------|
+| strict | 3 | 5 min | Sliding window |
+| api | 60 | 1 min | Sliding window |
+| auth | 5 | 1 min | Sliding window |
+| payment | 10 | 1 min | Sliding window |
+| public | 5 | 1 min | Sliding window |
+| pageLoad | 30 | 1 min | Sliding window |
 
 ---
 

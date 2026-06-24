@@ -35,23 +35,41 @@ export const RATE_LIMITS = {
   license: { requests: 5, window: '5 m' }, // 5 license operations per 5 minutes
   licenseValidate: { requests: 20, window: '1 m' }, // 20 validations per minute
 } as const;
-
 // Fallback in-memory rate limiter for when Redis is unavailable
+// FIX: Added automatic cleanup to prevent memory leak from stale entries
 const inMemoryRateLimiters = new Map<string, { count: number; resetAt: number }>();
+const CLEANUP_INTERVAL_MS = 60 * 1000;
+let lastCleanup = Date.now();
+
+function cleanupExpiredEntries(): void {
+  const now = Date.now();
+  if (now - lastCleanup < CLEANUP_INTERVAL_MS) return;
+  lastCleanup = now;
+  for (const [key, entry] of inMemoryRateLimiters.entries()) {
+    if (now > entry.resetAt) {
+      inMemoryRateLimiters.delete(key);
+    }
+  }
+}
 
 export function checkInMemoryRateLimit(key: string, limit: number, windowMs: number): boolean {
   const now = Date.now();
+  cleanupExpiredEntries();
   const entry = inMemoryRateLimiters.get(key);
-  
+
   if (!entry || now > entry.resetAt) {
     inMemoryRateLimiters.set(key, { count: 1, resetAt: now + windowMs });
     return true;
   }
-  
+
   if (entry.count >= limit) {
     return false;
   }
-  
+
+  entry.count++;
+  return true;
+}
+
   entry.count++;
   return true;
 }
