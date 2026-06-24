@@ -110,6 +110,7 @@ export async function POST(request: NextRequest) {
       'Cache-Control': 'no-cache',
       'Connection': 'keep-alive',
       'X-Accel-Buffering': 'no',
+      'Content-Encoding': 'identity', // Prevent compression issues with streaming
     },
   });
 }
