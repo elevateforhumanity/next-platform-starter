@@ -244,7 +244,7 @@ export default async function FederalCompliancePage() {
                 <p className="flex items-center gap-2"><Mail className="w-4 h-4" /> our contact form</p>
                 <p className="flex items-center gap-2"><Phone className="w-4 h-4" /> {PLATFORM_DEFAULTS.supportPhone}</p>
               </div>
-              <Link href="/policies/grievance" className="inline-block mt-4 text-brand-orange-400 hover:text-brand-orange-300">
+              <Link href="/legal" className="inline-block mt-4 text-brand-orange-400 hover:text-brand-orange-300">
                 View Grievance Procedure →
               </Link>
             </div>
