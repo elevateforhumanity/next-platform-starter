@@ -154,8 +154,6 @@
         "^/videos?(/.*)?$",
         "^/demo(s)?(/.*)?$",
         "^/supersonic(-fast-cash|-cash|fastcash)?(/.*)?$",
-        "^/urban-build-crew(/.*)?$",
-        "^/urbanbuildcrew$",
         "^/serene-comfort-care(/.*)?$",
         "^/serenecomfortcare$",
         "^/rise(-foundation)?(/.*)?$",

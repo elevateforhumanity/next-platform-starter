@@ -402,7 +402,7 @@ export const siteMapSections: SiteMapSection[] = [
     items: [
       { label: "Kingdom Konnect", href: "/kingdom-konnect" },
       { label: "Serene Comfort Care", href: "/serene-comfort-care" },
-      { label: "Urban Build Crew", href: "/urban-build-crew" }
+
     ],
   },
   {

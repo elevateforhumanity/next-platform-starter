@@ -238,7 +238,7 @@ export const CANONICAL_ROUTES: CanonicalRoute[] = [
   { route: '/rise',                                   system: 'orphan',         classification: 'experimental', notes: 'Unclear purpose — verify before deleting' },
   { route: '/serene-comfort-care',                    system: 'orphan',         classification: 'experimental', notes: 'Business name page — verify if still needed' },
   { route: '/kingdom-konnect',                        system: 'orphan',         classification: 'experimental', notes: 'Business name page — verify if still needed' },
-  { route: '/urban-build-crew',                       system: 'orphan',         classification: 'experimental', notes: 'Business name page — verify if still needed' },
+
   { route: '/elevatelearn2earn',                      system: 'orphan',         classification: 'experimental', notes: 'Campaign page — verify if still active' },
   { route: '/connect',                                system: 'orphan',         classification: 'experimental', notes: 'Unclear purpose — verify before deleting' },
   { route: '/client-portal',                          system: 'orphan',         classification: 'experimental', notes: 'No clear role — verify before deleting' },

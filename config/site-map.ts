@@ -214,7 +214,7 @@ export const siteMapSections: SiteMapSection[] = [
       { label: 'Kingdom Konnect', href: '/programs/kingdom-konnect' },
       { label: 'VITA Tax Program', href: '/programs/vita-tax' },
       { label: 'Serene Comfort Care', href: '/programs/serene-comfort-care' },
-      { label: 'Urban Build Crew', href: '/programs/urban-build-crew' },
+
       { label: 'Selfish Inc', href: '/programs/selfish-inc' },
     ],
   },

@@ -24,7 +24,6 @@ const SITE_IMAGE_ALIASES: Record<string, string> = {
   '/images/demos/lms-overview-thumb.jpg': '/images/demos/lms-overview-thumb.webp',
   '/images/pages/barber-gallery-3.jpg': '/images/pages/barber-gallery-3.webp',
   '/images/pages/career-counseling-page-1.jpg': '/images/pages/career-counseling-page-1.webp',
-  '/images/pages/urban-build-crew-page-1.jpg': '/images/pages/urban-build-crew-page-1.webp',
   // Missing images → fallbacks
   '/images/pages/learner/dashboard-page-5.webp': '/images/pages/learner-page-1.webp',
   '/images/pages/learner/dashboard-page-1.webp': '/images/pages/learner-page-1.webp',
