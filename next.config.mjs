@@ -764,6 +764,14 @@ const nextConfig = {
 
       // Misc redirects
       { source: '/dashboards/:path*', destination: '/lms/:path*', permanent: true },
+      // /demo route exists in codebase but not deployed — redirect to /apply
+      { source: '/demo', destination: '/apply', permanent: false },
+      // Checkout consolidation redirects
+      { source: '/beauty-checkout', destination: '/checkout/barber-apprenticeship', permanent: true },
+      { source: '/license/checkout', destination: '/store/licenses/checkout/core', permanent: true },
+      // Enrollment/Apply flow consolidation
+      // /programs/[program]/apply is redundant - /apply/[programId] serves the same purpose
+      { source: '/programs/:program/apply', destination: '/apply/:program', permanent: true },
       // /portals is the public portal hub — do not wildcard to /lms (broke desktop/mobile parity)
 
       // These brands have their own pages — only redirect sub-paths, not the root
