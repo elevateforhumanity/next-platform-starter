@@ -7,6 +7,10 @@ import {
   ArrowRight, AlertTriangle,
   Activity, TrendingUp, Inbox, Users, FileText,
   BookOpen, Bot, DollarSign, Handshake, Megaphone, Settings, ShieldCheck,
+  CreditCard, UsersRound, GraduationCap, BarChart3, FileBarChart,
+  Credit, UserCog, ClipboardList, Video, ScrollText,
+  UserCheck, Briefcase, Building2, Store, Mail, PieChart,
+  TrendingDown, AlertCircle, CheckCircle, Clock, Dollar,
 } from "lucide-react";
 import type { AdminDashboardData, InactiveLearner, StaleLeadItem } from "./types";
 import { OperationalAlerts } from "./OperationalAlerts";
@@ -104,6 +108,8 @@ const ADMIN_CATEGORY_CARDS = [
       { label: 'Dashboard', href: '/admin/dashboard' },
       { label: 'Mission Control', href: '/admin/mission-control' },
       { label: 'System health', href: '/admin/system-health' },
+      { label: 'Jobs', href: '/admin/jobs' },
+      { label: 'Migrations', href: '/admin/migrations' },
     ],
   },
   {
@@ -115,6 +121,8 @@ const ADMIN_CATEGORY_CARDS = [
     links: [
       { label: 'Risk dashboard', href: '/admin/intelligence' },
       { label: 'Forecast', href: '/admin/intelligence/forecast' },
+      { label: 'Analytics', href: '/admin/analytics' },
+      { label: 'Reports', href: '/admin/reports' },
     ],
   },
   {
@@ -124,9 +132,13 @@ const ADMIN_CATEGORY_CARDS = [
     href: '/admin/students',
     Icon: Users,
     links: [
+      { label: 'Students', href: '/admin/students' },
       { label: 'Applications', href: '/admin/applications' },
       { label: 'Enrollments', href: '/admin/enrollments' },
       { label: 'Documents', href: '/admin/documents/review' },
+      { label: 'Submissions', href: '/admin/submissions' },
+      { label: 'Certificates', href: '/admin/certificates' },
+      { label: 'Gradebook', href: '/admin/gradebook' },
     ],
   },
   {
@@ -139,6 +151,12 @@ const ADMIN_CATEGORY_CARDS = [
       { label: 'All programs', href: '/admin/programs' },
       { label: 'Course builder', href: '/admin/studio' },
       { label: 'Credentials', href: '/admin/credentials' },
+      { label: 'Curriculum', href: '/admin/curriculum' },
+      { label: 'Modules', href: '/admin/modules' },
+      { label: 'Content', href: '/admin/content' },
+      { label: 'Videos', href: '/admin/videos' },
+      { label: 'Testing', href: '/admin/testing-center' },
+      { label: 'Accreditation', href: '/admin/accreditation' },
     ],
   },
   {
@@ -149,8 +167,40 @@ const ADMIN_CATEGORY_CARDS = [
     Icon: DollarSign,
     links: [
       { label: 'WIOA', href: '/admin/wioa' },
+      { label: 'JRI', href: '/admin/jri' },
       { label: 'Grants', href: '/admin/grants' },
+      { label: 'WOTC', href: '/admin/wotc' },
       { label: 'Stripe', href: '/admin/integrations/stripe' },
+      { label: 'Payouts', href: '/admin/payout-queue' },
+    ],
+  },
+  {
+    title: 'HR + Staff',
+    eyebrow: 'Team management',
+    description: 'Employees, payroll, time tracking, incentives, and apprentices.',
+    href: '/admin/staff',
+    Icon: UserCog,
+    links: [
+      { label: 'Staff', href: '/admin/staff' },
+      { label: 'HR', href: '/admin/hr' },
+      { label: 'Payroll', href: '/admin/hr/payroll' },
+      { label: 'Timeclock', href: '/admin/timeclock' },
+      { label: 'Incentives', href: '/admin/incentives' },
+      { label: 'Apprenticeships', href: '/admin/apprenticeships' },
+    ],
+  },
+  {
+    title: 'Billing',
+    eyebrow: 'Payments + invoices',
+    description: 'Billing, invoices, licenses, subscriptions, and payment tracking.',
+    href: '/admin/billing',
+    Icon: CreditCard,
+    links: [
+      { label: 'Billing', href: '/admin/billing' },
+      { label: 'Invoices', href: '/admin/billing/invoices' },
+      { label: 'Licenses', href: '/admin/licenses' },
+      { label: 'Subscriptions', href: '/admin/billing/subscriptions' },
+      { label: 'Usage', href: '/admin/billing/usage' },
     ],
   },
   {
@@ -162,7 +212,10 @@ const ADMIN_CATEGORY_CARDS = [
     links: [
       { label: 'Program holders', href: '/admin/program-holders' },
       { label: 'Employers', href: '/admin/employers' },
+      { label: 'Shops', href: '/admin/shops' },
+      { label: 'Providers', href: '/admin/providers' },
       { label: 'Tenants', href: '/admin/tenants' },
+      { label: 'Marketplace', href: '/admin/marketplace' },
     ],
   },
   {
@@ -172,9 +225,13 @@ const ADMIN_CATEGORY_CARDS = [
     href: '/admin/crm',
     Icon: Megaphone,
     links: [
+      { label: 'CRM', href: '/admin/crm' },
       { label: 'Leads', href: '/admin/crm/leads' },
       { label: 'Email', href: '/admin/email-marketing' },
-      { label: 'Store', href: '/admin/store' },
+      { label: 'Blog', href: '/admin/blog' },
+      { label: 'Social Media', href: '/admin/social-media' },
+      { label: 'Affiliates', href: '/admin/affiliates' },
+      { label: 'Referrals', href: '/admin/referrals' },
     ],
   },
   {
@@ -187,6 +244,35 @@ const ADMIN_CATEGORY_CARDS = [
       { label: 'Compliance', href: '/admin/compliance' },
       { label: 'Audit logs', href: '/admin/audit-logs' },
       { label: 'FERPA', href: '/admin/ferpa' },
+      { label: 'Governance', href: '/admin/governance' },
+      { label: 'Monitoring', href: '/admin/monitoring' },
+    ],
+  },
+  {
+    title: 'Documents',
+    eyebrow: 'Files + contracts',
+    description: 'Documents, contracts, signatures, and templates.',
+    href: '/admin/documents',
+    Icon: FileText,
+    links: [
+      { label: 'Documents', href: '/admin/documents' },
+      { label: 'Contracts', href: '/admin/contracts' },
+      { label: 'Signatures', href: '/admin/signatures' },
+      { label: 'Document Center', href: '/admin/document-center' },
+    ],
+  },
+  {
+    title: 'Platform',
+    eyebrow: 'System config',
+    description: 'Settings, environments, secrets, API keys, and system health.',
+    href: '/admin/settings',
+    Icon: Settings,
+    links: [
+      { label: 'Settings', href: '/admin/settings' },
+      { label: 'Environments', href: '/admin/environments' },
+      { label: 'Secrets', href: '/admin/secrets' },
+      { label: 'API Keys', href: '/admin/api-keys' },
+      { label: 'Notifications', href: '/admin/notifications' },
     ],
   },
   {
@@ -198,6 +284,9 @@ const ADMIN_CATEGORY_CARDS = [
     links: [
       { label: 'Open studio', href: '/admin/dev-studio' },
       { label: 'Workflows', href: '/admin/dev-studio/workflows' },
+      { label: 'Agents', href: '/admin/studio/agents' },
+      { label: 'Builds', href: '/admin/studio/builds' },
+      { label: 'Deployments', href: '/admin/studio/deployments' },
     ],
   },
 ] as const;
