@@ -24,13 +24,7 @@ const SITE_IMAGE_ALIASES: Record<string, string> = {
   '/images/demos/lms-overview-thumb.jpg': '/images/demos/lms-overview-thumb.webp',
   '/images/pages/barber-gallery-3.jpg': '/images/pages/barber-gallery-3.webp',
   '/images/pages/career-counseling-page-1.jpg': '/images/pages/career-counseling-page-1.webp',
-  // Missing images → fallbacks
-  '/images/pages/contact-page-1.webp': '/images/pages/prog-hero-main-2.webp',
-  '/images/pages/contact-page-1.jpg': '/images/pages/prog-hero-main-2.webp',
-  '/images/pages/admin-employers-hero.webp': '/images/pages/admin-compliance-hero.webp',
-  '/images/pages/admin-employers-hero.jpg': '/images/pages/admin-compliance-hero.webp',
-  '/images/demos/lms-overview-thumb.webp': '/images/pages/prog-hero-main-2.webp',
-  '/images/pages/programs-hvac-apply-hero.webp': '/images/pages/prog-hero-main-2.webp',
+  // Learner dashboard → use existing learner image
   '/images/pages/learner/dashboard-page-5.webp': '/images/pages/learner-page-1.webp',
   '/images/pages/learner/dashboard-page-1.webp': '/images/pages/learner-page-1.webp',
   '/images/pages/learner/dashboard-page-2.webp': '/images/pages/learner-page-1.webp',
