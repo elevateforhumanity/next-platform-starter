@@ -211,10 +211,7 @@ export const siteMapSections: SiteMapSection[] = [
     id: 'special-programs',
     title: 'Special Programs',
     items: [
-      { label: 'Kingdom Konnect', href: '/programs/kingdom-konnect' },
       { label: 'VITA Tax Program', href: '/programs/vita-tax' },
-      { label: 'Serene Comfort Care', href: '/programs/serene-comfort-care' },
-
       { label: 'Selfish Inc', href: '/programs/selfish-inc' },
     ],
   },
