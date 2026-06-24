@@ -26,54 +26,50 @@ TypeError: controller[kState].transformAlgorithm is not a function
 digest: '2313772001'
 ```
 
-### Investigation Results
+### Timeline Investigation
 
-**Found SSE Endpoints:**
-- `/api/admin/studio/ai-chat` - Streams AI responses via SSE
-- `/api/ai-studio/generate-avatar` - Cloudflare streaming
+| Time | Event | Interval |
+|------|-------|----------|
+| 17:58:04 | transformAlgorithm error | 3 min from prev |
+| 17:55:04 | transformAlgorithm error | 3 min from prev |
+| 17:52:04 | transformAlgorithm error | 3 min from prev |
+| 17:49:04 | transformAlgorithm error | 3 min from prev |
 
-**Found Cron Jobs (3-minute intervals):**
-- `memory-cleanup` - Purges old AI memory
-- Multiple cron jobs run every few minutes
+### Polling Intervals Found
 
-**Likely Root Cause:**
-The error occurs in Next.js internal chunks when:
-1. A streaming response is terminated mid-flight
-2. The controller state becomes inconsistent
-3. Node.js compression pipeline receives malformed stream
+| Component | Interval | Source |
+|-----------|----------|--------|
+| Timeclock GPS heartbeat | 3 min | `hooks/useTimeclock.ts` (line 9) |
+| Apprentice timeclock | 2 min | `app/apprentice/timeclock/page.tsx` |
+| Learning Barrier Analyzer | 5 min | `components/admin/` |
+| RealTimeCollaboration | 10 sec | `components/` |
+| NotificationBell | 30 sec | `components/` |
+| LiveMetrics | 60 sec | `components/` |
 
-### Potential Fixes
+### Root Cause Analysis
 
-**Option 1: Disable compression for streaming routes**
-```typescript
-// In streaming API routes
-return new Response(readable, {
-  headers: {
-    'Content-Type': 'text/event-stream',
-    'X-Accel-Buffering': 'no',
-    'Content-Encoding': 'identity', // Force no compression
-  },
-});
-```
+**The 3-minute interval matches GPS heartbeat polling.**
 
-**Option 2: Add error boundaries around streams**
-```typescript
-try {
-  // stream logic
-} catch (err) {
-  logger.error('[stream] error', err);
-  return NextResponse.json({ error: 'Stream failed' }, { status: 500 });
-}
-```
+When multiple users are clocked in:
+1. Each sends GPS heartbeat every 3 minutes
+2. Heartbeat endpoint (`/api/timeclock/heartbeat`) makes multiple DB calls
+3. If response compression is applied to JSON responses
+4. Next.js internal compression pipeline can fail if:
+   - Response is modified mid-compression
+   - Stream controller state becomes inconsistent
+   - Memory pressure during compression
 
-**Option 3: Check Northflank health checks**
-- Health probes hitting streaming endpoints
-- Containers being restarted on failed probes
+### Applied Fix
 
-### Recommendation
-1. Add `'Content-Encoding': 'identity'` to SSE routes
-2. Verify health check paths don't hit streaming endpoints
-3. Add proper error handling in streaming controllers
+Added `Content-Encoding: identity` to SSE route to prevent compression conflicts.
+
+### Additional Recommendations
+
+1. **Increase heartbeat interval** from 3 min to 5 min to reduce load
+2. **Batch heartbeat requests** - send single batched request instead of individual
+3. **Add caching** for geofence data (sites don't change frequently)
+4. **Monitor memory pressure** during peak hours
+5. **Check Northflank health probes** - ensure they're not hitting streaming endpoints
 
 ---
 

@@ -5,8 +5,8 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 // GPS accuracy threshold in meters
 const MAX_ACCURACY_METERS = 50;
 
-// Heartbeat interval in milliseconds (3 minutes)
-const HEARTBEAT_INTERVAL_MS = 3 * 60 * 1000;
+// Heartbeat interval in milliseconds (5 minutes - reduced from 3 to reduce server load)
+const HEARTBEAT_INTERVAL_MS = 5 * 60 * 1000;
 
 // GPS options for high accuracy
 const GPS_OPTIONS: PositionOptions = {
