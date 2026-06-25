@@ -5,6 +5,19 @@
 import conversionManifest from '../../scripts/.image-conversion-manifest.json' with { type: 'json' };
 
 const SITE_IMAGE_ALIASES: Record<string, string> = {
+  // Missing images from logs → existing .webp
+  '/hero-images/cdl-transportation-category.jpg': '/hero-images/cdl-transportation-category.webp',
+  '/hero-images/wioa-hero.jpg': '/hero-images/wioa-hero.webp',
+  '/images/heroes-hq/success-hero.jpg': '/images/heroes-hq/success-hero.webp',
+  '/images/leslie-wafford.jpg': '/images/leslie-wafford.webp',
+  '/images/pages/banking-page-2.jpg': '/images/pages/banking-page-2.webp',
+  '/images/pages/certifications-page-1.jpg': '/images/pages/certifications-page-1.webp',
+  '/images/pages/store-guides-hero.jpg': '/images/pages/store-guides-hero.webp',
+  '/images/pages/apprenticeships-page-1.jpg': '/images/pages/apprenticeships-page-1.webp',
+  '/images/pages/admin-employers-hero.jpg': '/images/pages/admin-employers-hero.webp',
+  '/images/pages/networking-hero.jpg': '/images/pages/networking-hero.webp',
+  '/images/pages/customer-service.jpg': '/images/pages/prog-hero-main-2.webp',
+  '/images/programs/customer-service.jpg': '/images/pages/prog-hero-main-2.webp',
   '/images/pages/tax-preparation.webp': '/images/business/office-admin.webp',
   '/images/pages/tax-preparation.jpg': '/images/business/professional-2.jpg',
   '/images/pages/accessibility-hero.webp': '/images/pages/accessibility-hero.jpg',
