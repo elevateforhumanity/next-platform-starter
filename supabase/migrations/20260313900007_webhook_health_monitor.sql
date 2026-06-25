@@ -18,12 +18,12 @@ ALTER TABLE webhook_events_processed
   ADD CONSTRAINT webhook_events_processed_status_check
   CHECK (status IN ('received', 'validated', 'processing', 'processed', 'failed', 'skipped', 'errored'));
 
--- Provider constraint — all 6 active providers
+-- Provider constraint — all 7 active providers (added sendgrid-inbound)
 ALTER TABLE webhook_events_processed
   DROP CONSTRAINT IF EXISTS webhook_events_processed_provider_check;
 ALTER TABLE webhook_events_processed
   ADD CONSTRAINT webhook_events_processed_provider_check
-  CHECK (provider IN ('stripe', 'sezzle', 'affirm', 'jotform', 'calendly', 'resend'));
+  CHECK (provider IN ('stripe', 'sezzle', 'affirm', 'jotform', 'calendly', 'resend', 'sendgrid-inbound'));
 
 -- Index for health monitor volume queries
 CREATE INDEX IF NOT EXISTS idx_webhook_events_provider_received

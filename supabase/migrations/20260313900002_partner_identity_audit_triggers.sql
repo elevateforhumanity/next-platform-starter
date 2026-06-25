@@ -93,12 +93,12 @@ CREATE TRIGGER trg_audit_profile_role
   FOR EACH ROW
   EXECUTE FUNCTION audit_profile_role_change();
 
--- Extend webhook_events_processed to support JotForm provider
+-- Extend webhook_events_processed to support JotForm provider (final list in 20260313900007)
 ALTER TABLE webhook_events_processed
   DROP CONSTRAINT IF EXISTS webhook_events_processed_provider_check;
 ALTER TABLE webhook_events_processed
   ADD CONSTRAINT webhook_events_processed_provider_check
-  CHECK (provider IN ('stripe', 'sezzle', 'affirm', 'jotform'));
+  CHECK (provider IN ('stripe', 'sezzle', 'affirm', 'jotform', 'calendly', 'resend', 'sendgrid-inbound'));
 
 -- Fix status constraint to include all valid states
 ALTER TABLE webhook_events_processed

@@ -125,17 +125,18 @@ export async function applyRateLimit(
       );
     }
 
-    if (isQuotaExhausted) {
-      logger.warn('[rate-limit] Upstash monthly quota exhausted — failing open', { tier });
-    } else if (isCredential) {
-      logger.error('[rate-limit] Redis credentials invalid — failing open', undefined, {
-        tier,
-        error: msg,
-        action: 'Check UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN in Northflank secrets.',
-      });
-    } else {
-      logger.warn('[rate-limit] Redis unavailable — failing open', { tier, error: msg });
+    // ALL Redis errors should fail closed (deny requests) in production
+    // This prevents abuse when rate limiting is broken
+    if (failClosed) {
+      logger.error(`[rate-limit] Redis error — failing closed`, undefined, { tier, error: msg });
+      return NextResponse.json(
+        { error: 'Rate limiting temporarily unavailable' },
+        { status: 503 }
+      );
     }
+    // For non-strict tiers, use in-memory fallback
+    const response = useInMemoryFallback(id, tier);
+    if (response) return response;
     return null;
   }
 

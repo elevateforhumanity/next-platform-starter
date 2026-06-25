@@ -70,10 +70,6 @@ export function checkInMemoryRateLimit(key: string, limit: number, windowMs: num
   return true;
 }
 
-  entry.count++;
-  return true;
-}
-
 // Create rate limiters lazily
 function createRateLimiter(
   config: { requests: number; window: string },
