@@ -162,7 +162,7 @@ const nextConfig = {
   // Experimental features for better performance
   experimental: {
     // workerThreads and cpus options removed - deprecated and cause build issues
-    optimizePackageImports: ['lucide-react', 'framer-motion', '@radix-ui/react-'],
+    optimizePackageImports: ['lucide-react', 'framer-motion'],
     modularizeImports: {
       'lucide-react': {
         transform: 'lucide-react/dist/esm/icons/{{member}}',
