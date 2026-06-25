@@ -5,7 +5,8 @@ FROM node:22-bookworm AS builder
 
 # Cache invalidation marker - timestamp ensures fresh build cache
 # P0-2: Increased memory 8GB->16GB, enabled persistent build cache
-RUN echo "nf-cache-invalidate-$(date +%Y%m%d-%H%M%S)-memory"
+# Build fix 2024-06-25 - invalidating cache for module resolution fix
+RUN echo "nf-cache-invalidate-$(date +%Y%m%d-%H%M%S)-module-fix"
 
 # Install system deps for native modules (sharp, canvas, pdf)
 RUN apt-get update && apt-get install -y --no-install-recommends \
