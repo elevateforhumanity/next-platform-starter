@@ -202,6 +202,17 @@ const nextConfig = {
       };
     }
 
+    // Explicit aliases for UI components to prevent module resolution issues
+    // This ensures @/components/ui/Label, Input, Badge, Button, Card work
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      '@/components/ui/label': path.resolve('./components/ui/Label.tsx'),
+      '@/components/ui/input': path.resolve('./components/ui/Input.tsx'),
+      '@/components/ui/badge': path.resolve('./components/ui/Badge.tsx'),
+      '@/components/ui/button': path.resolve('./components/ui/Button.tsx'),
+      '@/components/ui/card': path.resolve('./components/ui/Card.tsx'),
+    };
+
     // Allow webpack to use its default parallelism.
     // On 16GB+ builds, the default parallelism is safe and faster.
     // Remove config.parallelism = 1 to let webpack scale naturally.
