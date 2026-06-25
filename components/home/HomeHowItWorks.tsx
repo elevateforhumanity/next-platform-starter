@@ -17,7 +17,7 @@ const STEPS = [
     label: 'Apply',
     detail: 'Complete a short application. No cost, no commitment.',
     href: '/apply',
-    img: '/images/pages/apply-page-1.jpg',
+    img: '/images/pages/apply-page-1.webp',
     imgAlt: 'Student completing application',
     accent: 'border-brand-red-500',
   },

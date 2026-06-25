@@ -35,7 +35,7 @@ const slides: Slide[] = [
     },
   },
   {
-    image: '/images/hero/hero-healthcare.jpg',
+    image: '/images/hero/hero-healthcare.webp',
     title: 'Healthcare Training Programs',
     text: 'CNA certification through Choice Medical Institute. State-approved, workforce fundable, high-demand careers.',
     cta: {

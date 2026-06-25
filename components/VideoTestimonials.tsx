@@ -38,7 +38,7 @@ const testimonials: Testimonial[] = [
     afterJob: 'Certified Healthcare Assistant at IU Health',
     salary: '$42,000/year',
     videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
-    thumbnail: '/images/pages/cna-clinical.jpg',
+    thumbnail: '/images/pages/cna-clinical.webp',
     quote:
       'Elevate changed my life. I went from struggling to make ends meet to having a stable career in healthcare.',
     duration: '2:34',
