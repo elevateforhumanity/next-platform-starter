@@ -3,10 +3,10 @@
 
 FROM node:22-bookworm AS builder
 
-# Cache invalidation marker - timestamp ensures fresh build cache
-# P0-2: Increased memory 8GB->16GB, enabled persistent build cache
-# Build fix 2024-06-25 - invalidating cache for module resolution fix
-RUN echo "nf-cache-invalidate-$(date +%Y%m%d-%H%M%S)-module-fix"
+# Cache invalidation marker - force no-cache for the source copy layer
+ARG CACHEBUST=169dde5480
+ENV CACHEBUST=$CACHEBUST
+RUN echo "Build cache bust: $CACHEBUST"
 
 # Install system deps for native modules (sharp, canvas, pdf)
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -33,6 +33,9 @@ COPY apps/admin/package.json apps/admin/package.json
 COPY packages/db/package.json packages/db/package.json
 COPY packages/shared/package.json packages/shared/package.json
 COPY packages/ui/package.json packages/ui/package.json
+
+# Force cache invalidation by modifying a file before COPY
+RUN date > /tmp/build_time.txt && cat /tmp/build_time.txt
 COPY . .
 
 ENV NODE_ENV=production
@@ -50,6 +53,7 @@ ENV DISABLE_WEBPACK_FILESYSTEM_CACHE=1
 RUN pnpm install --no-frozen-lockfile
 
 # Build Next.js
+ARG CACHEBUST=169dde5480
 ARG NEXT_PUBLIC_SITE_URL=https://www.elevateforhumanity.org
 ARG NEXT_PUBLIC_PUBLIC_SITE_URL=https://www.elevateforhumanity.org
 ARG NEXT_PUBLIC_SUPABASE_URL
