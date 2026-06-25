@@ -31,6 +31,21 @@
     "paths": {
       "@/*": [
         "./*"
+      ],
+      "@/components/ui/label": [
+        "./components/ui/label.tsx"
+      ],
+      "@/components/ui/input": [
+        "./components/ui/input.tsx"
+      ],
+      "@/components/ui/badge": [
+        "./components/ui/badge.tsx"
+      ],
+      "@/components/ui/button": [
+        "./components/ui/button.tsx"
+      ],
+      "@/components/ui/card": [
+        "./components/ui/card.tsx"
       ]
     },
     "plugins": [
