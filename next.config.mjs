@@ -169,6 +169,14 @@ const nextConfig = {
         skipDefaultConversion: true,
       },
     },
+    // Use Next.js-level resolve.alias to fix @/components/ui/* imports
+    resolveAlias: {
+      '@/components/ui/label': path.resolve(ROOT, 'components/ui/label.tsx'),
+      '@/components/ui/input': path.resolve(ROOT, 'components/ui/input.tsx'),
+      '@/components/ui/badge': path.resolve(ROOT, 'components/ui/badge.tsx'),
+      '@/components/ui/button': path.resolve(ROOT, 'components/ui/button.tsx'),
+      '@/components/ui/card': path.resolve(ROOT, 'components/ui/card.tsx'),
+    },
     serverActions: {
       allowedOrigins: [
         'www.elevateforhumanity.org',
