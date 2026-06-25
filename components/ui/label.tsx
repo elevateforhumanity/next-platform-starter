@@ -1,1 +1,1 @@
-export { Label } from './Label';
+export { Label, Label as default } from './Label';
