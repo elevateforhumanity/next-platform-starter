@@ -242,6 +242,9 @@ const nextConfig = {
     // OOMs during type-check on 4,450+ files in CI — keep enabled until project is split or memory increased
     ignoreBuildErrors: true,
   },
+  // Set outputFileTracingRoot to ensure file tracing works correctly
+  // This ensures @/components/ui/ imports resolve properly during build
+  outputFileTracingRoot: ROOT,
   // Removed staticPageGenerationTimeout - use route segment config instead
   // See: https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config
   outputFileTracingExcludes: {
