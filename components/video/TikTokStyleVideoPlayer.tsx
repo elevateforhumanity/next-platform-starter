@@ -3,7 +3,7 @@
 import React from 'react';
 
 import { useState, useRef, useEffect, useCallback } from 'react';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 import {
   Play,
   Pause,

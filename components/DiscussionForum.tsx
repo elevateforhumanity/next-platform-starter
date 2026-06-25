@@ -4,8 +4,8 @@ import { logger } from '@/lib/logger';
 import React from 'react';
 import Image from 'next/image';
 import { useState, useEffect, useCallback } from 'react';
-import { Button } from '@/components/ui/Button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { MessageSquare, ThumbsUp, Reply } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
 

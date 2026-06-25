@@ -4,8 +4,8 @@ import { logger } from '@/lib/logger';
 import { createClient } from '@/lib/supabase/client';
 
 import React, { useState } from 'react';
-import { Button } from '@/components/ui/Button';
-import { Card } from '@/components/ui/Card';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 
 export default function GoogleClassroomSync() {
   const [syncing, setSyncing] = useState(false);

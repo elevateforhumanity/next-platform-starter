@@ -3,8 +3,8 @@
 import React from 'react';
 
 import { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
-import { Button } from '@/components/ui/Button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import { Brain, TrendingUp, Target, Lightbulb } from 'lucide-react';
 
 interface LearningPath {

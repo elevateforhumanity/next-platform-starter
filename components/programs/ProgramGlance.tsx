@@ -1,6 +1,6 @@
 import { Clock, MapPin, Monitor, Users, DollarSign, ArrowRight } from 'lucide-react';
-import { Badge } from '@/components/ui/Badge';
-import { Card } from '@/components/ui/Card';
+import { Badge } from '@/components/ui/badge';
+import { Card } from '@/components/ui/card';
 
 interface ProgramGlanceProps {
   duration: string;

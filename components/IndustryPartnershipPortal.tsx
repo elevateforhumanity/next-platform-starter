@@ -3,7 +3,7 @@
 import React from 'react';
 
 import { useState } from 'react';
-import { Card } from '@/components/ui/Card';
+import { Card } from '@/components/ui/card';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 interface Partner {

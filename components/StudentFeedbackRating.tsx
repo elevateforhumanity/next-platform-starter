@@ -5,8 +5,8 @@ import { createClient } from '@/lib/supabase/client';
 import React, { useEffect } from 'react';
 
 import { useState } from 'react';
-import { Card } from '@/components/ui/Card';
-import { Button } from '@/components/ui/Button';
+import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 
 interface Review {
   id: string;

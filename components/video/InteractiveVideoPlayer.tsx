@@ -3,8 +3,8 @@
 import React from 'react';
 
 import { useState, useRef, useEffect } from 'react';
-import { Button } from '@/components/ui/Button';
-import { Card, CardContent } from '@/components/ui/Card';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
 import { Play, Pause, Volume2, VolumeX, Maximize, Settings } from 'lucide-react';
 
 interface VideoNote {

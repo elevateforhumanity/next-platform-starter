@@ -5,8 +5,8 @@ import { createClient } from '@/lib/supabase/client';
 import React, { useEffect } from 'react';
 
 import { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
-import { Button } from '@/components/ui/Button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import { Users, Plus, MessageCircle, Calendar, Lock, Globe } from 'lucide-react';
 
 interface StudyGroup {

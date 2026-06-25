@@ -7,8 +7,8 @@ import Image from 'next/image';
 import { useState, useCallback } from 'react';
 import { Search, X, SlidersHorizontal, Loader2 } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
-import { Card, CardContent } from '@/components/ui/Card';
-import { Button } from '@/components/ui/Button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 
 interface SearchFilters {
   category?: string[];

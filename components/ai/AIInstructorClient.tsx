@@ -4,8 +4,8 @@ import React from 'react';
 
 import { useEffect, useState, useRef, useCallback } from 'react';
 import { Volume2, VolumeX, X } from 'lucide-react';
-import { Button } from '@/components/ui/Button';
-import { Card } from '@/components/ui/Card';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 
 interface AIInstructorClientProps {
   lessonTitle?: string;

@@ -4,7 +4,7 @@ import { logger } from '@/lib/logger';
 import * as React from 'react';
 import { usePathname } from 'next/navigation';
 import { Search } from 'lucide-react';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -12,7 +12,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { Input } from '@/components/ui/Input';
+import { Input } from '@/components/ui/input';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
 

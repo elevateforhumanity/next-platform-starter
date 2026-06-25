@@ -7,8 +7,8 @@ import React from 'react';
 import Image from 'next/image';
 
 import { useState } from 'react';
-import { Card } from '@/components/ui/Card';
-import { Button } from '@/components/ui/Button';
+import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 
 interface Project {

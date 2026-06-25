@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 import { loadStripe } from '@stripe/stripe-js';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 

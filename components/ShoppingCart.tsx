@@ -6,8 +6,8 @@ import React from 'react';
 import { useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
-import { Button } from '@/components/ui/Button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import { X, ShoppingCart as CartIcon, Plus, Minus, Tag } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
 

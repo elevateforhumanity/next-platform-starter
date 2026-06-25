@@ -3,10 +3,10 @@
 import React from 'react';
 import Turnstile from '@/components/Turnstile';
 import { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
-import { Button } from '@/components/ui/Button';
-import { Input } from '@/components/ui/Input';
-import { Badge } from '@/components/ui/Badge';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/Progress';
 import { PLATFORM_DEFAULTS } from '@/lib/config/platform-config';
 export function ApplicationForm() {

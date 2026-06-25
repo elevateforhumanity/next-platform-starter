@@ -4,8 +4,8 @@ import { logger } from '@/lib/logger';
 import React, { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Card } from '@/components/ui/Card';
-import { Badge } from '@/components/ui/Badge';
+import { Card } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 import { createClient } from '@/lib/supabase/client';
 import {
   Search,

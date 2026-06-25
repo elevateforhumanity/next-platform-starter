@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 import { Clock, DollarSign, Award, Shield, Users, ArrowRight, CheckCircle } from 'lucide-react';
 
 /**

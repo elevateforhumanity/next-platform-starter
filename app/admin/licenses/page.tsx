@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 import { createClient } from '@/lib/supabase/server';
 import Link from 'next/link';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export const dynamic = 'force-dynamic';

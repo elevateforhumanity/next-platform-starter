@@ -3,8 +3,8 @@
 import React from 'react';
 import Image from 'next/image';
 import { useState, useEffect, useCallback } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
-import { Button } from '@/components/ui/Button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import { Users, MessageCircle, Video, Share2 } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
 
