@@ -117,7 +117,7 @@ const nextConfig = {
   reactStrictMode: true,
   trailingSlash: false,
   poweredByHeader: false,
-  compress: true,
+  compress: false, // Disabled - causes transformAlgorithm errors with streaming
   productionBrowserSourceMaps: false,
 
   // Image optimization settings
