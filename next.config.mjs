@@ -9,6 +9,9 @@ import {
 const useStandaloneOutput =
   process.env.GITHUB_ACTIONS !== 'true' || process.env.NEXT_STANDALONE_OUTPUT === '1';
 
+// ROOT is the project root directory - used for resolving absolute paths
+const ROOT = path.resolve(new URL('.', import.meta.url).pathname);
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // Disable source maps in production builds — saves ~500MB heap during build
