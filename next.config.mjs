@@ -170,7 +170,6 @@ const nextConfig = {
         skipDefaultConversion: true,
       },
     },
-    },
     serverActions: {
       allowedOrigins: [
         'www.elevateforhumanity.org',
