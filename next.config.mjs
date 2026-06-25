@@ -213,15 +213,8 @@ const nextConfig = {
       };
     }
 
-    // Fix: Map lowercase @/components/ui/ imports to correct paths
-    // This fixes 'Module not found: Can't resolve @/components/ui/label' errors
-    // Using path.resolve for absolute paths to ensure webpack can find them
-    if (!config.resolve.alias) config.resolve.alias = {};
-    config.resolve.alias['@/components/ui/label'] = path.resolve(ROOT, 'components/ui/label.tsx');
-    config.resolve.alias['@/components/ui/input'] = path.resolve(ROOT, 'components/ui/input.tsx');
-    config.resolve.alias['@/components/ui/badge'] = path.resolve(ROOT, 'components/ui/badge.tsx');
-    config.resolve.alias['@/components/ui/button'] = path.resolve(ROOT, 'components/ui/button.tsx');
-    config.resolve.alias['@/components/ui/card'] = path.resolve(ROOT, 'components/ui/card.tsx');
+    // NOTE: @/components/ui/* aliases are now defined in experimental.resolveAlias
+    // and tsconfig.json paths - removed webpack aliases to avoid conflicts
 
     // Allow webpack to use its default parallelism.
     // On 16GB+ builds, the default parallelism is safe and faster.
