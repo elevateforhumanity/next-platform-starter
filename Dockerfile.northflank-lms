@@ -43,7 +43,7 @@ ENV BUILD_SCOPE=1
 ENV CI=true
 # Persistent build cache for incremental builds
 ENV NEXT_BUILD_CACHE=/cache/.next
-ENV DISABLE_WEBPACK_FILESYSTEM_CACHE=
+ENV DISABLE_WEBPACK_FILESYSTEM_CACHE=1
 
 # Create persistent cache directory
 RUN mkdir -p /cache/.next && chmod 755 /cache/.next
