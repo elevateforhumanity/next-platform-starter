@@ -9,8 +9,6 @@ import {
 const useStandaloneOutput =
   process.env.GITHUB_ACTIONS !== 'true' || process.env.NEXT_STANDALONE_OUTPUT === '1';
 
-// ROOT is the project root directory - used for resolving absolute paths
-const ROOT = path.resolve(new URL('.', import.meta.url).pathname);
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -172,13 +170,6 @@ const nextConfig = {
         skipDefaultConversion: true,
       },
     },
-    // Use Next.js-level resolve.alias to fix @/components/ui/* imports
-    resolveAlias: {
-      '@/components/ui/label': path.resolve(ROOT, 'components/ui/label.tsx'),
-      '@/components/ui/input': path.resolve(ROOT, 'components/ui/input.tsx'),
-      '@/components/ui/badge': path.resolve(ROOT, 'components/ui/badge.tsx'),
-      '@/components/ui/button': path.resolve(ROOT, 'components/ui/button.tsx'),
-      '@/components/ui/card': path.resolve(ROOT, 'components/ui/card.tsx'),
     },
     serverActions: {
       allowedOrigins: [
@@ -246,9 +237,7 @@ const nextConfig = {
     // OOMs during type-check on 4,450+ files in CI — keep enabled until project is split or memory increased
     ignoreBuildErrors: true,
   },
-  // Set outputFileTracingRoot to ensure file tracing works correctly
   // This ensures @/components/ui/ imports resolve properly during build
-  outputFileTracingRoot: ROOT,
   // Removed staticPageGenerationTimeout - use route segment config instead
   // See: https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config
   outputFileTracingExcludes: {
