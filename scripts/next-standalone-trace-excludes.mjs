@@ -85,13 +85,6 @@ export const sharedStandaloneTraceExcludes = [
   '**/node_modules/.pnpm/@swc+core*/**',
   '**/node_modules/happy-dom/**',
   '**/node_modules/.pnpm/happy-dom*/**',
-  // TypeScript sources — compiled output lives under .next/server
-  'app/**/*.tsx',
-  'app/**/*.ts',
-  'components/**/*.tsx',
-  'components/**/*.ts',
-  'lib/**/*.ts',
-  'lib/**/*.tsx',
 ];
 
 /**
