@@ -205,11 +205,11 @@ const nextConfig = {
     // Fix: Map lowercase @/components/ui/ imports to correct paths
     // This fixes 'Module not found: Can't resolve @/components/ui/label' errors
     if (!config.resolve.alias) config.resolve.alias = {};
-    config.resolve.alias['@/components/ui/label'] = './components/ui/Label.tsx';
-    config.resolve.alias['@/components/ui/input'] = './components/ui/Input.tsx';
-    config.resolve.alias['@/components/ui/badge'] = './components/ui/Badge.tsx';
-    config.resolve.alias['@/components/ui/button'] = './components/ui/Button.tsx';
-    config.resolve.alias['@/components/ui/card'] = './components/ui/Card.tsx';
+    config.resolve.alias['@/components/ui/label'] = './components/ui/label.tsx';
+    config.resolve.alias['@/components/ui/input'] = './components/ui/input.tsx';
+    config.resolve.alias['@/components/ui/badge'] = './components/ui/badge.tsx';
+    config.resolve.alias['@/components/ui/button'] = './components/ui/button.tsx';
+    config.resolve.alias['@/components/ui/card'] = './components/ui/card.tsx';
 
     // Allow webpack to use its default parallelism.
     // On 16GB+ builds, the default parallelism is safe and faster.
